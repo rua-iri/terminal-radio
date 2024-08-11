@@ -3,7 +3,7 @@ import time
 import json
 import vlc
 
-from helpers import initialise_logs
+from helpers import initialise_logs, load_station_logo
 
 
 LOGGING_FILE = f"logs/{time.strftime('%d-%m-%Y')}.log"
@@ -45,7 +45,7 @@ def select_station(src_list: str) -> int:
         for index, src in enumerate(src_list):
             print(f"{index + 1}: {src.get('name')}")
 
-        station_choice: str = input("\nstation: ")
+        station_choice: str = input("\nStation: ")
         station_choice: int = int(station_choice) - 1
 
         return station_choice
@@ -80,6 +80,10 @@ def main():
         print("Choose a station")
         station_choice: int = select_station(src_list=src_list)
         station_src: str = src_list[station_choice].get("url")
+        station_img_src: str = src_list[station_choice].get("img")
+
+        img_output: str = load_station_logo(station_img_src)
+        print(f"\n\n{img_output}\n\n")
 
         play_src(station_src=station_src)
 

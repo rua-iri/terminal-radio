@@ -1,6 +1,7 @@
 [
     {
         "name": "example",
-        "url": "https:example.com"
+        "url": "https://example.com",
+        "img": "src/example_src.png"
     }
 ]
