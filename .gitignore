@@ -163,5 +163,5 @@ cython_debug/
 
 
 
-app/src/*
-!app/src/example_sources.json
+*/src/*
+!*/src/example_sources.json
