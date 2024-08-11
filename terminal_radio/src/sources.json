@@ -45,8 +45,18 @@
         "img": "src/radio-bahrain.jpg"
     },
     {
-        "name": "Mix FM",
+        "name": "Mix FM (KSA)",
         "url": "https://s1.voscast.com:11377/live.mp3",
         "img": "src/mix-fm.jpg"
+    },
+    {
+        "name": "Marina FM",
+        "url": "http://31.14.40.102:8006/MarinaFM%2090.4.mp3",
+        "img": "src/MarinaFM.png"
+    },
+    {
+        "name": "Lofi",
+        "url": "https://live.hunter.fm/lofi_high",
+        "img": "src/lofi.jpg"
     }
 ]
