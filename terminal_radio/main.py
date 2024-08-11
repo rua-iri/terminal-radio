@@ -43,10 +43,10 @@ def load_sources() -> list:
 def select_station(src_list: str) -> int:
     try:
         for index, src in enumerate(src_list):
-            print(f"{index}: {src.get('name')}")
+            print(f"{index + 1}: {src.get('name')}")
 
         station_choice: str = input("\nstation: ")
-        station_choice: int = int(station_choice)
+        station_choice: int = int(station_choice) - 1
 
         return station_choice
 
@@ -71,7 +71,6 @@ def play_src(station_src: str):
 
     except Exception as e:
         raise e
-
 
 
 def main():
