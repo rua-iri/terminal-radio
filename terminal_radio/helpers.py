@@ -1,4 +1,4 @@
-import climage
+
 
 
 def initialise_logs(file_name: str):
@@ -11,6 +11,7 @@ def initialise_logs(file_name: str):
 
 def load_station_logo(img_src: str) -> str:
     try:
+        import climage
         img_output = climage.convert(img_src)
         return img_output
     except Exception as e:

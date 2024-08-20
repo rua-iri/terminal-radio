@@ -66,9 +66,6 @@ def play_src(station_src: str):
         media_player.set_media(media_src)
         media_player.play()
 
-        while True:
-            pass
-
     except Exception as e:
         raise e
 
@@ -86,6 +83,9 @@ def main():
         print(f"\n\n{img_output}\n\n")
 
         play_src(station_src=station_src)
+
+        while True:
+            pass
 
     except Exception as e:
         logger.error(e)
