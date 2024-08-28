@@ -60,7 +60,8 @@ def select_station(src_list: str) -> int:
 
 def play_src(station_src: str):
     try:
-        media_player = vlc.MediaPlayer()
+        Instance = vlc.Instance("--no-video")
+        media_player = Instance.media_player_new()
         media_src = vlc.Media(station_src)
 
         media_player.set_media(media_src)
