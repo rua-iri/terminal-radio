@@ -3,13 +3,9 @@ import subprocess
 import time
 import json
 
-from helpers import initialise_logs, load_station_logo
-
 
 LOGGING_FILE = f"logs/{time.strftime('%d-%m-%Y')}.log"
 LOGGING_FORMAT = "[%(asctime)s] [%(levelname)s] - %(message)s"
-
-initialise_logs(LOGGING_FILE)
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -18,6 +14,14 @@ logging.basicConfig(
     filemode='a',
     format=LOGGING_FORMAT
 )
+
+
+def initialise_logs(file_name: str):
+    try:
+        with open(file_name, "a") as file:
+            file.write("\n\n-------------------------\n")
+    except Exception as e:
+        raise e
 
 
 def load_sources() -> list:
@@ -36,6 +40,15 @@ def load_sources() -> list:
 
         return src_list
 
+    except Exception as e:
+        raise e
+
+
+def load_station_logo(img_src: str) -> str:
+    try:
+        import climage
+        img_output = climage.convert(img_src)
+        return img_output
     except Exception as e:
         raise e
 
@@ -88,5 +101,5 @@ def main():
 
 
 if __name__ == "__main__":
-    print("\n\n-------------------------")
+    initialise_logs(LOGGING_FILE)
     main()
