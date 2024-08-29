@@ -1,7 +1,7 @@
 import logging
+import subprocess
 import time
 import json
-import vlc
 
 from helpers import initialise_logs, load_station_logo
 
@@ -60,13 +60,9 @@ def select_station(src_list: str) -> int:
 
 def play_src(station_src: str):
     try:
-        Instance = vlc.Instance("--no-video")
-        media_player = Instance.media_player_new()
-        media_src = vlc.Media(station_src)
-
-        media_player.set_media(media_src)
-        media_player.play()
-
+        subprocess.run(
+            ['ffplay', station_src, "-nodisp", "-loglevel", "quiet"]
+        )
     except Exception as e:
         raise e
 
@@ -88,6 +84,8 @@ def main():
         while True:
             pass
 
+    except KeyboardInterrupt:
+        print("Exiting")
     except Exception as e:
         logger.error(e)
 
