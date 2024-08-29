@@ -31,7 +31,7 @@ def load_sources() -> list:
         containing the user's chosen sources
     """
     try:
-        with open("src/sources.json") as file:
+        with open("resource/sources.json") as file:
             src_list = json.load(file)
 
         return src_list
@@ -80,9 +80,6 @@ def main():
         print(f"\n\n{img_output}\n\n")
 
         play_src(station_src=station_src)
-
-        while True:
-            pass
 
     except KeyboardInterrupt:
         print("Exiting")
