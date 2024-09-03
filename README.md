@@ -18,13 +18,9 @@ git clone https://github.com/rua-iri/terminal-radio
 
 cd terminal-radio
 
-python3 -m venv .venv
+make setup
 
-source .venv/bin/activate
-
-pip3 install -r requirements.txt
-
-python3 terminal_radio/main.py
+make run
 ```
 
 ## Add Stations
