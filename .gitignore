@@ -163,6 +163,5 @@ cython_debug/
 
 
 
-# terminal_radio/src/
-!terminal_radio/src/example_sources.json
-!example.log
+resource/*
+!resource/example_sources.json
