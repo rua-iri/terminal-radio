@@ -2,71 +2,71 @@
     {
         "name": "BBC - Radio 1",
         "url": "http://as-hls-ww-live.akamaized.net/pool_904/live/ww/bbc_radio_one/bbc_radio_one.isml/bbc_radio_one-audio%3d96000.norewind.m3u8",
-        "img": "resource/bbc_radio1.png"
+        "img": "resource/img/bbc_radio1.png"
     },
     {
         "name": "BBC - Radio 2",
         "url": "http://as-hls-ww-live.akamaized.net/pool_904/live/ww/bbc_radio_two/bbc_radio_two.isml/bbc_radio_two-audio%3d96000.norewind.m3u8",
-        "img": "resource/bbc_radio2.png"
+        "img": "resource/img/bbc_radio2.png"
     },
     {
         "name": "BBC - Radio 4",
         "url": "https://as-hls-ww.live.cf.md.bbci.co.uk/pool_904/live/ww/bbc_radio_fourfm/bbc_radio_fourfm.isml/bbc_radio_fourfm-audio%3d96000.m3u8",
-        "img": "resource/bbc_radio4.png"
+        "img": "resource/img/bbc_radio4.png"
     },
     {
         "name": "BBC - Radio London",
         "url": "http://as-hls-ww-live.akamaized.net/pool_904/live/ww/bbc_london/bbc_london.isml/bbc_london-audio%3d96000.norewind.m3u8",
-        "img": "resource/bbc_radio_london.png"
+        "img": "resource/img/bbc_radio_london.png"
     },
     {
         "name": "BBC - Radio Ulster",
         "url": "http://as-hls-ww-live.akamaized.net/pool_904/live/ww/bbc_radio_ulster/bbc_radio_ulster.isml/bbc_radio_ulster-audio%3d96000.norewind.m3u8",
-        "img": "resource/bbc_radio_ulster.png"
+        "img": "resource/img/bbc_radio_ulster.png"
     },
     {
         "name": "RTE Radio 1",
         "url": "https://liveaudio.rte.ie/hls-radio/radio1/chunklist.m3u8",
-        "img": "resource/rte-radio-1.jpg"
+        "img": "resource/img/rte-radio-1.jpg"
     },
     {
         "name": "RTE 2FM",
         "url": "https://liveaudio.rte.ie/hls-radio/2fm/chunklist.m3u8",
-        "img": "resource/rte-2fm.jpg"
+        "img": "resource/img/rte-2fm.jpg"
     },
     {
         "name": "RTE Raidio Na Gaeltachta",
         "url": "https://liveaudio.rte.ie/hls-radio/rnag/chunklist.m3u8",
-        "img": "resource/rte-rng.png"
+        "img": "resource/img/rte-rng.png"
     },
     {
         "name": "Radio Bahrain 102.3",
         "url": "https://5c7b683162943.streamlock.net/live/ngrp:radio-102-3_all/playlist.m3u8",
-        "img": "resource/radio-bahrain.jpg"
+        "img": "resource/img/radio-bahrain.jpg"
     },
     {
         "name": "Mix FM (KSA)",
         "url": "https://s1.voscast.com:11377/live.mp3",
-        "img": "resource/mix-fm.jpg"
+        "img": "resource/img/mix-fm.jpg"
     },
     {
         "name": "Marina FM",
         "url": "http://31.14.40.102:8006/MarinaFM%2090.4.mp3",
-        "img": "resource/MarinaFM.png"
+        "img": "resource/img/MarinaFM.png"
     },
     {
         "name": "Qatar Radio",
         "url": "https://65ec766567528.streamlock.net/QRS/myStream/playlist.m3u8",
-        "img": "resource/qatar_radio_logo.jpg"
+        "img": "resource/img/qatar_radio_logo.jpg"
     },
     {
         "name": "Lofi",
         "url": "https://live.hunter.fm/lofi_high",
-        "img": "resource/lofi.jpg"
+        "img": "resource/img/lofi.jpg"
     },
     {
         "name": "Lofi Girl",
         "url": "https://inv.nadeko.net/api/manifest/hls_variant/expire/1724161156/ei/JEjEZrmZF_rp1sQP6-K_oA4/ip/186.105.159.142/id/jfKfPfyJRdk.2/source/yt_live_broadcast/requiressl/yes/xpc/EgVo2aDSNQ%3D%3D/hfr/1/playlist_duration/30/manifest_duration/30/maudio/1/spc/Mv1m9p-EGnzOMzKwYfDmcIMZFnASZ2Q6STS00ID4ArIpsnnzBryjc92YO9r7rYc/vprv/1/go/1/rqh/5/pacing/0/nvgoi/1/keepalive/yes/dover/11/itag/0/playlist_type/DVR/sparams/expire%2Cei%2Cip%2Cid%2Csource%2Crequiressl%2Cxpc%2Chfr%2Cplaylist_duration%2Cmanifest_duration%2Cmaudio%2Cspc%2Cvprv%2Cgo%2Crqh%2Citag%2Cplaylist_type/sig/AJfQdSswRgIhAJeHNjneyi2UGGIg17TQqI2ahlheGlIdehMjMT7pv1BdAiEAr2eqRnGYLUP6jdLMlbhjjV52eePLjecMyHox-6lxR7Q%3D/file/index.m3u8",
-        "img": "resource/lofi.jpg"
+        "img": "resource/img/lofi.jpg"
     }
 ]
