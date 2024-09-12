@@ -53,20 +53,26 @@ def load_station_logo(img_src: str) -> str:
         raise e
 
 
-def select_station(src_list: str) -> int:
+def select_station(src_list: str, is_first_call: bool) -> int:
     try:
         for index, src in enumerate(src_list):
-            print(f"{index + 1}: {src.get('name')}")
+            src_item: str = f"{index + 1}: {src.get('name')}"
+            print(src_item) if is_first_call else None
 
         station_choice: str = input("\nStation: ")
-        station_choice: int = int(station_choice) - 1
+        station_choice_index: int = int(station_choice) - 1
 
-        return station_choice
+        if station_choice_index > len(src_list) + 1:
+            raise ValueError
+
+        return station_choice_index
 
     except ValueError as e:
-        raise (e)
-        # TODO: handle error if user inputs a string instead
-        # of an int (maybe with recursion, but be careful)
+        # call this function recursively if the user inputs
+        # an invalid datatype e.g. str or out of bounds index
+        logger.error(e)
+        print("\nError: invalid station number \n")
+        return select_station(src_list=src_list, is_first_call=False)
     except Exception as e:
         raise e
 
@@ -82,16 +88,28 @@ def play_src(station_src: str):
 
 def main():
     try:
+        logger.info("Loading Sources...")
         src_list: list = load_sources()
+        logger.info("Sources Loaded")
 
         print("Choose a station")
-        station_choice: int = select_station(src_list=src_list)
-        station_src: str = src_list[station_choice].get("url")
-        station_img_src: str = src_list[station_choice].get("img")
+        station_choice_index: int = select_station(
+            src_list=src_list, is_first_call=True
+        )
 
+        chosen_station: dict = src_list[station_choice_index]
+        station_src: str = chosen_station.get("url")
+        station_img_src: str = chosen_station.get("img")
+
+        logger.info(f"Station Selected: {chosen_station.get('name')}")
+        logger.info(f"Station Source: {chosen_station.get('url')}")
+
+        logger.info("Rendering Image...")
         img_output: str = load_station_logo(station_img_src)
         print(f"\n\n{img_output}\n\n")
+        logger.info("Image Rendered")
 
+        logger.info("Playing Radio")
         play_src(station_src=station_src)
 
     except KeyboardInterrupt:
