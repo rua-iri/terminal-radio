@@ -16,10 +16,14 @@ logging.basicConfig(
 )
 
 
+terminate_count = 0
+
+
 def initialise_logs(file_name: str):
     try:
-        with open(file_name, "a") as file:
-            file.write("\n\n-------------------------\n")
+        file = open(file_name, "a")
+        file.write("\n\n-------------------------\n")
+        file.close()
     except Exception as e:
         raise e
 
@@ -88,6 +92,7 @@ def play_src(station_src: str):
 
 def main():
     try:
+        global terminate_count
         logger.info("Loading Sources...")
         src_list: list = load_sources()
         logger.info("Sources Loaded")
@@ -97,27 +102,39 @@ def main():
             src_list=src_list, is_first_call=True
         )
 
-        chosen_station: dict = src_list[station_choice_index]
-        station_src: str = chosen_station.get("url")
-        station_img_src: str = chosen_station.get("img")
+        terminate_count -= 1
 
-        logger.info(f"Station Selected: {chosen_station.get('name')}")
-        logger.info(f"Station Source: {chosen_station.get('url')}")
+        station: dict = src_list[station_choice_index]
+        station_src: str = station.get("url")
+        station_img_src: str = station.get("img")
+
+        logger.info(f"Station Selected: {station.get('name')}")
+        logger.info(f"Station Source: {station.get('url')}")
 
         logger.info("Rendering Image...")
         img_output: str = load_station_logo(station_img_src)
         print(f"\n\n{img_output}\n\n")
         logger.info("Image Rendered")
 
+        print(f"Now Playing: {station.get('name')}")
+        print("Press Ctrl + c to return to the menu")
+
         logger.info("Playing Radio")
         play_src(station_src=station_src)
 
     except KeyboardInterrupt:
-        print("Exiting")
+        # global terminate_count
+        terminate_count += 1
+
+        if terminate_count >= 3:
+            print("\nExiting")
+            quit()
+
     except Exception as e:
         logger.error(e)
 
 
 if __name__ == "__main__":
     initialise_logs(LOGGING_FILE)
-    main()
+    while True:
+        main()
