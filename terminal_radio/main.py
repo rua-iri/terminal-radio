@@ -16,7 +16,7 @@ logging.basicConfig(
 )
 
 
-terminate_count = 0
+terminate_count = 1
 
 
 def initialise_logs(file_name: str):
