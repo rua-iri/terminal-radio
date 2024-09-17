@@ -28,6 +28,10 @@ def initialise_logs(file_name: str):
         raise e
 
 
+def clear_screen():
+    subprocess.run(["clear"])
+
+
 def load_sources() -> list:
     """load radio sources from file
 
@@ -146,11 +150,14 @@ def main(terminate_count: int) -> int:
         logger.info(f"Station Source: {station.url}")
 
         logger.info("Rendering Image...")
+
+        clear_screen()
+
         img_output: str = load_station_logo(station.img)
         print(f"\n\n{img_output}\n\n")
         logger.info("Image Rendered")
 
-        print(f"Now Playing: {station.name}")
+        print(f"Now Playing: {station.name}\n")
         print("Press Ctrl + c to return to the menu")
 
         logger.info("Playing Radio")
@@ -170,6 +177,7 @@ if __name__ == "__main__":
 
     initialise_logs(LOGGING_FILE)
     while terminate_count < 2:
+        clear_screen()
         terminate_count = main(terminate_count)
 
     print("\nExiting")
