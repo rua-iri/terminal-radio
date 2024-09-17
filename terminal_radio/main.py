@@ -16,9 +16,6 @@ logging.basicConfig(
 )
 
 
-terminate_count = 1
-
-
 def initialise_logs(file_name: str):
     try:
         file = open(file_name, "a")
@@ -90,9 +87,8 @@ def play_src(station_src: str):
         raise e
 
 
-def main():
+def main(terminate_count: int):
     try:
-        global terminate_count
         logger.info("Loading Sources...")
         src_list: list = load_sources()
         logger.info("Sources Loaded")
@@ -123,18 +119,18 @@ def main():
         play_src(station_src=station_src)
 
     except KeyboardInterrupt:
-        # global terminate_count
         terminate_count += 1
-
-        if terminate_count >= 3:
-            print("\nExiting")
-            quit()
+        return terminate_count
 
     except Exception as e:
         logger.error(e)
 
 
 if __name__ == "__main__":
+    terminate_count = 1
+
     initialise_logs(LOGGING_FILE)
-    while True:
-        main()
+    while terminate_count < 3:
+        terminate_count = main(terminate_count)
+
+    print("\nExiting")
