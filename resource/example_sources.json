@@ -2,6 +2,6 @@
     {
         "name": "example",
         "url": "https://example.com",
-        "img": "resource/example_src.png"
+        "img": "resource/img/example_src.png"
     }
 ]

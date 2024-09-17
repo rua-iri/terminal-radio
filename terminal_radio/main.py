@@ -3,6 +3,8 @@ import subprocess
 import time
 import json
 
+from classes import Station
+
 
 LOGGING_FILE = f"logs/{time.strftime('%d-%m-%Y')}.log"
 LOGGING_FORMAT = "[%(asctime)s] [%(levelname)s] - %(message)s"
@@ -87,36 +89,34 @@ def play_src(station_src: str):
         raise e
 
 
-def main(terminate_count: int):
+def main(terminate_count: int) -> int:
     try:
         logger.info("Loading Sources...")
         src_list: list = load_sources()
         logger.info("Sources Loaded")
 
         print("Choose a station")
-        station_choice_index: int = select_station(
+        station_index: int = select_station(
             src_list=src_list, is_first_call=True
         )
 
         terminate_count -= 1
 
-        station: dict = src_list[station_choice_index]
-        station_src: str = station.get("url")
-        station_img_src: str = station.get("img")
+        station: Station = Station(**src_list[station_index])
 
-        logger.info(f"Station Selected: {station.get('name')}")
-        logger.info(f"Station Source: {station.get('url')}")
+        logger.info(f"Station Selected: {station.name}")
+        logger.info(f"Station Source: {station.url}")
 
         logger.info("Rendering Image...")
-        img_output: str = load_station_logo(station_img_src)
+        img_output: str = load_station_logo(station.img)
         print(f"\n\n{img_output}\n\n")
         logger.info("Image Rendered")
 
-        print(f"Now Playing: {station.get('name')}")
+        print(f"Now Playing: {station.name}")
         print("Press Ctrl + c to return to the menu")
 
         logger.info("Playing Radio")
-        play_src(station_src=station_src)
+        play_src(station_src=station.url)
 
     except KeyboardInterrupt:
         terminate_count += 1
@@ -124,6 +124,7 @@ def main(terminate_count: int):
 
     except Exception as e:
         logger.error(e)
+        return terminate_count
 
 
 if __name__ == "__main__":
