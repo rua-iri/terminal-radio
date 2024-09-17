@@ -2,6 +2,7 @@ import logging
 import subprocess
 import time
 import json
+from os import get_terminal_size
 
 from classes import Station
 
@@ -49,8 +50,17 @@ def load_sources() -> list:
 
 def load_station_logo(img_src: str) -> str:
     try:
+
+        terminal_cols, terminal_lines = get_terminal_size()
+        img_width: int = int(terminal_cols / 2)
+
         import climage
-        img_output = climage.convert(img_src)
+        img_output = climage.convert(
+            filename=img_src,
+            is_unicode=True,
+            is_256color=True,
+            width=img_width
+        )
         return img_output
     except Exception as e:
         raise e
