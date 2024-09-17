@@ -99,6 +99,30 @@ def play_src(station_src: str):
         raise e
 
 
+def fetch_yt_station(url: str) -> Station:
+    import yt_dlp
+    import requests
+
+    with yt_dlp.YoutubeDL() as ydl:
+        info = ydl.extract_info(url, download=False)
+
+    img_url: str = info.get("thumbnail")
+    res: requests.Response = requests.get(img_url)
+    img_filename: str = "resource/img/yt_img.jpg"
+
+    with open(img_filename, 'wb') as img_file:
+        img_file.write(res.content)
+
+    yt_station = Station(
+        name=info.get("fulltitle"),
+        url=info.get("url"),
+        img=img_filename,
+        isYT=True
+    )
+
+    return yt_station
+
+
 def main(terminate_count: int) -> int:
     try:
         logger.info("Loading Sources...")
@@ -112,7 +136,11 @@ def main(terminate_count: int) -> int:
 
         terminate_count -= 1
 
-        station: Station = Station(**src_list[station_index])
+        if src_list[station_index].get("isYT"):
+            station: Station = fetch_yt_station(
+                src_list[station_index].get("url"))
+        else:
+            station: Station = Station(**src_list[station_index])
 
         logger.info(f"Station Selected: {station.name}")
         logger.info(f"Station Source: {station.url}")
@@ -141,7 +169,7 @@ if __name__ == "__main__":
     terminate_count = 1
 
     initialise_logs(LOGGING_FILE)
-    while terminate_count < 3:
+    while terminate_count < 2:
         terminate_count = main(terminate_count)
 
     print("\nExiting")
