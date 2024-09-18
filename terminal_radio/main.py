@@ -3,6 +3,7 @@ import subprocess
 import time
 import json
 from os import get_terminal_size
+from ffpyplayer.player import MediaPlayer
 
 from classes import Station
 
@@ -94,13 +95,11 @@ def select_station(src_list: str, is_first_call: bool) -> int:
         raise e
 
 
-def play_src(station_src: str):
-    try:
-        subprocess.run(
-            ['ffplay', station_src, "-nodisp", "-loglevel", "quiet"]
-        )
-    except Exception as e:
-        raise e
+
+
+def play_src(station_src: str) -> MediaPlayer:
+    player: MediaPlayer = MediaPlayer(station_src)
+    return player
 
 
 def fetch_yt_station(url: str) -> Station:
@@ -127,7 +126,7 @@ def fetch_yt_station(url: str) -> Station:
     return yt_station
 
 
-def main(terminate_count: int) -> int:
+def main():
     try:
         logger.info("Loading Sources...")
         src_list: list = load_sources()
@@ -137,8 +136,6 @@ def main(terminate_count: int) -> int:
         station_index: int = select_station(
             src_list=src_list, is_first_call=True
         )
-
-        terminate_count -= 1
 
         if src_list[station_index].get("isYT"):
             station: Station = fetch_yt_station(
@@ -158,26 +155,28 @@ def main(terminate_count: int) -> int:
         logger.info("Image Rendered")
 
         print(f"Now Playing: {station.name}\n")
-        print("Press Ctrl + c to return to the menu")
+        print("Send letter 'q' to return to the menu")
 
         logger.info("Playing Radio")
-        play_src(station_src=station.url)
+
+        player: MediaPlayer = play_src(station_src=station.url)
+
+        while True:
+            if input("Letter: ") == "q":
+                player.close_player()
+                return
 
     except KeyboardInterrupt:
-        terminate_count += 1
-        return terminate_count
+        print("\n\nExiting")
+        exit()
 
     except Exception as e:
         logger.error(e)
-        return terminate_count
 
 
 if __name__ == "__main__":
-    terminate_count = 1
 
     initialise_logs(LOGGING_FILE)
-    while terminate_count < 2:
+    while True:
         clear_screen()
-        terminate_count = main(terminate_count)
-
-    print("\nExiting")
+        main()
