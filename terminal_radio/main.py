@@ -97,6 +97,16 @@ def select_station(src_list: str, is_first_call: bool) -> int:
 
 def play_src(station_src: str) -> MediaPlayer:
     player: MediaPlayer = MediaPlayer(station_src)
+
+    player.toggle_pause()
+
+    while player.get_metadata()['duration'] is None:
+        time.sleep(0.005)
+
+    time.sleep(1)
+
+    player.toggle_pause()
+
     return player
 
 
