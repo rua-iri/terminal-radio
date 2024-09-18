@@ -95,8 +95,6 @@ def select_station(src_list: str, is_first_call: bool) -> int:
         raise e
 
 
-
-
 def play_src(station_src: str) -> MediaPlayer:
     player: MediaPlayer = MediaPlayer(station_src)
     return player
