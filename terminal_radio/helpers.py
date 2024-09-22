@@ -4,7 +4,7 @@ import json
 
 
 def load_sources() -> list:
-    """load radio sources from file
+    """Load radio sources from file
 
     Raises:
         e: exception (probably because file not found)
@@ -25,6 +25,14 @@ def load_sources() -> list:
 
 
 def save_sources(src_list: list):
+    """Save an updated list of sources to the file
+
+    Args:
+        src_list (list): _description_
+
+    Raises:
+        e: _description_
+    """
     try:
         file = open("resource/sources.json", "w")
         json.dump(src_list, file)

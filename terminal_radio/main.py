@@ -1,7 +1,8 @@
 import logging
+import signal
 import subprocess
 import time
-from os import get_terminal_size
+from os import get_terminal_size, setsid, killpg, getpgid
 from ffpyplayer.player import MediaPlayer
 
 from classes import Station
@@ -51,20 +52,14 @@ def load_station_logo(img_src: str) -> str:
         raise e
 
 
-
-def play_src(station_src: str) -> MediaPlayer:
-    player: MediaPlayer = MediaPlayer(station_src)
-
-    player.toggle_pause()
-
-    while player.get_metadata()['duration'] is None:
-        time.sleep(0.005)
-
-    time.sleep(1)
-
-    player.toggle_pause()
-
-    return player
+def play_src(station_src: str) -> subprocess.Popen:
+    process = subprocess.Popen(
+        f'ffplay {station_src} -nodisp -loglevel quiet -infbuf',
+        stdout=subprocess.PIPE,
+        shell=True,
+        preexec_fn=setsid
+    )
+    return process
 
 
 def fetch_yt_station(url: str) -> Station:
@@ -124,11 +119,15 @@ def main():
 
         logger.info("Playing Radio")
 
-        player: MediaPlayer = play_src(station_src=station.url)
+
+        process = play_src(station_src=station.url)
 
         while True:
             if input("Letter: ") == "q":
-                player.close_player()
+                killpg(
+                    getpgid(process.pid),
+                    signal.SIGTERM
+                )
                 return
 
     except KeyboardInterrupt:
