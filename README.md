@@ -27,6 +27,16 @@ make run
 
 ## Add New Stations
 
+
+```
+make update
+```
+
+Then enter the required data.
+
+
+### Manually Add Stations
+
 In order to add new stations to the program you first have to find the link to streams.
 
 These will typically be a link to a file with the extension `.m3u8`.
