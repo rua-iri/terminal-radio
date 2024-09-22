@@ -17,3 +17,7 @@ setup:
 run:
 	@$(PYTHON) terminal_radio/main.py
 
+
+update:
+	@$(PYTHON) terminal_radio/update_sources.py
+	
