@@ -1,11 +1,11 @@
 import logging
 import subprocess
 import time
-import json
 from os import get_terminal_size
 from ffpyplayer.player import MediaPlayer
 
 from classes import Station
+from helpers import load_sources, select_station
 
 
 LOGGING_FILE = f"logs/{time.strftime('%d-%m-%Y')}.log"
@@ -33,26 +33,6 @@ def clear_screen():
     subprocess.run(["clear"])
 
 
-def load_sources() -> list:
-    """load radio sources from file
-
-    Raises:
-        e: exception (probably because file not found)
-
-    Returns:
-        list: a python list of dictionaries
-        containing the user's chosen sources
-    """
-    try:
-        with open("resource/sources.json") as file:
-            src_list = json.load(file)
-
-        return src_list
-
-    except Exception as e:
-        raise e
-
-
 def load_station_logo(img_src: str) -> str:
     try:
 
@@ -70,29 +50,6 @@ def load_station_logo(img_src: str) -> str:
     except Exception as e:
         raise e
 
-
-def select_station(src_list: str, is_first_call: bool) -> int:
-    try:
-        for index, src in enumerate(src_list):
-            src_item: str = f"{index + 1}: {src.get('name')}"
-            print(src_item) if is_first_call else None
-
-        station_choice: str = input("\nStation: ")
-        station_choice_index: int = int(station_choice) - 1
-
-        if station_choice_index > len(src_list) + 1:
-            raise ValueError
-
-        return station_choice_index
-
-    except ValueError as e:
-        # call this function recursively if the user inputs
-        # an invalid datatype e.g. str or out of bounds index
-        logger.error(e)
-        print("\nError: invalid station number \n")
-        return select_station(src_list=src_list, is_first_call=False)
-    except Exception as e:
-        raise e
 
 
 def play_src(station_src: str) -> MediaPlayer:
