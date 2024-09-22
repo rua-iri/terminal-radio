@@ -76,3 +76,7 @@ def select_station(src_list: str, is_first_call: bool) -> int:
         return select_station(src_list=src_list, is_first_call=False)
     except Exception as e:
         raise e
+
+
+def sanitise_string(string_input: str):
+    return "".join(string_input.split()).lower()

@@ -41,7 +41,7 @@ In order to add new stations to the program you first have to find the link to s
 
 These will typically be a link to a file with the extension `.m3u8`.
 
-Then download the station's logo in `jpeg` or `png` format and save it in `resource/img/`.
+Then download the station's logo in `jpeg`, `png` or `webp` format and save it in `resource/img/`.
 
 Finally add all this information to the `resource/sources.json` file, the structure is outlined in `resource/example_sources.json` and the new station will be available when the program next runs.
 

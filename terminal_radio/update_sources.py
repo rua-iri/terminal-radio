@@ -1,14 +1,35 @@
 
 import requests
+from urllib.parse import urlparse
+from os.path import splitext
+from os import remove as delete_file
 
-from helpers import load_sources, save_sources, select_station
+from helpers import (load_sources,
+                     save_sources,
+                     select_station,
+                     sanitise_string
+                     )
 
 
-def save_img(img_url: str) -> str:
+def save_img(img_url: str, station_name: str) -> str:
+    """Save a station's logo to file
+
+    Args:
+        img_url (str): The URL of the image
+
+    Raises:
+        e: Generic Error
+
+    Returns:
+        str: The filename of the new image
+    """
     try:
         img_data: requests.Request = requests.get(img_url)
 
-        img_filename: str = "resource/img/" + img_url.split("/")[-1]
+        url_path = urlparse(img_url).path
+        img_filename = "resource/img/"
+        img_filename += sanitise_string(station_name)
+        img_filename += splitext(url_path)[1]
 
         img_file = open(img_filename, "wb")
         img_file.write(img_data.content)
@@ -25,10 +46,10 @@ def create_source() -> dict:
     station_url: str = input("What is your station's url: ")
 
     station_img: str = input("What is your station's logo (the url): ")
-    station_img = save_img(station_img)
+    station_img = save_img(station_img, station_name)
 
     station_is_yt: str = input("Is your station a Youtube stream? (y/n): ")
-    station_is_yt = "".join(station_is_yt.split()).lower()[0]
+    station_is_yt = sanitise_string(station_is_yt)[0]
 
     return {
         "name": station_name,
@@ -57,6 +78,8 @@ def main():
             src_list=src_list,
             is_first_call=True
         )
+
+        delete_file(src_list[station_choice].get('img'))
 
         del src_list[station_choice]
 
