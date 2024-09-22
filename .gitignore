@@ -164,4 +164,4 @@ cython_debug/
 
 
 resource/*
-!resource/example_sources.json
+!resource/sources.example.json
