@@ -2,15 +2,20 @@ import logging
 import signal
 import subprocess
 import time
-from os import get_terminal_size, setsid, killpg, getpgid
-from ffpyplayer.player import MediaPlayer
+from os import get_terminal_size, setsid, killpg, getpgid, makedirs
+from os.path import dirname
 
 from classes import Station
 from helpers import load_sources, select_station
 
 
-LOGGING_FILE = f"logs/{time.strftime('%d-%m-%Y')}.log"
+LOGGING_FILE = f"logs/{time.strftime('%Y/%m')}/{time.strftime('%d-%m-%Y')}.log"
 LOGGING_FORMAT = "[%(asctime)s] [%(levelname)s] - %(message)s"
+
+makedirs(
+    dirname(LOGGING_FILE),
+    exist_ok=True
+)
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -32,6 +37,13 @@ def initialise_logs(file_name: str):
 
 def clear_screen():
     subprocess.run(["clear"])
+
+
+def close_player(process_id: int):
+    killpg(
+        getpgid(process_id),
+        signal.SIGTERM
+    )
 
 
 def load_station_logo(img_src: str) -> str:
@@ -119,19 +131,16 @@ def main():
 
         logger.info("Playing Radio")
 
-
         process = play_src(station_src=station.url)
 
         while True:
             if input("Letter: ") == "q":
-                killpg(
-                    getpgid(process.pid),
-                    signal.SIGTERM
-                )
+                close_player(process.pid)
                 return
 
     except KeyboardInterrupt:
         print("\n\nExiting")
+        close_player(process.pid)
         exit()
 
     except Exception as e:
