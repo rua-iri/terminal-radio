@@ -38,16 +38,31 @@ def create_source() -> dict:
     }
 
 
-# def delete_source():
-#     station_choice: int = select_station
-
-
 def main():
+
     src_list: list = load_sources()
 
-    new_source: dict = create_source()
+    print("Which action would you like to take?")
+    print("1. Add a new source")
+    print("2. Remove an existing source")
 
-    src_list.append(new_source)
+    user_choice: int = int(input("Action: "))
+
+    if user_choice == 1:
+        new_source: dict = create_source()
+        src_list.append(new_source)
+
+    elif user_choice == 2:
+        station_choice: int = select_station(
+            src_list=src_list,
+            is_first_call=True
+        )
+
+        del src_list[station_choice]
+
+    else:
+
+        print("Invalid choice")
 
     save_sources(src_list)
 
