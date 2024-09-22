@@ -1,8 +1,8 @@
 [
-    {
-        "name": "example",
-        "url": "https://example.com",
-        "img": "resource/img/example_src.png",
-		"isYT": false
-    }
+  {
+    "name": "example",
+    "url": "https://example.com",
+    "img": "resource/img/example_src.png",
+    "isYT": false
+  }
 ]

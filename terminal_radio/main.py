@@ -135,7 +135,9 @@ def main():
 
         while True:
             if input("Letter: ") == "q":
-                close_player(process.pid)
+                if process:
+                    close_player(process.pid)
+
                 return
 
     except KeyboardInterrupt:
