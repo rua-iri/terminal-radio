@@ -35,7 +35,7 @@ def save_sources(src_list: list):
     """
     try:
         file = open("resource/sources.json", "w")
-        json.dump(src_list, file)
+        json.dump(src_list, file, indent=2)
         file.close()
 
     except Exception as e:
