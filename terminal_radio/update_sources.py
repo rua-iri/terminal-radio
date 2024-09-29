@@ -7,7 +7,8 @@ from os import remove as delete_file
 from helpers import (load_sources,
                      save_sources,
                      select_station,
-                     sanitise_string
+                     sanitise_string,
+                     display_stations
                      )
 
 
@@ -74,10 +75,8 @@ def main():
         src_list.append(new_source)
 
     elif user_choice == 2:
-        station_choice: int = select_station(
-            src_list=src_list,
-            is_first_call=True
-        )
+        display_stations(src_list=src_list)
+        station_choice: int = select_station(src_list=src_list)
 
         delete_file(src_list[station_choice].get('img'))
 

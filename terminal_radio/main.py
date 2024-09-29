@@ -6,7 +6,7 @@ from os import get_terminal_size, setsid, killpg, getpgid, makedirs
 from os.path import dirname
 
 from classes import Station
-from helpers import load_sources, select_station
+from helpers import load_sources, select_station, display_stations
 
 
 LOGGING_FILE = f"logs/{time.strftime('%Y/%m')}/{time.strftime('%d-%m-%Y')}.log"
@@ -104,10 +104,8 @@ def main():
         src_list: list = load_sources()
         logger.info("Sources Loaded")
 
-        print("Choose a station")
-        station_index: int = select_station(
-            src_list=src_list, is_first_call=True
-        )
+        display_stations(src_list=src_list)
+        station_index: int = select_station(src_list=src_list)
 
         if src_list[station_index].get("isYT"):
             station: Station = fetch_yt_station(

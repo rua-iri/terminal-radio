@@ -42,12 +42,19 @@ def save_sources(src_list: list):
         raise e
 
 
-def select_station(src_list: str, is_first_call: bool) -> int:
+def display_stations(src_list: list):
+    print("Choose a station")
+
+    for index, src in enumerate(src_list):
+        src_item: str = f"{index + 1}: {src.get('name')}"
+        print(src_item)
+
+
+def select_station(src_list: list) -> int:
     """Select a station from the list of stations
 
     Args:
-        src_list (str): A list of the stations
-        is_first_call (bool): Is first time that function is being called
+        src_list (list): A list of the stations
 
     Raises:
         ValueError: Error if index is outside the list range
@@ -57,10 +64,6 @@ def select_station(src_list: str, is_first_call: bool) -> int:
         int: _description_
     """
     try:
-        for index, src in enumerate(src_list):
-            src_item: str = f"{index + 1}: {src.get('name')}"
-            print(src_item) if is_first_call else None
-
         station_choice: str = input("\nStation: ")
         station_choice_index: int = int(station_choice) - 1
 
@@ -73,7 +76,7 @@ def select_station(src_list: str, is_first_call: bool) -> int:
         # call this function recursively if the user inputs
         # an invalid datatype e.g. str or out of bounds index
         print("\nError: invalid station number \n")
-        return select_station(src_list=src_list, is_first_call=False)
+        return select_station(src_list=src_list)
     except Exception as e:
         raise e
 
