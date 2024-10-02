@@ -46,7 +46,7 @@ def close_player(process_id: int):
     )
 
 
-def load_station_logo(img_src: str) -> str:
+def display_station_logo(img_src: str):
     try:
 
         terminal_cols, terminal_lines = get_terminal_size()
@@ -59,7 +59,8 @@ def load_station_logo(img_src: str) -> str:
             is_256color=True,
             width=img_width
         )
-        return img_output
+        print(f"\n\n{img_output}\n\n")
+
     except Exception as e:
         raise e
 
@@ -120,8 +121,7 @@ def main():
 
         clear_screen()
 
-        img_output: str = load_station_logo(station.img)
-        print(f"\n\n{img_output}\n\n")
+        display_station_logo(station.img)
         logger.info("Image Rendered")
 
         print(f"Now Playing: {station.name}\n")
