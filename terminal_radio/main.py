@@ -138,7 +138,10 @@ def main():
 
     except KeyboardInterrupt:
         print("\n\nExiting")
-        close_player(process.pid)
+
+        if "process" in vars():
+            close_player(process.pid)
+
         exit()
 
     except Exception as e:
