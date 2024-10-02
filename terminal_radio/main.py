@@ -1,3 +1,4 @@
+
 import logging
 import signal
 import subprocess
@@ -6,7 +7,7 @@ from os import get_terminal_size, setsid, killpg, getpgid, makedirs
 from os.path import dirname
 
 from classes import Station
-from helpers import load_sources, select_station, display_stations
+from helpers import load_sources, select_station
 
 
 LOGGING_FILE = f"logs/{time.strftime('%Y/%m')}/{time.strftime('%d-%m-%Y')}.log"
@@ -105,14 +106,11 @@ def main():
         src_list: list = load_sources()
         logger.info("Sources Loaded")
 
-        display_stations(src_list=src_list)
-        station_index: int = select_station(src_list=src_list)
+        station_data = select_station(src_list=src_list)
+        station: Station = Station(**station_data)
 
-        if src_list[station_index].get("isYT"):
-            station: Station = fetch_yt_station(
-                src_list[station_index].get("url"))
-        else:
-            station: Station = Station(**src_list[station_index])
+        if station.isYT:
+            station = fetch_yt_station(station.url)
 
         logger.info(f"Station Selected: {station.name}")
         logger.info(f"Station Source: {station.url}")

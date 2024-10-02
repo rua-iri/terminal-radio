@@ -3,12 +3,13 @@ import requests
 from urllib.parse import urlparse
 from os.path import splitext
 from os import remove as delete_file
+import inquirer
+from inquirer.themes import GreenPassion
 
 from helpers import (load_sources,
                      save_sources,
-                     select_station,
                      sanitise_string,
-                     display_stations
+                     select_station
                      )
 
 
@@ -64,27 +65,26 @@ def main():
 
     src_list: list = load_sources()
 
-    print("Which action would you like to take?")
-    print("1. Add a new source")
-    print("2. Remove an existing source")
+    questions = [inquirer.List(
+        "action",
+        message="What action would you like to take?",
+        choices=[
+            "1. Add a new source",
+            "2. Remove an existing source"
+        ]
+    )]
 
-    user_choice: int = int(input("Action: "))
+    user_choice = inquirer.prompt(questions=questions, theme=GreenPassion(),)
 
-    if user_choice == 1:
+    if user_choice.get("action") == "1. Add a new source":
         new_source: dict = create_source()
         src_list.append(new_source)
 
-    elif user_choice == 2:
-        display_stations(src_list=src_list)
-        station_choice: int = select_station(src_list=src_list)
+    elif user_choice.get("action") == "2. Remove an existing source":
+        station_choice = select_station(src_list=src_list)
+        delete_file(station_choice.get("img"))
 
-        delete_file(src_list[station_choice].get('img'))
-
-        del src_list[station_choice]
-
-    else:
-
-        print("Invalid choice")
+        src_list.remove(station_choice)
 
     save_sources(src_list)
 

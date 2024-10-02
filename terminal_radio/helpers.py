@@ -1,6 +1,8 @@
 
-
+import inquirer
 import json
+
+from inquirer.themes import GreenPassion
 
 
 def load_sources() -> list:
@@ -42,43 +44,21 @@ def save_sources(src_list: list):
         raise e
 
 
-def display_stations(src_list: list):
-    print("Choose a station")
+def select_station(src_list: list) -> dict:
+    name_list = [source.get("name") for source in src_list]
+    question = inquirer.List('station_name',
+                             message="What Station Would You Like",
+                             choices=name_list
+                             )
+    station_name = inquirer.prompt(
+        [question],
+        theme=GreenPassion(),
+        raise_keyboard_interrupt=True
+    ).get('station_name')
 
-    for index, src in enumerate(src_list):
-        src_item: str = f"{index + 1}: {src.get('name')}"
-        print(src_item)
-
-
-def select_station(src_list: list) -> int:
-    """Select a station from the list of stations
-
-    Args:
-        src_list (list): A list of the stations
-
-    Raises:
-        ValueError: Error if index is outside the list range
-        e: Generic Error
-
-    Returns:
-        int: _description_
-    """
-    try:
-        station_choice: str = input("\nStation: ")
-        station_choice_index: int = int(station_choice) - 1
-
-        if station_choice_index > len(src_list) + 1:
-            raise ValueError
-
-        return station_choice_index
-
-    except ValueError:
-        # call this function recursively if the user inputs
-        # an invalid datatype e.g. str or out of bounds index
-        print("\nError: invalid station number \n")
-        return select_station(src_list=src_list)
-    except Exception as e:
-        raise e
+    for src in src_list:
+        if src.get("name") == station_name:
+            return src
 
 
 def sanitise_string(string_input: str):
