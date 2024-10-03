@@ -42,23 +42,25 @@ def save_img(img_url: str, station_name: str) -> str:
         raise e
 
 
-def create_source() -> dict:
+def create_source_dev() -> dict:
 
-    station_name: str = input("What is your station name: ")
-    station_url: str = input("What is your station's url: ")
+    questions = [
+        inquirer.Text(name='name',
+                      message="What is your station name?"),
+        inquirer.Text(name='url',
+                      message="What is your station's url?"),
+        inquirer.Text(name='img',
+                      message="What is your station's logo (the url)?"),
+        inquirer.Confirm('isYT',
+                         message="Is your station a Youtube stream?")
+    ]
 
-    station_img: str = input("What is your station's logo (the url): ")
-    station_img = save_img(station_img, station_name)
+    answers = inquirer.prompt(questions=questions)
 
-    station_is_yt: str = input("Is your station a Youtube stream? (y/n): ")
-    station_is_yt = sanitise_string(station_is_yt)[0]
+    img_path = save_img(answers.get("img"), answers.get("name"))
+    answers.update({"img": img_path})
 
-    return {
-        "name": station_name,
-        "url": station_url,
-        "img": station_img,
-        "isYT": station_is_yt == "y"
-    }
+    return answers
 
 
 def main():
@@ -77,7 +79,7 @@ def main():
     user_choice = inquirer.prompt(questions=questions, theme=GreenPassion(),)
 
     if user_choice.get("action") == "1. Add a new source":
-        new_source: dict = create_source()
+        new_source: dict = create_source_dev()
         src_list.append(new_source)
 
     elif user_choice.get("action") == "2. Remove an existing source":
