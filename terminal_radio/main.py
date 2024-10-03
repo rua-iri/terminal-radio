@@ -5,6 +5,7 @@ import subprocess
 import time
 from os import get_terminal_size, setsid, killpg, getpgid, makedirs
 from os.path import dirname
+import readchar
 
 from classes import Station
 from helpers import load_sources, select_station
@@ -123,14 +124,14 @@ def main():
         logger.info("Image Rendered")
 
         print(f"Now Playing: {station.name}\n")
-        print("Send letter 'q' to return to the menu")
+        print("Press 'q' to return to the menu")
 
         logger.info("Playing Radio")
 
         process = play_src(station_src=station.url)
 
         while True:
-            if input("Letter: ") == "q":
+            if readchar.readchar() == "q":
                 if process:
                     close_player(process.pid)
 
