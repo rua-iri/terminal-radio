@@ -65,26 +65,33 @@ def create_source_dev() -> dict:
 
 def main():
 
+    options_list: list = [
+        "1. Add a new source",
+        "2. Remove an existing source"
+    ]
+
     src_list: list = load_sources()
 
     questions = [inquirer.List(
         "action",
         message="What action would you like to take?",
         choices=[
-            "1. Add a new source",
-            "2. Remove an existing source"
+            options_list[0],
+            options_list[1]
         ]
     )]
 
     user_choice = inquirer.prompt(questions=questions, theme=GreenPassion(),)
 
-    if user_choice.get("action") == "1. Add a new source":
+    if user_choice.get("action") == options_list[0]:
         new_source: dict = create_source_dev()
         src_list.append(new_source)
 
-    elif user_choice.get("action") == "2. Remove an existing source":
+    elif user_choice.get("action") == options_list[1]:
         station_choice = select_station(src_list=src_list)
-        delete_file(station_choice.get("img"))
+
+        if station_choice.get("img"):
+            delete_file(station_choice.get("img"))
 
         src_list.remove(station_choice)
 
