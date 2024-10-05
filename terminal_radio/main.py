@@ -81,6 +81,8 @@ def fetch_yt_station(url: str) -> Station:
     import yt_dlp
     import requests
 
+    logger.info("Fetching Youtube Data")
+
     with yt_dlp.YoutubeDL() as ydl:
         info = ydl.extract_info(url, download=False)
 
@@ -90,6 +92,11 @@ def fetch_yt_station(url: str) -> Station:
 
     with open(img_filename, 'wb') as img_file:
         img_file.write(res.content)
+
+    logger.info("Youtube Data: ", info)
+
+    logger.info("Station Title: ", info.get('fulltitle'))
+    logger.info("Station URL: ", info.get('url'))
 
     yt_station = Station(
         name=info.get("fulltitle"),
