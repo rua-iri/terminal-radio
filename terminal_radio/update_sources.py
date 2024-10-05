@@ -1,7 +1,7 @@
 
 import requests
 from urllib.parse import urlparse
-from os.path import splitext
+from os.path import splitext, isfile
 from os import remove as delete_file
 import inquirer
 from inquirer.themes import GreenPassion
@@ -26,6 +26,9 @@ def save_img(img_url: str, station_name: str) -> str:
         str: The filename of the new image
     """
     try:
+        if isfile(img_url):
+            return img_url
+
         img_data: requests.Request = requests.get(img_url)
 
         url_path = urlparse(img_url).path
@@ -42,7 +45,7 @@ def save_img(img_url: str, station_name: str) -> str:
         raise e
 
 
-def create_source_dev() -> dict:
+def create_source() -> dict:
 
     questions = [
         inquirer.Text(name='name',
@@ -57,7 +60,37 @@ def create_source_dev() -> dict:
 
     answers = inquirer.prompt(questions=questions)
 
-    img_path = save_img(answers.get("img"), answers.get("name"))
+    img_path = save_img(
+        img_url=answers.get("img"),
+        station_name=answers.get("name")
+    )
+    answers.update({"img": img_path})
+
+    return answers
+
+
+def edit_source(station_choice: dict) -> dict:
+    questions = [
+        inquirer.Text(name='name',
+                      message="What is your station name?",
+                      default=station_choice.get("name")),
+        inquirer.Text(name='url',
+                      message="What is your station's url?",
+                      default=station_choice.get("url")),
+        inquirer.Text(name='img',
+                      message="What is your station's logo (the url)?",
+                      default=station_choice.get("img")),
+        inquirer.Confirm('isYT',
+                         message="Is your station a Youtube stream?",
+                         default=station_choice.get("isYT"))
+    ]
+
+    answers = inquirer.prompt(questions=questions)
+
+    img_path = save_img(
+        img_url=answers.get("img"),
+        station_name=answers.get("name")
+    )
     answers.update({"img": img_path})
 
     return answers
@@ -67,7 +100,8 @@ def main():
 
     options_list: list = [
         "1. Add a new source",
-        "2. Remove an existing source"
+        "2. Remove an existing source",
+        "3. Edit an existing source"
     ]
 
     src_list: list = load_sources()
@@ -76,15 +110,14 @@ def main():
         "action",
         message="What action would you like to take?",
         choices=[
-            options_list[0],
-            options_list[1]
+            *options_list
         ]
     )]
 
     user_choice = inquirer.prompt(questions=questions, theme=GreenPassion(),)
 
     if user_choice.get("action") == options_list[0]:
-        new_source: dict = create_source_dev()
+        new_source: dict = create_source()
         src_list.append(new_source)
 
     elif user_choice.get("action") == options_list[1]:
@@ -94,6 +127,15 @@ def main():
             delete_file(station_choice.get("img"))
 
         src_list.remove(station_choice)
+
+    elif user_choice.get("action") == options_list[2]:
+        station_choice: dict = select_station(src_list=src_list)
+        src_list.remove(station_choice)
+
+        new_source: dict = edit_source(
+            station_choice=station_choice
+        )
+        src_list.append(new_source)
 
     save_sources(src_list)
 
