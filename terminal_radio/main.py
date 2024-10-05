@@ -105,6 +105,10 @@ def fetch_yt_station(url: str) -> Station:
         isYT=True
     )
 
+    if not yt_station.url:
+        logger.error("No Youtube Stream Found")
+        raise Exception("Youtube Stream Not Found")
+
     return yt_station
 
 
