@@ -40,10 +40,11 @@ def main():
 
     cmd_dict = {
         "play": radio.main,
-        "update": update_sources
+        "update": update_sources.main
     }
 
-    cmd = sys.argv[1]
+    args = dict(enumerate(sys.argv))
+    cmd = args.get(1, "play")
 
     if cmd in cmd_dict.keys():
         cmd_dict[cmd]()

@@ -6,11 +6,11 @@ from os import remove as delete_file
 import inquirer
 from inquirer.themes import GreenPassion
 
-from helpers import (load_sources,
-                     save_sources,
-                     sanitise_string,
-                     select_station
-                     )
+from utils import (load_sources,
+                   save_sources,
+                   sanitise_string,
+                   select_station
+                   )
 
 
 def save_img(img_url: str, station_name: str) -> str:
