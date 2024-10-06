@@ -1,4 +1,5 @@
 
+import subprocess
 import inquirer
 import json
 
@@ -63,3 +64,7 @@ def select_station(src_list: list) -> dict:
 
 def sanitise_string(string_input: str):
     return "".join(string_input.split()).lower()
+
+
+def clear_screen():
+    subprocess.run(["clear"])
