@@ -58,7 +58,7 @@ class Station:
             img_filename
         )
 
-    def get_logo(self) -> str:
+    def gen_logo(self) -> str:
         terminal_cols, terminal_lines = get_terminal_size()
         img_width: int = int(terminal_cols / 2)
 
@@ -75,11 +75,12 @@ class Station:
 class Player:
 
     def __init__(self) -> None:
+        self.__cmd = "ffplay {} -nodisp -loglevel quiet -infbuf"
         self.process_id = None
 
     def play(self, url):
         process = subprocess.Popen(
-            f'ffplay {url} -nodisp -loglevel quiet -infbuf',
+            self.__cmd.format(url),
             stdout=subprocess.PIPE,
             shell=True,
             preexec_fn=setsid
@@ -92,3 +93,9 @@ class Player:
                 getpgid(self.process_id),
                 signal.SIGTERM
             )
+
+        self.process_id = None
+
+    def restart(self, url):
+        self.stop()
+        self.play(url=url)
