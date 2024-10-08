@@ -48,41 +48,6 @@ def play_src(station_src: str) -> subprocess.Popen:
     return process
 
 
-def fetch_yt_station(url: str) -> Station:
-    import yt_dlp
-    import requests
-
-    logger.info("Fetching Youtube Data")
-
-    with yt_dlp.YoutubeDL() as ydl:
-        info = ydl.extract_info(url, download=False)
-
-    img_url: str = info.get("thumbnail")
-    res: requests.Response = requests.get(img_url)
-    img_filename: str = "resource/img/yt_img.jpg"
-
-    with open(img_filename, 'wb') as img_file:
-        img_file.write(res.content)
-
-    logger.info("Youtube Data: ", info)
-
-    logger.info("Station Title: ", info.get('fulltitle'))
-    logger.info("Station URL: ", info.get('url'))
-
-    yt_station = Station(
-        name=info.get("fulltitle"),
-        url=info.get("url"),
-        img=img_filename,
-        isYT=True
-    )
-
-    if not yt_station.url:
-        logger.error("No Youtube Stream Found")
-        raise Exception("Youtube Stream Not Found")
-
-    return yt_station
-
-
 def play_radio():
     try:
         clear_screen()
@@ -92,9 +57,6 @@ def play_radio():
 
         station_data = select_station(src_list=src_list)
         station: Station = Station(**station_data)
-
-        if station.isYT:
-            station = fetch_yt_station(station.url)
 
         logger.info(f"Station Selected: {station.name}")
         logger.info(f"Station Source: {station.url}")
