@@ -1,22 +1,32 @@
 
 
 import logging
+from os import get_terminal_size, getpgid, killpg, setsid
+import signal
+import subprocess
 
 
 class Station:
-    def __init__(self, name: str, url: str, img: str, isYT: bool):
+
+    def __init__(
+            self,
+            name: str,
+            url: str,
+            img: str,
+            isYT: bool
+    ) -> None:
         self.logger = logging.getLogger(__name__)
 
         self.isYT = isYT
 
         if self.isYT:
-            self.name, self.url, self.img = self.fetch_yt_station(url=url)
+            self.name, self.url, self.img = self.fetch_yt_data(url=url)
         else:
             self.name = name
             self.url = url
             self.img = img
 
-    def fetch_yt_station(self, url: str):
+    def fetch_yt_data(self, url: str):
         import yt_dlp
         import requests
 
@@ -29,6 +39,9 @@ class Station:
 
         yt_stream_url = info.get('formats')[0].get('url')
 
+        self.logger.info("Station Title: ", info.get('fulltitle'))
+        self.logger.info("Station URL: ", yt_stream_url)
+
         if not yt_stream_url:
             raise Exception("Youtube Stream Not Found")
 
@@ -39,11 +52,43 @@ class Station:
         with open(img_filename, 'wb') as img_file:
             img_file.write(res.content)
 
-        self.logger.info("Station Title: ", info.get('fulltitle'))
-        self.logger.info("Station URL: ", yt_stream_url)
-
         return (
             info.get("fulltitle"),
             yt_stream_url,
             img_filename
         )
+
+    def get_logo(self) -> str:
+        terminal_cols, terminal_lines = get_terminal_size()
+        img_width: int = int(terminal_cols / 2)
+
+        import climage
+        img_output = climage.convert(
+            filename=self.img,
+            is_unicode=True,
+            is_256color=True,
+            width=img_width
+        )
+        return f"\n\n{img_output}\n\n"
+
+
+class Player:
+
+    def __init__(self) -> None:
+        self.process_id = None
+
+    def play(self, url):
+        process = subprocess.Popen(
+            f'ffplay {url} -nodisp -loglevel quiet -infbuf',
+            stdout=subprocess.PIPE,
+            shell=True,
+            preexec_fn=setsid
+        )
+        self.process_id = process.pid
+
+    def stop(self):
+        if self.process_id:
+            killpg(
+                getpgid(self.process_id),
+                signal.SIGTERM
+            )
