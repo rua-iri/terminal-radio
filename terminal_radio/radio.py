@@ -9,6 +9,18 @@ from utils import load_sources, select_station, clear_screen
 logger = logging.getLogger(__name__)
 
 
+def monitor_user_input(player: Player):
+    while True:
+        user_char = readchar.readchar()
+
+        if user_char == "q":
+            player.stop()
+            return
+
+        elif user_char == "\x03":
+            raise KeyboardInterrupt
+
+
 def play_radio():
     try:
         clear_screen()
@@ -36,15 +48,7 @@ def play_radio():
 
         player.play(url=station.url)
 
-        while True:
-            user_char = readchar.readchar()
-
-            if user_char == "q":
-                player.stop()
-                return
-
-            if user_char == '\x03':
-                raise KeyboardInterrupt
+        monitor_user_input(player=player)
 
     except KeyboardInterrupt:
         print("\n\nExiting")
@@ -52,9 +56,11 @@ def play_radio():
         if "player" in vars():
             player.stop()
 
+        clear_screen()
         exit()
 
     except Exception as e:
+        player.stop()
         logger.error(e)
 
 

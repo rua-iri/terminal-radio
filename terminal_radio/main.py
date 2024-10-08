@@ -37,6 +37,7 @@ def initialise_logs(file_name: str):
 
 
 def main():
+    initialise_logs(LOGGING_FILE)
 
     cmd_dict = {
         "play": radio.main,
@@ -44,15 +45,14 @@ def main():
     }
 
     args = dict(enumerate(sys.argv))
-    cmd = args.get(1, "play")
+    user_cmd = args.get(1, "play")
 
-    if cmd in cmd_dict.keys():
-        cmd_dict[cmd]()
+    if user_cmd in cmd_dict.keys():
+        cmd_dict[user_cmd]()
 
     else:
-        print(f"Error: command '{cmd}' not found")
+        print(f"Error: command '{user_cmd}' not found")
 
 
 if __name__ == "__main__":
-    initialise_logs(LOGGING_FILE)
     main()
