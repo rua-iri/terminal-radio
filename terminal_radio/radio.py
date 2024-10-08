@@ -36,8 +36,15 @@ def play_radio():
 
         player.play(url=station.url)
 
-        if readchar.readchar() == "q":
-            player.stop()
+        while True:
+            user_char = readchar.readchar()
+
+            if user_char == "q":
+                player.stop()
+                return
+
+            if user_char == '\x03':
+                raise KeyboardInterrupt
 
     except KeyboardInterrupt:
         print("\n\nExiting")
