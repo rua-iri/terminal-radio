@@ -1,4 +1,5 @@
 
+import json
 import requests
 from urllib.parse import urlparse
 from os.path import splitext, isfile
@@ -180,7 +181,8 @@ def main():
         "1. Add a new source",
         "2. Remove an existing source",
         "3. Edit an existing source",
-        "4. Rearrange source list"
+        "4. Rearrange source list",
+        "5. View Sources"
     ]
 
     user_action = get_user_action(options_list)
@@ -196,6 +198,9 @@ def main():
 
     elif user_action == options_list[3]:
         src_list = move_station(src_list=src_list)
+
+    elif user_action == options_list[4]:
+        print(json.dumps(src_list, indent=4))
 
     save_sources(src_list)
 

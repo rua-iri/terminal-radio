@@ -46,8 +46,7 @@ def play_radio():
 
         print("Now Playing: ", station.name, "\n")
         print("Press 'q' to return to the menu")
-        print("Press 'r' to refresh the stream")
-        print()
+        print("Press 'r' to refresh the stream\n")
 
         logger.info("Playing Radio")
 
