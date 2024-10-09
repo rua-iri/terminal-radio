@@ -174,6 +174,10 @@ def move_station(src_list: list) -> list:
     return src_list
 
 
+def show_stations(src_list: list):
+    print(json.dumps(src_list, indent=4))
+
+
 def main():
     src_list: list = load_sources()
 
@@ -200,7 +204,7 @@ def main():
         src_list = move_station(src_list=src_list)
 
     elif user_action == options_list[4]:
-        print(json.dumps(src_list, indent=4))
+        show_stations(src_list=src_list)
 
     save_sources(src_list)
 

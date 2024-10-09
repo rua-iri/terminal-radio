@@ -2,7 +2,7 @@
 import logging
 import readchar
 
-from classes import Player, Station
+from classes import Player, PrintC, Station
 from utils import load_sources, select_station, clear_screen
 
 
@@ -45,8 +45,8 @@ def play_radio():
         logger.info("Image Rendered")
 
         print("Now Playing: ", station.name, "\n")
-        print("Press 'q' to return to the menu")
-        print("Press 'r' to refresh the stream\n")
+        PrintC().error("Press 'q' to return to the menu")
+        PrintC().info("Press 'r' to refresh the stream\n")
 
         logger.info("Playing Radio")
 
@@ -55,8 +55,6 @@ def play_radio():
         monitor_user_input(player=player, station=station)
 
     except KeyboardInterrupt:
-        print("\n\nExiting")
-
         if "player" in vars():
             player.stop()
 

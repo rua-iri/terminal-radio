@@ -4,6 +4,7 @@ import logging
 from os import get_terminal_size, getpgid, killpg, setsid
 import signal
 import subprocess
+from colorama import Fore, Style
 
 
 class Station:
@@ -99,3 +100,21 @@ class Player:
     def restart(self, url):
         self.stop()
         self.play(url=url)
+
+
+class PrintC:
+
+    def __reset(self):
+        print(Style.RESET_ALL)
+
+    def error(self, message):
+        print(Fore.RED + Style.BRIGHT + message)
+        self.__reset()
+
+    def info(self, message):
+        print(Fore.BLUE + Style.BRIGHT + message)
+        self.__reset()
+
+    def success(self, message):
+        print(Fore.GREEN + Style.BRIGHT + message)
+        self.__reset()
