@@ -13,6 +13,24 @@ from utils import (load_sources,
                    )
 
 
+def get_user_action(options_list: list) -> str:
+
+    questions: list = [inquirer.List(
+        "action",
+        message="What action would you like to take?",
+        choices=[
+            *options_list
+        ]
+    )]
+
+    user_action = inquirer.prompt(
+        questions=questions,
+        theme=GreenPassion()
+    ).get("action")
+
+    return user_action
+
+
 def save_img(img_url: str, station_name: str) -> str:
     """Save a station's logo to file
 
@@ -75,10 +93,10 @@ def create_source() -> dict:
 
 
 def edit_source(station_choice: dict) -> dict:
-    """_summary_
+    """Edit the source data for a station
 
     Args:
-        station_choice (dict): A dictionary of the station that 
+        station_choice (dict): A dictionary of the station that
         the user wishes to edit
 
     Returns:
@@ -153,24 +171,6 @@ def move_station(src_list: list) -> list:
     src_list.insert(station_position, station_choice)
 
     return src_list
-
-
-def get_user_action(options_list: list) -> str:
-
-    questions: list = [inquirer.List(
-        "action",
-        message="What action would you like to take?",
-        choices=[
-            *options_list
-        ]
-    )]
-
-    user_action = inquirer.prompt(
-        questions=questions,
-        theme=GreenPassion()
-    ).get("action")
-
-    return user_action
 
 
 def main():
