@@ -1,5 +1,6 @@
 
 import json
+import logging
 import requests
 from urllib.parse import urlparse
 from os.path import splitext, isfile
@@ -12,6 +13,9 @@ from utils import (load_sources,
                    sanitise_string,
                    select_station
                    )
+
+
+logger = logging.getLogger(__name__)
 
 
 def get_user_action(options_list: list) -> str:
@@ -179,34 +183,40 @@ def show_stations(src_list: list):
 
 
 def main():
-    src_list: list = load_sources()
+    try:
+        src_list: list = load_sources()
 
-    options_list: list = [
-        "1. Add a new source",
-        "2. Remove an existing source",
-        "3. Edit an existing source",
-        "4. Rearrange source list",
-        "5. View Sources"
-    ]
+        options_list: list = [
+            "1. Add a new source",
+            "2. Remove an existing source",
+            "3. Edit an existing source",
+            "4. Rearrange source list",
+            "5. View Sources"
+        ]
 
-    user_action = get_user_action(options_list)
+        user_action = get_user_action(options_list)
 
-    if user_action == options_list[0]:
-        src_list = add_new_station(src_list=src_list)
+        logger.info(options_list)
 
-    elif user_action == options_list[1]:
-        src_list = remove_station(src_list=src_list)
+        if user_action == options_list[0]:
+            src_list = add_new_station(src_list=src_list)
 
-    elif user_action == options_list[2]:
-        src_list = edit_station(src_list=src_list)
+        elif user_action == options_list[1]:
+            src_list = remove_station(src_list=src_list)
 
-    elif user_action == options_list[3]:
-        src_list = move_station(src_list=src_list)
+        elif user_action == options_list[2]:
+            src_list = edit_station(src_list=src_list)
 
-    elif user_action == options_list[4]:
-        show_stations(src_list=src_list)
+        elif user_action == options_list[3]:
+            src_list = move_station(src_list=src_list)
 
-    save_sources(src_list)
+        elif user_action == options_list[4]:
+            show_stations(src_list=src_list)
+
+        save_sources(src_list)
+
+    except Exception as e:
+        logger.error(e)
 
 
 if __name__ == "__main__":
