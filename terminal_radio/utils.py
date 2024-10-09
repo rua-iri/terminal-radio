@@ -45,10 +45,13 @@ def save_sources(src_list: list):
         raise e
 
 
-def select_station(src_list: list) -> dict:
+def select_station(
+        src_list: list,
+        message: str = "What Station Would You Like"
+) -> dict:
     name_list = [source.get("name") for source in src_list]
     question = inquirer.List('station_name',
-                             message="What Station Would You Like",
+                             message=message,
                              choices=name_list
                              )
     station_name = inquirer.prompt(

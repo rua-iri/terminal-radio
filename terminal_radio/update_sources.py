@@ -46,6 +46,11 @@ def save_img(img_url: str, station_name: str) -> str:
 
 
 def create_source() -> dict:
+    """Create a new radio source using data submitted by user
+
+    Returns:
+        dict: The answers submitted by the user in a dictionary
+    """
 
     questions = [
         inquirer.Text(name='name',
@@ -70,6 +75,15 @@ def create_source() -> dict:
 
 
 def edit_source(station_choice: dict) -> dict:
+    """_summary_
+
+    Args:
+        station_choice (dict): A dictionary of the station that 
+        the user wishes to edit
+
+    Returns:
+        dict: The answers submitted by the user in a dictionary
+    """
     questions = [
         inquirer.Text(name='name',
                       message="What is your station name?",
@@ -96,17 +110,54 @@ def edit_source(station_choice: dict) -> dict:
     return answers
 
 
-def main():
+def add_new_station(src_list: list) -> list:
+    new_source: dict = create_source()
+    src_list.append(new_source)
+    return src_list
 
-    options_list: list = [
-        "1. Add a new source",
-        "2. Remove an existing source",
-        "3. Edit an existing source"
-    ]
 
-    src_list: list = load_sources()
+def remove_station(src_list: list) -> list:
+    station_choice: dict = select_station(src_list=src_list)
 
-    questions = [inquirer.List(
+    if station_choice.get("img"):
+        delete_file(station_choice.get("img"))
+
+    src_list.remove(station_choice)
+
+    return src_list
+
+
+def edit_station(src_list: list) -> list:
+    station_choice: dict = select_station(src_list=src_list)
+    src_list.remove(station_choice)
+
+    new_source: dict = edit_source(
+        station_choice=station_choice
+    )
+    src_list.append(new_source)
+
+    return src_list
+
+
+def move_station(src_list: list) -> list:
+    station_choice: dict = select_station(src_list=src_list)
+
+    station_position: int = src_list.index(
+        select_station(
+            src_list=src_list,
+            message="Before which Station would you like to place it"
+        )
+    )
+
+    src_list.remove(station_choice)
+    src_list.insert(station_position, station_choice)
+
+    return src_list
+
+
+def get_user_action(options_list: list) -> str:
+
+    questions: list = [inquirer.List(
         "action",
         message="What action would you like to take?",
         choices=[
@@ -114,28 +165,37 @@ def main():
         ]
     )]
 
-    user_choice = inquirer.prompt(questions=questions, theme=GreenPassion(),)
+    user_action = inquirer.prompt(
+        questions=questions,
+        theme=GreenPassion()
+    ).get("action")
 
-    if user_choice.get("action") == options_list[0]:
-        new_source: dict = create_source()
-        src_list.append(new_source)
+    return user_action
 
-    elif user_choice.get("action") == options_list[1]:
-        station_choice = select_station(src_list=src_list)
 
-        if station_choice.get("img"):
-            delete_file(station_choice.get("img"))
+def main():
+    src_list: list = load_sources()
 
-        src_list.remove(station_choice)
+    options_list: list = [
+        "1. Add a new source",
+        "2. Remove an existing source",
+        "3. Edit an existing source",
+        "4. Rearrange source list"
+    ]
 
-    elif user_choice.get("action") == options_list[2]:
-        station_choice: dict = select_station(src_list=src_list)
-        src_list.remove(station_choice)
+    user_action = get_user_action(options_list)
 
-        new_source: dict = edit_source(
-            station_choice=station_choice
-        )
-        src_list.append(new_source)
+    if user_action == options_list[0]:
+        src_list = add_new_station(src_list=src_list)
+
+    elif user_action == options_list[1]:
+        src_list = remove_station(src_list=src_list)
+
+    elif user_action == options_list[2]:
+        src_list = edit_station(src_list=src_list)
+
+    elif user_action == options_list[3]:
+        src_list = move_station(src_list=src_list)
 
     save_sources(src_list)
 

@@ -20,13 +20,13 @@ class Station:
         self.isYT = isYT
 
         if self.isYT:
-            self.name, self.url, self.img = self.fetch_yt_data(url=url)
+            self.name, self.url, self.img = self.__fetch_yt_data(url=url)
         else:
             self.name = name
             self.url = url
             self.img = img
 
-    def fetch_yt_data(self, url: str):
+    def __fetch_yt_data(self, url: str):
         import yt_dlp
         import requests
 
