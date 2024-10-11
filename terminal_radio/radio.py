@@ -2,8 +2,8 @@
 import logging
 import readchar
 
-from classes import Player, PrintC, Station
-from utils import load_sources, select_station, clear_screen
+from .classes import Player, PrintC, Station
+from .utils import load_sources, select_station, clear_screen
 
 
 logger = logging.getLogger(__name__)

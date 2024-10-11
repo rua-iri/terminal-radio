@@ -8,11 +8,11 @@ from os import remove as delete_file
 import inquirer
 from inquirer.themes import GreenPassion
 
-from utils import (load_sources,
-                   save_sources,
-                   sanitise_string,
-                   select_station
-                   )
+from .utils import (load_sources,
+                    save_sources,
+                    sanitise_string,
+                    select_station
+                    )
 
 
 logger = logging.getLogger(__name__)

@@ -6,8 +6,8 @@ import time
 from os import makedirs
 from os.path import dirname
 
-import update_sources
-import radio
+from terminal_radio import update_sources
+from terminal_radio import radio
 
 
 LOGGING_FILE = f"logs/{time.strftime('%Y/%m')}/{time.strftime('%d-%m-%Y')}.log"
