@@ -15,9 +15,9 @@ setup:
 
 
 run:
-	@$(PYTHON) terminal_radio/main.py play
+	@$(PYTHON) main.py play
 
 
 update:
-	@$(PYTHON) terminal_radio/main.py update
+	@$(PYTHON) main.py update
 	
