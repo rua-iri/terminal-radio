@@ -63,14 +63,21 @@ class Station:
         terminal_cols, terminal_lines = get_terminal_size()
         img_width: int = int(terminal_cols / 2)
 
-        import climage
-        img_output = climage.convert(
-            filename=self.img,
-            is_unicode=True,
-            is_256color=True,
-            width=img_width
-        )
-        return f"\n\n{img_output}\n\n"
+        try:
+
+            import climage
+            img_output = climage.convert(
+                filename=self.img,
+                is_unicode=True,
+                is_256color=True,
+                width=img_width
+            )
+            return f"\n\n{img_output}\n\n"
+
+        except Exception as e:
+            self.logger.error(e)
+            PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
+            return ""
 
 
 class Player:
