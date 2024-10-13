@@ -68,6 +68,26 @@ class Station:
         bytes_data = BytesIO(res.content)
         return Image.open(bytes_data).convert("RGB")
 
+    def gen_logo_dev(self) -> str:
+        terminal_cols, terminal_lines = get_terminal_size()
+        img_width: int = int(terminal_cols / 2)
+
+        try:
+            img = self.__load_remote_image()
+            img_output = climage.convert_pil(
+                img=img,
+                is_unicode=True,
+                is_256color=True,
+                width=img_width
+            )
+
+            return f"\n\n{img_output}\n\n"
+
+        except Exception as e:
+            self.logger.error(e)
+            PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
+            return ""
+
     def gen_logo(self) -> str:
         terminal_cols, terminal_lines = get_terminal_size()
         img_width: int = int(terminal_cols / 2)
@@ -85,6 +105,9 @@ class Station:
             self.logger.error(e)
             PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
             return ""
+
+    def get_logo_dev(self) -> str:
+        pass
 
 
 class Player:
