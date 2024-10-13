@@ -5,6 +5,10 @@ from os import get_terminal_size, getpgid, killpg, setsid
 import signal
 import subprocess
 from colorama import Fore, Style
+import climage
+from PIL import Image
+import requests
+from io import BytesIO
 
 
 class Station:
@@ -59,13 +63,16 @@ class Station:
             img_filename
         )
 
+    def __load_remote_image(self) -> Image.Image:
+        res = requests.get(self.img)
+        bytes_data = BytesIO(res.content)
+        return Image.open(bytes_data).convert("RGB")
+
     def gen_logo(self) -> str:
         terminal_cols, terminal_lines = get_terminal_size()
         img_width: int = int(terminal_cols / 2)
 
         try:
-
-            import climage
             img_output = climage.convert(
                 filename=self.img,
                 is_unicode=True,
