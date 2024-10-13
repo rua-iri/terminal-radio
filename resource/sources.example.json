@@ -2,7 +2,7 @@
   {
     "name": "example",
     "url": "https://example.com",
-    "img": "resource/img/example_src.png",
+    "img": "https://example.com/img/example_src.png",
     "isYT": false
   }
 ]

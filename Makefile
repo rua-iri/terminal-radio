@@ -5,7 +5,7 @@ PIP = $(VENV)/bin/pip3
 
 
 setup:
-	@mkdir resource/img/ logs/
+	@mkdir logs/
 	@cp resource/sources.example.json resource/sources.json
 	sudo apt install ffmpeg 
 	@python3 -m venv $(VENV) 
