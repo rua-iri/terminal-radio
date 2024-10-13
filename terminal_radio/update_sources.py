@@ -36,38 +36,6 @@ def get_user_action(options_list: list) -> str:
     return user_action
 
 
-def save_img(img_url: str, station_name: str) -> str:
-    """Save a station's logo to file
-
-    Args:
-        img_url (str): The URL of the image
-
-    Raises:
-        e: Generic Error
-
-    Returns:
-        str: The filename of the new image
-    """
-    try:
-        if isfile(img_url):
-            return img_url
-
-        img_data: requests.Request = requests.get(img_url)
-
-        url_path = urlparse(img_url).path
-        img_filename = "resource/img/"
-        img_filename += sanitise_string(station_name)
-        img_filename += splitext(url_path)[1]
-
-        img_file = open(img_filename, "wb")
-        img_file.write(img_data.content)
-
-        return img_filename
-
-    except Exception as e:
-        raise e
-
-
 def create_source() -> dict:
     """Create a new radio source using data submitted by user
 
@@ -87,12 +55,6 @@ def create_source() -> dict:
     ]
 
     answers = inquirer.prompt(questions=questions)
-
-    img_path = save_img(
-        img_url=answers.get("img"),
-        station_name=answers.get("name")
-    )
-    answers.update({"img": img_path})
 
     return answers
 
@@ -123,12 +85,6 @@ def edit_source(station_choice: dict) -> dict:
     ]
 
     answers = inquirer.prompt(questions=questions)
-
-    img_path = save_img(
-        img_url=answers.get("img"),
-        station_name=answers.get("name")
-    )
-    answers.update({"img": img_path})
 
     return answers
 

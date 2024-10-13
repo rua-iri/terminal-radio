@@ -51,16 +51,11 @@ class Station:
             raise Exception("Youtube Stream Not Found")
 
         img_url: str = info.get("thumbnail")
-        res: requests.Response = requests.get(img_url)
-        img_filename: str = "resource/img/yt_img.jpg"
-
-        with open(img_filename, 'wb') as img_file:
-            img_file.write(res.content)
 
         return (
             info.get("fulltitle"),
             yt_stream_url,
-            img_filename
+            img_url
         )
 
     def __load_remote_image(self) -> Image.Image:
@@ -68,7 +63,7 @@ class Station:
         bytes_data = BytesIO(res.content)
         return Image.open(bytes_data).convert("RGB")
 
-    def gen_logo_dev(self) -> str:
+    def gen_logo(self) -> str:
         terminal_cols, terminal_lines = get_terminal_size()
         img_width: int = int(terminal_cols / 2)
 
@@ -88,20 +83,6 @@ class Station:
             PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
             return ""
 
-    def gen_logo(self) -> str:
-        terminal_cols, terminal_lines = get_terminal_size()
-        img_width: int = int(terminal_cols / 2)
-
-        try:
-            img_output = climage.convert(
-                filename=self.img,
-                is_unicode=True,
-                is_256color=True,
-                width=img_width
-            )
-            return f"\n\n{img_output}\n\n"
-
-        except Exception as e:
             self.logger.error(e)
             PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
             return ""
