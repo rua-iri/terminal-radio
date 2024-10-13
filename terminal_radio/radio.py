@@ -13,11 +13,11 @@ def monitor_user_input(player: Player, station: Station):
     while True:
         user_char = readchar.readchar()
 
-        if user_char == "q":
+        if user_char == "q" or user_char == "Q":
             player.stop()
             return
 
-        elif user_char == "r":
+        elif user_char == "r" or user_char == "R":
             player.restart(url=station.url)
 
         elif user_char == "\x03":
