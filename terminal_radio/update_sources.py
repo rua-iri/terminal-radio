@@ -1,16 +1,12 @@
 
 import json
 import logging
-import requests
-from urllib.parse import urlparse
-from os.path import splitext, isfile
 from os import remove as delete_file
 import inquirer
 from inquirer.themes import GreenPassion
 
 from .utils import (load_sources,
                     save_sources,
-                    sanitise_string,
                     select_station
                     )
 

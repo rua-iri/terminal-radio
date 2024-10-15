@@ -33,7 +33,6 @@ class Station:
 
     def __fetch_yt_data(self, url: str):
         import yt_dlp
-        import requests
 
         self.logger.info("Fetching Youtube Data")
 
@@ -82,13 +81,6 @@ class Station:
             self.logger.error(e)
             PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
             return ""
-
-            self.logger.error(e)
-            PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
-            return ""
-
-    def get_logo_dev(self) -> str:
-        pass
 
 
 class Player:

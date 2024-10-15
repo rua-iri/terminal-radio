@@ -65,14 +65,5 @@ def select_station(
             return src
 
 
-def sanitise_string(string_input: str):
-    sanitised_input: str = ""
-
-    for ch in string_input:
-        sanitised_input += ch if ch.isalnum() else ""
-
-    return "".join(sanitised_input.split()).lower()
-
-
 def clear_screen():
     subprocess.run(["clear"])
