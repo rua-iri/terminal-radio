@@ -148,7 +148,6 @@ def main():
 
         user_action = get_user_action(options_list)
 
-
         if user_action == options_list[0]:
             src_list = add_new_station(src_list=src_list)
 

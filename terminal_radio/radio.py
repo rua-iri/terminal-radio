@@ -8,6 +8,8 @@ from .utils import load_sources, select_station, clear_screen
 
 logger = logging.getLogger(__name__)
 
+current_station = None
+
 
 def monitor_user_input(player: Player, station: Station):
     while True:
@@ -26,6 +28,8 @@ def monitor_user_input(player: Player, station: Station):
 
 def play_radio():
     try:
+        global current_station
+
         clear_screen()
         player = Player()
 
@@ -33,7 +37,13 @@ def play_radio():
         src_list: list = load_sources()
         logger.info("Sources Loaded")
 
-        station_data = select_station(src_list=src_list)
+        station_data = select_station(
+            src_list=src_list,
+            default=current_station
+        )
+
+        current_station = station_data.get('name')
+
         station: Station = Station(**station_data)
 
         logger.info(f"Station Selected: {station.name}")
@@ -41,7 +51,6 @@ def play_radio():
 
         logger.info("Rendering Image...")
         clear_screen()
-        print(station.gen_logo())
         logger.info("Image Rendered")
 
         print("Now Playing: ", station.name, "\n")
