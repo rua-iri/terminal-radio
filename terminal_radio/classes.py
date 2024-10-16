@@ -58,13 +58,16 @@ class Station:
         )
 
     def __load_remote_image(self) -> Image.Image:
-        res = requests.get(self.img)
+        headers = {
+            "User-Agent": ""
+        }
+        res = requests.get(self.img, headers=headers)
         bytes_data = BytesIO(res.content)
         return Image.open(bytes_data).convert("RGB")
 
     def gen_logo(self) -> str:
         terminal_cols, terminal_lines = get_terminal_size()
-        img_width: int = int(terminal_cols / 2)
+        img_width: int = int(terminal_cols)
 
         try:
             img = self.__load_remote_image()
