@@ -1,6 +1,5 @@
 import json
 import logging
-from os import remove as delete_file
 import inquirer
 from inquirer.themes import GreenPassion
 
@@ -63,28 +62,40 @@ def create_source(station_choice: dict = {}) -> dict:
 
 
 def add_new_station(src_list: list) -> list:
+    logger.info("Adding new Station")
     new_source: dict = create_source()
-    src_list.append(new_source)
+
+    logger.info(f"Station: {new_source}")
+    if new_source:
+        src_list.append(new_source)
+
     return src_list
 
 
 def remove_station(src_list: list) -> list:
+    logger.info("Removing Station")
     station_choice: dict = select_station(src_list=src_list)
 
-    if station_choice.get("img"):
-        delete_file(station_choice.get("img"))
-
+    logger.info(f"Station: {station_choice}")
     src_list.remove(station_choice)
 
     return src_list
 
 
 def edit_station(src_list: list) -> list:
+    logger.info("Editing Station")
     station_choice: dict = select_station(src_list=src_list)
-    src_list.remove(station_choice)
+    station_index: int = src_list.index(station_choice)
+
+    logger.info(f"Station: {station_choice}")
+    logger.info(f"Index: {station_index}")
 
     new_source: dict = create_source(station_choice=station_choice)
-    src_list.append(new_source)
+    logger.info(f"New Station: {station_choice}")
+
+    if new_source:
+        src_list.remove(station_choice)
+        src_list.insert(station_index, new_source)
 
     return src_list
 
@@ -94,12 +105,14 @@ def move_station(src_list: list) -> list:
 
     station_position: int = src_list.index(
         select_station(
-            src_list=src_list, message="Before which Station would you like to place it"
+            src_list=src_list,
+            message="Before which Station would you like to place it"
         )
     )
 
-    src_list.remove(station_choice)
-    src_list.insert(station_position, station_choice)
+    if station_choice and station_position:
+        src_list.remove(station_choice)
+        src_list.insert(station_position, station_choice)
 
     return src_list
 
@@ -110,7 +123,9 @@ def show_stations(src_list: list):
 
 def main():
     try:
+        logger.info("Updating Sources Started")
         src_list: list = load_sources()
+        logger.info("Source List loaded")
 
         options_list: list = [
             "1. Add a new source",
@@ -120,7 +135,9 @@ def main():
             "5. View Sources",
         ]
 
-        user_action = get_user_action(options_list)
+        user_action: str = get_user_action(options_list)
+
+        logger.info(f"User Action: {user_action}")
 
         if user_action == options_list[0]:
             src_list = add_new_station(src_list=src_list)
@@ -138,6 +155,9 @@ def main():
             show_stations(src_list=src_list)
 
         save_sources(src_list)
+
+    except KeyboardInterrupt:
+        print("Cancelled by user")
 
     except Exception as e:
         logger.error(e)
