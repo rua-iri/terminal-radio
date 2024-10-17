@@ -51,6 +51,7 @@ def play_radio():
 
         logger.info("Rendering Image...")
         clear_screen()
+        print(station.gen_logo())
         logger.info("Image Rendered")
 
         print("Now Playing: ", station.name, "\n")
