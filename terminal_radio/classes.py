@@ -66,8 +66,8 @@ class Station:
         return Image.open(bytes_data).convert("RGB")
 
     def gen_logo(self) -> str:
-        terminal_cols, terminal_lines = get_terminal_size()
-        img_width: int = int(terminal_cols)
+        TERMINAL_COLS, TERMINAL_LINES = get_terminal_size()
+        img_width: int = int(TERMINAL_COLS)
 
         try:
             img = self.__load_remote_image()
