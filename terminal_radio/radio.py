@@ -59,7 +59,7 @@ def play_radio():
 
         logger.info("Image Rendered")
 
-        print("Now Playing: ", station.name, "\n")
+        print("\n", "Now Playing: ", station.name, "\n")
         PrintC().error("Press 'q' to return to the menu")
         PrintC().info("Press 'r' to refresh the stream\n")
 

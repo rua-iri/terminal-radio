@@ -63,7 +63,7 @@ class Station:
         }
         res = requests.get(self.img, headers=headers)
         bytes_data = BytesIO(res.content)
-        return Image.open(bytes_data).convert("RGB")
+        return Image.open(bytes_data).convert("RGBA")
 
     def __calc_terminal_size(self) -> tuple:
         COLS_PX_SCALE = 10
@@ -77,29 +77,25 @@ class Station:
     def display_sixel_image(self):
 
         try:
-
             TERMINAL_WIDTH, TERMINAL_HEIGHT = self.__calc_terminal_size()
-
             # print("TERMINAL_HEIGHT: ", TERMINAL_HEIGHT)
             # print("TERMINAL_WIDTH: ", TERMINAL_WIDTH)
 
             img: Image = self.__load_remote_image()
-
             IMAGE_WIDTH, IMAGE_HEIGHT = img.size
             # print("IMAGE WIDTH: ", IMAGE_WIDTH)
             # print("IMAGE HEIGHT: ", IMAGE_HEIGHT)
 
-            img.save("/tmp/terminalradio_img.png", format="PNG")
-
-            sixel_command = ["img2sixel", "/tmp/terminalradio_img.png"]
+            img_filename: str = "/tmp/terminalradio_img.png"
+            img.save(img_filename, format="PNG")
+            sixel_command = ["img2sixel", img_filename]
 
             if IMAGE_HEIGHT >= IMAGE_WIDTH and IMAGE_HEIGHT > TERMINAL_HEIGHT:
-                sixel_command += [f"--height={TERMINAL_HEIGHT}"]
+                sixel_command.append(f"--height={TERMINAL_HEIGHT}")
             elif IMAGE_WIDTH > TERMINAL_WIDTH:
-                sixel_command += [f"--width={TERMINAL_WIDTH}"]
+                sixel_command.append(f"--width={TERMINAL_WIDTH}")
 
             # print(sixel_command)
-
             subprocess.run(sixel_command)
 
         except Exception as e:
