@@ -1,6 +1,5 @@
 
 
-import io
 import logging
 from os import get_terminal_size, getpgid, killpg, setsid
 import signal
