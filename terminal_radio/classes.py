@@ -1,5 +1,6 @@
 
 
+import io
 import logging
 from os import get_terminal_size, getpgid, killpg, setsid
 import signal
@@ -65,12 +66,21 @@ class Station:
         bytes_data = BytesIO(res.content)
         return Image.open(bytes_data).convert("RGB")
 
+    def __calc_terminal_size(self) -> tuple:
+        COLS_PX_RATIO = 10
+        TERMINAL_COLS, TERMINAL_LINES = get_terminal_size()
+
+        return (
+            TERMINAL_COLS * COLS_PX_RATIO,
+            TERMINAL_LINES * COLS_PX_RATIO
+        )
+
     def gen_logo(self) -> str:
         TERMINAL_COLS, TERMINAL_LINES = get_terminal_size()
         img_width: int = int(TERMINAL_COLS)
 
         try:
-            img = self.__load_remote_image()
+            img: Image = self.__load_remote_image()
             img_output = climage.convert_pil(
                 img=img,
                 is_unicode=True,
