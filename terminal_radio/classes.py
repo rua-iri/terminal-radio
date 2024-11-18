@@ -67,13 +67,39 @@ class Station:
         return Image.open(bytes_data).convert("RGB")
 
     def __calc_terminal_size(self) -> tuple:
-        COLS_PX_RATIO = 10
+        COLS_PX_SCALE = 10
         TERMINAL_COLS, TERMINAL_LINES = get_terminal_size()
 
         return (
-            TERMINAL_COLS * COLS_PX_RATIO,
-            TERMINAL_LINES * COLS_PX_RATIO
+            TERMINAL_COLS * COLS_PX_SCALE,
+            TERMINAL_LINES * COLS_PX_SCALE
         )
+
+    def display_sixel_image(self):
+
+        TERMINAL_WIDTH, TERMINAL_HEIGHT = self.__calc_terminal_size()
+
+        # print("TERMINAL_HEIGHT: ", TERMINAL_HEIGHT)
+        # print("TERMINAL_WIDTH: ", TERMINAL_WIDTH)
+
+        img: Image = self.__load_remote_image()
+
+        IMAGE_WIDTH, IMAGE_HEIGHT = img.size
+        # print("IMAGE WIDTH: ", IMAGE_WIDTH)
+        # print("IMAGE HEIGHT: ", IMAGE_HEIGHT)
+
+        img.save("/tmp/testimg.png", format="PNG")
+
+        sixel_command = ["img2sixel", "/tmp/testimg.png"]
+
+        if IMAGE_HEIGHT >= IMAGE_WIDTH and IMAGE_HEIGHT > TERMINAL_HEIGHT:
+            sixel_command += [f"--height={TERMINAL_HEIGHT}"]
+        elif IMAGE_WIDTH > TERMINAL_WIDTH:
+            sixel_command += [f"--width={TERMINAL_WIDTH}"]
+
+        # print(sixel_command)
+
+        subprocess.run(sixel_command)
 
     def gen_logo(self) -> str:
         TERMINAL_COLS, TERMINAL_LINES = get_terminal_size()
@@ -81,6 +107,7 @@ class Station:
 
         try:
             img: Image = self.__load_remote_image()
+
             img_output = climage.convert_pil(
                 img=img,
                 is_unicode=True,

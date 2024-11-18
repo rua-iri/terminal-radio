@@ -51,7 +51,12 @@ def play_radio():
 
         logger.info("Rendering Image...")
         clear_screen()
-        print(station.gen_logo())
+        station.display_sixel_image()
+
+        # TODO run this if the terminal is not capable
+        # of displaying a sixel image
+        # print(station.gen_logo())
+        
         logger.info("Image Rendered")
 
         print("Now Playing: ", station.name, "\n")
