@@ -77,29 +77,35 @@ class Station:
 
     def display_sixel_image(self):
 
-        TERMINAL_WIDTH, TERMINAL_HEIGHT = self.__calc_terminal_size()
+        try:
 
-        # print("TERMINAL_HEIGHT: ", TERMINAL_HEIGHT)
-        # print("TERMINAL_WIDTH: ", TERMINAL_WIDTH)
+            TERMINAL_WIDTH, TERMINAL_HEIGHT = self.__calc_terminal_size()
 
-        img: Image = self.__load_remote_image()
+            # print("TERMINAL_HEIGHT: ", TERMINAL_HEIGHT)
+            # print("TERMINAL_WIDTH: ", TERMINAL_WIDTH)
 
-        IMAGE_WIDTH, IMAGE_HEIGHT = img.size
-        # print("IMAGE WIDTH: ", IMAGE_WIDTH)
-        # print("IMAGE HEIGHT: ", IMAGE_HEIGHT)
+            img: Image = self.__load_remote_image()
 
-        img.save("/tmp/testimg.png", format="PNG")
+            IMAGE_WIDTH, IMAGE_HEIGHT = img.size
+            # print("IMAGE WIDTH: ", IMAGE_WIDTH)
+            # print("IMAGE HEIGHT: ", IMAGE_HEIGHT)
 
-        sixel_command = ["img2sixel", "/tmp/testimg.png"]
+            img.save("/tmp/terminalradio_img.png", format="PNG")
 
-        if IMAGE_HEIGHT >= IMAGE_WIDTH and IMAGE_HEIGHT > TERMINAL_HEIGHT:
-            sixel_command += [f"--height={TERMINAL_HEIGHT}"]
-        elif IMAGE_WIDTH > TERMINAL_WIDTH:
-            sixel_command += [f"--width={TERMINAL_WIDTH}"]
+            sixel_command = ["img2sixel", "/tmp/terminalradio_img.png"]
 
-        # print(sixel_command)
+            if IMAGE_HEIGHT >= IMAGE_WIDTH and IMAGE_HEIGHT > TERMINAL_HEIGHT:
+                sixel_command += [f"--height={TERMINAL_HEIGHT}"]
+            elif IMAGE_WIDTH > TERMINAL_WIDTH:
+                sixel_command += [f"--width={TERMINAL_WIDTH}"]
 
-        subprocess.run(sixel_command)
+            # print(sixel_command)
+
+            subprocess.run(sixel_command)
+
+        except Exception as e:
+            self.logger.error(e)
+            PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
 
     def gen_logo(self) -> str:
         TERMINAL_COLS, TERMINAL_LINES = get_terminal_size()
