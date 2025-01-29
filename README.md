@@ -47,3 +47,21 @@ Finally add all this information to the `resource/sources.json` file, the struct
 
 
 
+## Troubleshooting
+
+In case a station doesn't stop playing after the program has been exited then it may require some intervention.
+
+Run the following to find any processes associated with `ffplay`.
+
+```bash
+ps -aux | grep ffplay
+```
+
+Then identify the parent process and run:
+
+```bash
+kill -9 <process_id>
+```
+
+If successful the `ffplay` process should have been killed and sound will no longer play.
+
