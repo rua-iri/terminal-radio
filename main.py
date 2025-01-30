@@ -36,12 +36,23 @@ def initialise_logs(file_name: str):
         raise e
 
 
+def show_logs():
+    logger.info("Printing logs")
+    try:
+        file = open(LOGGING_FILE)
+        print(file.read())
+        file.close()
+    except Exception as e:
+        raise e
+
+
 def main():
     initialise_logs(LOGGING_FILE)
 
     cmd_dict = {
         "play": radio.main,
-        "update": update_sources.main
+        "update": update_sources.main,
+        "logs": show_logs,
     }
 
     args = dict(enumerate(sys.argv))
