@@ -65,3 +65,15 @@ kill -9 <process_id>
 
 If successful the `ffplay` process should have been killed and sound will no longer play.
 
+
+### Unable to fetch YouTube streams
+
+Sometimes the yt-dlp package will be out of date and unable to fetch links to the streams.
+
+To remedy this run the below command to update the package.
+
+```bash
+pip3 install "yt-dlp[default]" --upgrade
+```
+
+
