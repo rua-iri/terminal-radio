@@ -52,6 +52,13 @@ class DB_DAO:
 
         self.cursor.execute(query_string, (name, url, img, is_yt, True))
 
+    def get_last_station(self) -> int:
+        query_string: str = """SELECT * FROM last_station"""
+
+        result = self.cursor.execute(query_string, ())
+
+        return result.fetchone()['id']
+
 
 # For testing, remove later
 a = DB_DAO()
