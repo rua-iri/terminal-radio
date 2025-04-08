@@ -56,6 +56,14 @@ In order to change the image format so that it will display on all terminals, ch
 USE_SIXEL: false
 ```
 
+If you would like to check whether your terminal supports sixel images, then run the following.
+
+```bash
+./scripts/autodetect_sixel.sh
+```
+
+If no error messages are shown, then your terminal supports them and no changes to the config need to be made.
+
 ## Troubleshooting
 
 ### Stream won't stop / Still running in the background
@@ -86,11 +94,9 @@ To remedy this run the below command to update the package.
 pip3 install "yt-dlp[default]" --upgrade
 ```
 
-
-
 ## Autocompletion
 
-Autocompletion __should__ work automatically with bash.
+Autocompletion **should** work automatically with bash.
 
 With Zsh there is a slight ammount of manual work involved at the minute.
 
@@ -103,7 +109,6 @@ touch ~/.oh-my-zsh/custom/plugins/terminal_radio/terminal_radio.plugin.zsh
 ```
 
 Then add the following to your `.zshrc` file.
-
 
 ```zsh
 plugins=(
@@ -118,3 +123,10 @@ Then just update Zsh again and you should have autocompletion for the applicatio
 source ~/.zshrc
 ```
 
+## Uninstall
+
+To uninstall the application simply run the following.
+
+```bash
+./scripts/uninstall.sh
+```
