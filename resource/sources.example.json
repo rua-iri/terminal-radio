@@ -1,8 +1,8 @@
 [
   {
-    "name": "example",
-    "url": "https://example.com",
-    "img": "https://example.com/img/example_src.png",
+    "name": "BBC World Service",
+    "url": "https://a.files.bbci.co.uk/ms6/live/3441A116-B12E-4D2F-ACA8-C1984642FA4B/audio/simulcast/hls/nonuk/audio_syndication_low_sbr_v1/cfs/bbc_world_service.m3u8",
+    "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/BBC_World_Service_2022_(Boxed).svg/500px-BBC_World_Service_2022_(Boxed).svg.png",
     "isYT": false
   }
 ]
