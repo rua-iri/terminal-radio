@@ -1,10 +1,6 @@
 cd /opt/terminal_radio
 
-if [ ! -z $1 ]; then
-    CMD='play'
-else
-    CMD=$1
-fi
+CMD=${1:-play}
 
 
 
