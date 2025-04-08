@@ -5,10 +5,13 @@ VENV='.venv'
 PYTHON=$VENV/bin/python3
 PIP=$VENV/bin/pip3
 
-python3 -m venv $VENV
 echo "Installing Python Requirements"
+python3 -m venv $VENV
 $PIP install -r requirements.txt 1> /dev/null
 echo "Done\n\n"
+
+
+
 
 
 echo "Creating Necessary Files and Folders"
@@ -22,6 +25,8 @@ if [ ! -f resource/sources.json ]; then
 fi
 
 echo "Done\n\n"
+
+
 
 
 echo "Installing Packages"
@@ -43,6 +48,9 @@ fi
 sudo chown rory /opt/terminal_radio/
 
 echo "Done\n\n"
+
+
+sudo cp ./scripts/autocomplete.sh /usr/share/bash-completion/completions/_terminal_radio
 
 
 printf "\n\nSetup Complete! \n"

@@ -9,6 +9,10 @@ else
     echo "$OPT_DIR does not exist"
 fi
 
+
+sudo rm /usr/share/bash-completion/completions/_terminal_radio
+
+
 # remove the symbolic link
 if [ -L $SYM_LINK ]; then
     sudo rm $SYM_LINK
