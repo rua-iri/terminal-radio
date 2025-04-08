@@ -27,7 +27,7 @@ terminal_radio
 ## Add New Stations
 
 ```
-make update
+terminal_radio update
 ```
 
 Then enter the required data.
@@ -41,6 +41,20 @@ These will typically be a link to a file with the extension `.m3u8`.
 Then add the station's logo to the json file in `jpeg`, `png` or `webp` format.
 
 Finally add all this information to the `resource/sources.json` file, the structure is outlined in `resource/sources.example.json` and the new station will be available when the program next runs.
+
+### Change Image Display Type
+
+By default the config file specifes that the application should display images in the sixel format.
+
+There is an issue that many terminals do not yet support the sixel format, and so will not display anything when the image is rendered.
+
+More information can be found about this [here](https://www.arewesixelyet.com/).
+
+In order to change the image format so that it will display on all terminals, change the configuration file (`resource/config.yaml`) as follows.
+
+```
+USE_SIXEL: false
+```
 
 ## Troubleshooting
 
