@@ -83,3 +83,36 @@ To remedy this run the below command to update the package.
 ```bash
 pip3 install "yt-dlp[default]" --upgrade
 ```
+
+
+
+## Autocompletion
+
+Autocompletion __should__ work automatically with bash.
+
+With Zsh there is a slight ammount of manual work involved at the minute.
+
+I'm using [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) to manage plugins, so this is how I achieved it.
+
+```bash
+cp scripts/autocomplete.zsh ~/.oh-my-zsh/custom/plugins/terminal_radio/_terminal_radio
+
+touch ~/.oh-my-zsh/custom/plugins/terminal_radio/terminal_radio.plugin.zsh
+```
+
+Then add the following to your `.zshrc` file.
+
+
+```
+plugins=(
+    <other_plugins>
+    terminal_radio
+)
+```
+
+Then just update Zsh again and you should have autocompletion for the application.
+
+```
+source ~/.zshrc
+```
+
