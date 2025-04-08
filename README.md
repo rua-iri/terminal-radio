@@ -52,7 +52,7 @@ More information can be found about this [here](https://www.arewesixelyet.com/).
 
 In order to change the image format so that it will display on all terminals, change the configuration file (`resource/config.yaml`) as follows.
 
-```
+```yaml
 USE_SIXEL: false
 ```
 
