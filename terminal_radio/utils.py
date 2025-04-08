@@ -4,6 +4,7 @@ import inquirer
 import json
 
 from inquirer.themes import GreenPassion
+import yaml
 
 
 def load_sources() -> list:
@@ -70,3 +71,8 @@ def select_station(
 
 def clear_screen():
     subprocess.run(["clear"])
+
+
+def get_config():
+    with open('resource/config.yaml') as file:
+        return yaml.safe_load(file)

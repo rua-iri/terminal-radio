@@ -3,10 +3,11 @@ import logging
 import readchar
 
 from .classes import Player, PrintC, Station
-from .utils import load_sources, select_station, clear_screen
+from .utils import get_config, load_sources, select_station, clear_screen
 
 
 logger = logging.getLogger(__name__)
+config = get_config()
 
 current_station = None
 
@@ -51,11 +52,11 @@ def play_radio():
 
         logger.info("Rendering Image...")
         clear_screen()
-        station.display_sixel_image()
 
-        # TODO run this if the terminal is not capable
-        # of displaying a sixel image
-        # print(station.gen_logo())
+        if config.get("USE_SIXEL"):
+            station.display_sixel_image()
+        else:
+            station.display_default_logo()
 
         logger.info("Image Rendered")
 

@@ -102,6 +102,10 @@ class Station:
             self.logger.error(e)
             PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
 
+    def display_default_logo(self):
+        img_data = self.gen_logo()
+        print(img_data)
+
     def gen_logo(self) -> str:
         TERMINAL_COLS, TERMINAL_LINES = get_terminal_size()
         img_width: int = int(TERMINAL_COLS)
