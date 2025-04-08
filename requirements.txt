@@ -28,4 +28,4 @@ urllib3==2.2.3
 wcwidth==0.2.13
 websockets==13.0.1
 xmod==1.8.1
-yt-dlp==2025.2.19
+yt-dlp==2025.3.31
