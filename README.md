@@ -58,6 +58,8 @@ USE_SIXEL: false
 
 ## Troubleshooting
 
+### Stream won't stop / Still running in the background
+
 In case a station doesn't stop playing after the program has been exited then it may require some intervention.
 
 Run the following to find any processes associated with `ffplay`.
@@ -103,7 +105,7 @@ touch ~/.oh-my-zsh/custom/plugins/terminal_radio/terminal_radio.plugin.zsh
 Then add the following to your `.zshrc` file.
 
 
-```
+```zsh
 plugins=(
     <other_plugins>
     terminal_radio
