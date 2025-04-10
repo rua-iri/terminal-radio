@@ -48,7 +48,36 @@ fi
 
 sudo chown rory /opt/terminal_radio/
 sudo cp ./scripts/autocomplete.sh /usr/share/bash-completion/completions/_terminal_radio
-echo "Done\n\n"
+echo "Done\n\n\n\n"
 
 
-printf "\n\nSetup Complete! \n"
+
+final_output=$(cat << "EOF"
+\e[32m
+ _                      _             _                 _ _       
+| |                    (_)           | |               | (_)      
+| |_ ___ _ __ _ __ ___  _ _ __   __ _| |  _ __ __ _  __| |_  ___  
+| __/ _ | '__| '_ ` _ \| | '_ \ / _` | | | '__/ _` |/ _` | |/ _ \ 
+| ||  __| |  | | | | | | | | | | (_| | | | | | (_| | (_| | | (_) |
+ \__\___|_|  |_| |_| |_|_|_| |_|\__,_|_| |_|  \__,_|\__,_|_|\___/ 
+                                     ______                       
+                                    |______|                      
+\e[0m
+
+
+Setup Complete!
+
+
+\e[32mterminal_radio\e[0m - start the application
+\e[32mterminal_radio update\e[0m - Manage radio sources
+\e[32mterminal_radio logs\e[0m - View the application logs
+\e[32mterminal_radio show\e[0m - View the list of sources\n
+EOF
+)
+
+echo "$final_output"
+
+
+
+
+
