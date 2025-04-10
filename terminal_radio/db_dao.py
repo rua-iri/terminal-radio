@@ -59,6 +59,18 @@ class DB_DAO:
 
         return result.fetchone()['id']
 
+    def set_last_station(self, id: int) -> None:
+        query_string: str = """
+        SELECT *
+        FROM last_station
+        INNER JOIN stations
+        ON last_station.station_id = stations.id
+        ORDER BY last_station.id DESC
+        LIMIT 1;
+        """
+
+        self.cursor.execute(query_string, (id))
+
 
 # For testing, remove later
 a = DB_DAO()
