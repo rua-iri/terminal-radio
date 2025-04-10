@@ -22,4 +22,4 @@ else
 fi
 
 echo "\n\n\n"
-echo "Uninstal Complete"
+echo "Uninstall Complete"
