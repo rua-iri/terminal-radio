@@ -31,7 +31,9 @@ echo "Done\n\n"
 
 echo "Installing Packages"
 # Install ffmpeg (for ffplay)
-sudo apt install ffmpeg 1> /dev/null
+if ! dpkg -l ffmpeg >/dev/null; then
+    sudo apt install ffmpeg 1> /dev/null
+fi
 echo "Done\n\n"
 
 
