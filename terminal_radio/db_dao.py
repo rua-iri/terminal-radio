@@ -79,7 +79,12 @@ class DB_DAO:
 
         result = self.cursor.execute(query_string, ())
 
-        return result.fetchone()['name']
+        item = result.fetchone()
+
+        if item:
+            return item
+
+        return None
 
     def set_last_station(self, id: int) -> None:
         query_string: str = """
