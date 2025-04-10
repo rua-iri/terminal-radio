@@ -8,6 +8,7 @@ from os.path import dirname
 
 from terminal_radio import update_sources
 from terminal_radio import radio
+from terminal_radio.utils import show_stations
 
 
 LOGGING_FILE = f"logs/{time.strftime('%Y/%m')}/{time.strftime('%d-%m-%Y')}.log"
@@ -53,6 +54,7 @@ def main():
         "play": radio.main,
         "update": update_sources.main,
         "logs": show_logs,
+        "show": show_stations
     }
 
     args = dict(enumerate(sys.argv))

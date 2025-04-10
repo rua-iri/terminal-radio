@@ -1,4 +1,5 @@
 
+import json
 import subprocess
 import inquirer
 
@@ -36,3 +37,11 @@ def clear_screen():
 def get_config():
     with open('resource/config.yaml') as file:
         return yaml.safe_load(file)
+
+
+def show_stations():
+    from .db_dao import DB_DAO
+    db_dao = DB_DAO()
+
+    src_list: list = db_dao.select_all_stations()
+    print(json.dumps(src_list, indent=4))

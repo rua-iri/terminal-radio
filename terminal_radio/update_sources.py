@@ -1,4 +1,4 @@
-import json
+
 import logging
 import inquirer
 from inquirer.themes import GreenPassion
@@ -113,10 +113,6 @@ def move_station(src_list: list) -> list:
     return src_list
 
 
-def show_stations(src_list: list):
-    print(json.dumps(src_list, indent=4))
-
-
 def main():
     try:
         logger.info("Updating Sources Started")
@@ -128,7 +124,6 @@ def main():
             "2. Remove an existing source",
             "3. Edit an existing source",
             "4. Rearrange source list",
-            "5. View Sources",
         ]
 
         user_action: str = get_user_action(options_list)
@@ -146,9 +141,6 @@ def main():
 
         elif user_action == options_list[3]:
             src_list = move_station(src_list=src_list)
-
-        elif user_action == options_list[4]:
-            show_stations(src_list=src_list)
 
     except KeyboardInterrupt:
         print("Cancelled by user")

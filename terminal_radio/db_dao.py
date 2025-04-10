@@ -97,10 +97,10 @@ class DB_DAO:
         self.connection.commit()
 
 
-# For testing, remove later
-a = DB_DAO()
+if __name__ == "__main___":
+    # For testing, remove later
+    a = DB_DAO()
 
-
-# a.set_last_station(12)
-x = a.get_station_id("RTE Raidio Na Gaeltachta")
-print(x)
+    # a.set_last_station(12)
+    x = a.get_station_id("RTE Raidio Na Gaeltachta")
+    print(x)
