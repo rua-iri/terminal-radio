@@ -10,6 +10,7 @@
     </div>
 </div>
 
+
 ## Setup & Run
 
 > **_NOTE:_** This program currently runs on a linux machine running a debian based distribution
@@ -130,3 +131,17 @@ To uninstall the application simply run the following.
 ```bash
 ./scripts/uninstall.sh
 ```
+
+
+
+## Screenshots
+
+Selection                                                                                 | Playing
+:----------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------:
+![image](https://github.com/user-attachments/assets/bbaebef8-7f20-4d13-b7dd-b63b8d393098) | ![image](https://github.com/user-attachments/assets/c53b53d6-51f2-45f3-a99f-f4cc1f06ffa7)
+Update Selection                                                                          | Update Input
+![image](https://github.com/user-attachments/assets/f22a51fe-4fde-47e0-a3ac-faed6e11f16a) | ![image](https://github.com/user-attachments/assets/8613b424-91b8-476e-afe3-5d154a865ed4)
+
+
+
+
