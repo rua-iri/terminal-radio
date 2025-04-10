@@ -41,7 +41,11 @@ class Station:
 
         self.logger.info("Youtube Data: ", info)
 
-        yt_stream_url = info.get('formats')[0].get('url')
+        for video_format in info.get("formats"):
+            if video_format.get('resolution') == "audio only":
+                break
+
+        yt_stream_url = video_format.get('url')
 
         self.logger.info("Station Title: ", info.get('fulltitle'))
         self.logger.info("Station URL: ", yt_stream_url)
