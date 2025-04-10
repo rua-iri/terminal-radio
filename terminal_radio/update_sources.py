@@ -96,23 +96,6 @@ def edit_station(src_list: list) -> None:
         db_dao.update_station(station_id, **new_source)
 
 
-def move_station(src_list: list) -> list:
-    station_choice: dict = select_station(src_list=src_list)
-
-    station_position: int = src_list.index(
-        select_station(
-            src_list=src_list,
-            message="Before which Station would you like to place it"
-        )
-    )
-
-    if station_choice and station_position:
-        src_list.remove(station_choice)
-        src_list.insert(station_position, station_choice)
-
-    return src_list
-
-
 def main():
     try:
         logger.info("Updating Sources Started")
@@ -123,7 +106,6 @@ def main():
             "1. Add a new source",
             "2. Remove an existing source",
             "3. Edit an existing source",
-            "4. Rearrange source list",
         ]
 
         user_action: str = get_user_action(options_list)
@@ -139,11 +121,11 @@ def main():
         elif user_action == options_list[2]:
             edit_station(src_list=src_list)
 
-        elif user_action == options_list[3]:
-            src_list = move_station(src_list=src_list)
-
     except KeyboardInterrupt:
         print("Cancelled by user")
 
     except Exception as e:
         logger.error(e)
+
+    finally:
+        db_dao.close()

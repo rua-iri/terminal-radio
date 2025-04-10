@@ -10,7 +10,7 @@ from PIL import Image
 import requests
 from io import BytesIO
 
-from .utils import get_config
+from .utils import clear_screen, get_config
 
 
 class Station:
@@ -40,7 +40,7 @@ class Station:
 
         self.logger.info("Fetching Youtube Data")
 
-        with yt_dlp.YoutubeDL() as ydl:
+        with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
             info = ydl.extract_info(url, download=False)
 
         self.logger.info("Youtube Data: ", info)
@@ -136,6 +136,8 @@ class Station:
             return ""
 
     def display_image(self):
+        clear_screen()
+
         if self.USE_SIXEL:
             self.__display_sixel_image()
         else:
@@ -169,6 +171,11 @@ class Player:
     def restart(self, url):
         self.stop()
         self.play(url=url)
+
+    def display_options(self, station_name: str):
+        print("\nNow Playing: ", station_name, "\n")
+        PrintC().error("Press 'q' to return to the menu")
+        PrintC().info("Press 'r' to refresh the stream\n")
 
 
 class PrintC:

@@ -24,13 +24,6 @@ class DB_DAO:
 
         return station_list
 
-    def select_station_by_id(self, id: int) -> dict:
-        query_string: str = "SELECT * FROM stations WHERE id=?"
-        result = self.cursor.execute(query_string, (id, ))
-        results = result.fetchone()
-
-        return {**results}
-
     def get_station_id(self, name: str) -> int:
         query_string = "SELECT id FROM stations WHERE name = ?;"
         result = self.cursor.execute(query_string, (name,))
@@ -108,11 +101,5 @@ class DB_DAO:
                             )
         self.connection.commit()
 
-
-if __name__ == "__main___":
-    # For testing, remove later
-    a = DB_DAO()
-
-    # a.set_last_station(12)
-    x = a.get_station_id("RTE Raidio Na Gaeltachta")
-    print(x)
+    def close(self):
+        self.connection.close()
