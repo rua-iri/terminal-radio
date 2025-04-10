@@ -43,16 +43,16 @@ class DB_DAO:
                        url: str,
                        img: str,
                        is_yt: bool,
-                       is_active: bool
                        ):
         query_string: str = """UPDATE stations
-        SET name=?, url=?, img=?, is_yt=?, is_active=?
+        SET name=?, url=?, img=?, is_yt=?
         WHERE id=?"""
 
         self.cursor.execute(
             query_string,
-            (name, url, img, is_yt, is_active, id, )
+            (name, url, img, is_yt, id, )
         )
+        self.connection.commit()
 
     def delete_station(self, name: str):
         query_string: str = """UPDATE stations
@@ -100,9 +100,6 @@ class DB_DAO:
         (?, ?);
         """
         timestamp = int(time.time())
-
-        print(id)
-        print(timestamp)
 
         self.cursor.execute(query_string, (id, timestamp))
         self.connection.commit()
