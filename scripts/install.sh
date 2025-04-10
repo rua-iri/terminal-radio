@@ -46,7 +46,7 @@ if [ ! -L /usr/local/bin/terminal_radio ]; then
     sudo ln -s /opt/terminal_radio/scripts/run.sh /usr/local/bin/terminal_radio
 fi
 
-sudo chown rory /opt/terminal_radio/
+sudo chown $USER /opt/terminal_radio/
 sudo cp ./scripts/autocomplete.sh /usr/share/bash-completion/completions/_terminal_radio
 echo "Done\n\n\n\n"
 
