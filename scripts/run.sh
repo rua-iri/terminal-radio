@@ -1,3 +1,4 @@
+#!/bin/bash
 cd /opt/terminal_radio
 
 CMD=${1:-play}

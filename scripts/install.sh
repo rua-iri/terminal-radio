@@ -1,4 +1,4 @@
-
+#!/bin/bash
 
 # Set up Python virtual environment
 VENV='.venv'

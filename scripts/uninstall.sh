@@ -1,3 +1,4 @@
+#!/bin/bash
 
 OPT_DIR=/opt/terminal_radio/
 SYM_LINK=/usr/local/bin/terminal_radio
