@@ -13,15 +13,14 @@ echo "Done\n\n"
 
 
 
-
-echo "Creating Necessary Files and Folders"
 # Create necessary files and directories
-if [ ! -d logs ]; then 
+echo "Creating Necessary Files and Folders"
+if [ ! -d logs ]; then
     mkdir logs/
 fi
 
-if [ ! -f resource/sources.json ]; then
-    cp resource/sources.example.json resource/sources.json
+if [ ! -f resource/radio_sources.sqlite ]; then
+    sqlite3 resource/radio_sources.sqlite < resource/schema.sql
 fi
 
 echo "Done\n\n"
@@ -29,18 +28,18 @@ echo "Done\n\n"
 
 
 
-echo "Installing Packages"
 # Install ffmpeg (for ffplay)
+echo "Installing Packages"
 if ! dpkg -l ffmpeg >/dev/null; then
     sudo apt install ffmpeg 1> /dev/null
 fi
 echo "Done\n\n"
 
 
-echo "Moving to Installation Directory"
 
 # move to installation directory and set up
 # symbolic link to add to $PATH
+echo "Moving to Installation Directory"
 sudo cp -ar . /opt/terminal_radio
 
 if [ ! -L /usr/local/bin/terminal_radio ]; then 
@@ -48,11 +47,8 @@ if [ ! -L /usr/local/bin/terminal_radio ]; then
 fi
 
 sudo chown rory /opt/terminal_radio/
-
-echo "Done\n\n"
-
-
 sudo cp ./scripts/autocomplete.sh /usr/share/bash-completion/completions/_terminal_radio
+echo "Done\n\n"
 
 
 printf "\n\nSetup Complete! \n"
