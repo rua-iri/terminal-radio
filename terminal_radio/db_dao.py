@@ -27,6 +27,12 @@ class DB_DAO:
 
         return {**results}
 
+    def get_station_id(self, name: str) -> int:
+        query_string = "SELECT id FROM stations WHERE name = ?;"
+        result = self.cursor.execute(query_string, (name,))
+
+        return result.fetchone()['id']
+
     def update_station(self,
                        id: int,
                        name: str,
@@ -44,10 +50,10 @@ class DB_DAO:
             (name, url, img, is_yt, is_active, id, )
         )
 
-    def delete_station(self, id: int):
-        query_string: str = "DELETE FROM stations WHERE id=?"
+    def delete_station(self, name: str):
+        query_string: str = "DELETE FROM stations WHERE name=?"
 
-        self.cursor.execute(query_string, (id, ))
+        self.cursor.execute(query_string, (name, ))
         self.connection.commit()
 
     def create_station(self,
@@ -63,8 +69,8 @@ class DB_DAO:
         self.cursor.execute(query_string, (name, url, img, is_yt, True))
         self.connection.commit()
 
-    def get_last_station(self) -> int:
-        query_string: str = """SELECT *
+    def get_last_station(self) -> str:
+        query_string: str = """SELECT stations.name
         FROM last_station
         INNER JOIN stations
         ON last_station.station_id = stations.id
@@ -73,7 +79,7 @@ class DB_DAO:
 
         result = self.cursor.execute(query_string, ())
 
-        return result.fetchone()['id']
+        return result.fetchone()['name']
 
     def set_last_station(self, id: int) -> None:
         query_string: str = """
@@ -95,4 +101,6 @@ class DB_DAO:
 a = DB_DAO()
 
 
-a.set_last_station(12)
+# a.set_last_station(12)
+x = a.get_station_id("RTE Raidio Na Gaeltachta")
+print(x)

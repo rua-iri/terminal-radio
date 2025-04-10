@@ -3,13 +3,14 @@ import logging
 import readchar
 
 from .classes import Player, PrintC, Station
-from .utils import get_config, load_sources, select_station, clear_screen
-
+from .utils import get_config, select_station, clear_screen
+from .db_dao import DB_DAO
 
 logger = logging.getLogger(__name__)
 config = get_config()
 
-current_station = None
+
+db_dao = DB_DAO()
 
 
 def monitor_user_input(player: Player, station: Station):
@@ -29,13 +30,13 @@ def monitor_user_input(player: Player, station: Station):
 
 def play_radio():
     try:
-        global current_station
+        current_station = db_dao.get_last_station()
 
         clear_screen()
         player = Player()
 
         logger.info("Loading Sources...")
-        src_list: list = load_sources()
+        src_list: list = db_dao.select_all_stations()
         logger.info("Sources Loaded")
 
         station_data = select_station(
@@ -43,7 +44,8 @@ def play_radio():
             default=current_station
         )
 
-        current_station = station_data.get('name')
+        current_station_id = db_dao.get_station_id(station_data.get("name"))
+        db_dao.set_last_station(current_station_id)
 
         station: Station = Station(**station_data)
 

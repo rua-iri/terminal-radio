@@ -18,13 +18,13 @@ class Station:
             name: str,
             url: str,
             img: str,
-            isYT: bool
+            is_yt: bool
     ) -> None:
         self.logger = logging.getLogger(__name__)
 
-        self.isYT = isYT
+        self.is_yt = is_yt
 
-        if self.isYT:
+        if self.is_yt:
             self.name, self.url, self.img = self.__fetch_yt_data(url=url)
         else:
             self.name = name

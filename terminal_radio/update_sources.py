@@ -3,10 +3,13 @@ import logging
 import inquirer
 from inquirer.themes import GreenPassion
 
-from .utils import load_sources, save_sources, select_station
+from .utils import select_station
+from .db_dao import DB_DAO
 
 
 logger = logging.getLogger(__name__)
+
+db_dao = DB_DAO()
 
 
 def get_user_action(options_list: list) -> str:
@@ -50,9 +53,9 @@ def create_source(station_choice: dict = {}) -> dict:
             default=station_choice.get("img"),
         ),
         inquirer.Confirm(
-            "isYT",
+            "is_yt",
             message="Is your station a Youtube stream?",
-            default=station_choice.get("isYT"),
+            default=station_choice.get("is_yt"),
         ),
     ]
 
@@ -61,43 +64,36 @@ def create_source(station_choice: dict = {}) -> dict:
     return answers
 
 
-def add_new_station(src_list: list) -> list:
+def add_new_station() -> None:
     logger.info("Adding new Station")
     new_source: dict = create_source()
 
     logger.info(f"Station: {new_source}")
     if new_source:
-        src_list.append(new_source)
-
-    return src_list
+        db_dao.create_station(**new_source)
 
 
-def remove_station(src_list: list) -> list:
+def remove_station(src_list: list) -> None:
     logger.info("Removing Station")
     station_choice: dict = select_station(src_list=src_list)
 
     logger.info(f"Station: {station_choice}")
-    src_list.remove(station_choice)
-
-    return src_list
+    db_dao.delete_station(station_choice.get('name'))
 
 
-def edit_station(src_list: list) -> list:
+def edit_station(src_list: list) -> None:
     logger.info("Editing Station")
     station_choice: dict = select_station(src_list=src_list)
-    station_index: int = src_list.index(station_choice)
+    station_id: int = db_dao.get_station_id(station_choice.get('name'))
 
     logger.info(f"Station: {station_choice}")
-    logger.info(f"Index: {station_index}")
+    logger.info(f"Index: {station_id}")
 
     new_source: dict = create_source(station_choice=station_choice)
     logger.info(f"New Station: {station_choice}")
 
     if new_source:
-        src_list.remove(station_choice)
-        src_list.insert(station_index, new_source)
-
-    return src_list
+        db_dao.update_station(station_id, **new_source)
 
 
 def move_station(src_list: list) -> list:
@@ -124,7 +120,7 @@ def show_stations(src_list: list):
 def main():
     try:
         logger.info("Updating Sources Started")
-        src_list: list = load_sources()
+        src_list: list = db_dao.select_all_stations()
         logger.info("Source List loaded")
 
         options_list: list = [
@@ -140,21 +136,19 @@ def main():
         logger.info(f"User Action: {user_action}")
 
         if user_action == options_list[0]:
-            src_list = add_new_station(src_list=src_list)
+            add_new_station()
 
         elif user_action == options_list[1]:
-            src_list = remove_station(src_list=src_list)
+            remove_station(src_list=src_list)
 
         elif user_action == options_list[2]:
-            src_list = edit_station(src_list=src_list)
+            edit_station(src_list=src_list)
 
         elif user_action == options_list[3]:
             src_list = move_station(src_list=src_list)
 
         elif user_action == options_list[4]:
             show_stations(src_list=src_list)
-
-        save_sources(src_list)
 
     except KeyboardInterrupt:
         print("Cancelled by user")
