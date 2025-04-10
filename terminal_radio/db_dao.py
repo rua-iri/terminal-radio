@@ -11,7 +11,11 @@ class DB_DAO:
 
     def select_all_stations(self) -> list[dict]:
         station_list = []
-        query_string: str = "SELECT name, url, img, is_yt FROM stations"
+        query_string: str = """SELECT name,
+        url, img, is_yt
+        FROM stations
+        WHERE is_active=1"""
+
         result = self.cursor.execute(query_string)
         results = result.fetchall()
 
@@ -51,7 +55,9 @@ class DB_DAO:
         )
 
     def delete_station(self, name: str):
-        query_string: str = "DELETE FROM stations WHERE name=?"
+        query_string: str = """UPDATE stations
+        SET is_active=0
+        WHERE name=?"""
 
         self.cursor.execute(query_string, (name, ))
         self.connection.commit()
