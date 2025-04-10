@@ -92,8 +92,10 @@ class DB_DAO:
 
         return None
 
-    def set_last_station(self, id: int) -> None:
-        query_string: str = """
+    def set_last_station(self, name: str) -> None:
+        current_station_id = self.get_station_id(name)
+
+        insert_query_string: str = """
         INSERT INTO last_station
         (station_id, timestamp)
         VALUES
@@ -101,7 +103,9 @@ class DB_DAO:
         """
         timestamp = int(time.time())
 
-        self.cursor.execute(query_string, (id, timestamp))
+        self.cursor.execute(insert_query_string,
+                            (current_station_id, timestamp)
+                            )
         self.connection.commit()
 
 

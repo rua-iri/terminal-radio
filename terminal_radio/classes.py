@@ -10,6 +10,8 @@ from PIL import Image
 import requests
 from io import BytesIO
 
+from .utils import get_config
+
 
 class Station:
 
@@ -21,6 +23,8 @@ class Station:
             is_yt: bool
     ) -> None:
         self.logger = logging.getLogger(__name__)
+        config = get_config()
+        self.USE_SIXEL = config.get("USE_SIXEL")
 
         self.is_yt = is_yt
 
@@ -78,7 +82,7 @@ class Station:
             TERMINAL_LINES * COLS_PX_SCALE
         )
 
-    def display_sixel_image(self):
+    def __display_sixel_image(self):
 
         try:
             TERMINAL_WIDTH, TERMINAL_HEIGHT = self.__calc_terminal_size()
@@ -106,7 +110,7 @@ class Station:
             self.logger.error(e)
             PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
 
-    def display_default_logo(self):
+    def __display_default_logo(self):
         img_data = self.gen_logo()
         print(img_data)
 
@@ -130,6 +134,12 @@ class Station:
             self.logger.error(e)
             PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
             return ""
+
+    def display_image(self):
+        if self.USE_SIXEL:
+            self.__display_sixel_image()
+        else:
+            self.__display_default_logo()
 
 
 class Player:
