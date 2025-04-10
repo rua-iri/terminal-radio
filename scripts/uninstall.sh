@@ -7,7 +7,7 @@ SYM_LINK=/usr/local/bin/terminal_radio
 if [ -d $OPT_DIR ]; then
     sudo rm $OPT_DIR -rf
 else
-    echo "$OPT_DIR does not exist"
+    printf "$OPT_DIR does not exist\n"
 fi
 
 
@@ -18,8 +18,8 @@ sudo rm /usr/share/bash-completion/completions/_terminal_radio
 if [ -L $SYM_LINK ]; then
     sudo rm $SYM_LINK
 else
-    echo "$SYM_LINK does not exist"
+    printf "$SYM_LINK does not exist\n"
 fi
 
-echo "\n\n\n"
-echo "Uninstall Complete"
+printf "\n\n\n"
+printf "Uninstall Complete\n\n"

@@ -53,7 +53,7 @@ def play_radio():
         station.display_image()
         logger.info("Image Rendered")
 
-        print("\n", "Now Playing: ", station.name, "\n")
+        print("\nNow Playing: ", station.name, "\n")
         PrintC().error("Press 'q' to return to the menu")
         PrintC().info("Press 'r' to refresh the stream\n")
 
@@ -67,7 +67,6 @@ def play_radio():
         if "player" in vars():
             player.stop()
 
-        clear_screen()
         exit()
 
     except Exception as e:
