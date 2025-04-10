@@ -1,22 +1,31 @@
 import sqlite3
+import time
 
 
 class DB_DAO:
 
     def __init__(self):
-        connection = sqlite3.connect("resource/radio_sources.sqlite")
-        connection.row_factory = sqlite3.Row
-        self.cursor = connection.cursor()
+        self.connection = sqlite3.connect("resource/radio_sources.sqlite")
+        self.connection.row_factory = sqlite3.Row
+        self.cursor = self.connection.cursor()
 
-    def select_all_stations(self) -> list[sqlite3.Row]:
-        query_string: str = "SELECT id, name FROM stations"
+    def select_all_stations(self) -> list[dict]:
+        station_list = []
+        query_string: str = "SELECT name, url, img, is_yt FROM stations"
         result = self.cursor.execute(query_string)
-        return result.fetchall()
+        results = result.fetchall()
 
-    def select_station_by_id(self, id: int) -> sqlite3.Row:
+        for item in results:
+            station_list.append({**item})
+
+        return station_list
+
+    def select_station_by_id(self, id: int) -> dict:
         query_string: str = "SELECT * FROM stations WHERE id=?"
         result = self.cursor.execute(query_string, (id, ))
-        return result.fetchone()
+        results = result.fetchone()
+
+        return {**results}
 
     def update_station(self,
                        id: int,
@@ -39,6 +48,7 @@ class DB_DAO:
         query_string: str = "DELETE FROM stations WHERE id=?"
 
         self.cursor.execute(query_string, (id, ))
+        self.connection.commit()
 
     def create_station(self,
                        name: str,
@@ -51,9 +61,15 @@ class DB_DAO:
         VALUES (?, ?, ?, ?, ?)"""
 
         self.cursor.execute(query_string, (name, url, img, is_yt, True))
+        self.connection.commit()
 
     def get_last_station(self) -> int:
-        query_string: str = """SELECT * FROM last_station"""
+        query_string: str = """SELECT *
+        FROM last_station
+        INNER JOIN stations
+        ON last_station.station_id = stations.id
+        ORDER BY last_station.id DESC
+        LIMIT 1;"""
 
         result = self.cursor.execute(query_string, ())
 
@@ -61,24 +77,22 @@ class DB_DAO:
 
     def set_last_station(self, id: int) -> None:
         query_string: str = """
-        SELECT *
-        FROM last_station
-        INNER JOIN stations
-        ON last_station.station_id = stations.id
-        ORDER BY last_station.id DESC
-        LIMIT 1;
+        INSERT INTO last_station
+        (station_id, timestamp)
+        VALUES
+        (?, ?);
         """
+        timestamp = int(time.time())
 
-        self.cursor.execute(query_string, (id))
+        print(id)
+        print(timestamp)
+
+        self.cursor.execute(query_string, (id, timestamp))
+        self.connection.commit()
 
 
 # For testing, remove later
 a = DB_DAO()
 
-x = a.select_all_stations()
-for z in x:
-    print(z['name'])
 
-y = a.select_station_by_id(id=10)
-print(y)
-print({**y})
+a.set_last_station(12)
