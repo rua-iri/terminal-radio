@@ -33,6 +33,10 @@ echo "Installing Packages"
 if ! dpkg -l ffmpeg >/dev/null; then
     sudo apt install ffmpeg 1> /dev/null
 fi
+
+if ! dpkg -l sqlite3 >/dev/null; then
+    sudo apt install sqlite3 1> /dev/null
+fi
 echo "Done\n\n"
 
 
