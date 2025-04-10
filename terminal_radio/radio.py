@@ -46,6 +46,8 @@ def play_radio():
 
         current_station_id = db_dao.get_station_id(station_data.get("name"))
         db_dao.set_last_station(current_station_id)
+        logger.info(f"Current Station: {current_station}")
+        logger.info(f"Current Station id: {current_station_id}")
 
         station: Station = Station(**station_data)
 

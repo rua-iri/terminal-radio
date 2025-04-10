@@ -88,7 +88,7 @@ class DB_DAO:
         item = result.fetchone()
 
         if item:
-            return item
+            return item['name']
 
         return None
 
