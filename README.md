@@ -10,7 +10,6 @@
     </div>
 </div>
 
-
 ## Setup & Run
 
 > **_NOTE:_** This program currently runs on a linux machine running a debian based distribution
@@ -39,9 +38,23 @@ In order to add new stations to the program you first have to find the link to s
 
 These will typically be a link to a file with the extension `.m3u8`.
 
-Then add the station's logo to the json file in `jpeg`, `png` or `webp` format.
+Then find a link to the station's logo in `jpeg`, `png` or `webp` format.
 
-Finally add all this information to the `resource/sources.json` file, the structure is outlined in `resource/sources.example.json` and the new station will be available when the program next runs.
+Finally, add all this information by excecuting a query on the database directly.
+
+```bash
+sqlite3 resource/radio_sources.sqlite
+```
+
+```SQL
+INSERT INTO stations (name, url, img, is_yt, is_active) VALUES (<name>, <url>, <img>, <is_yt>, 1)
+```
+
+Then copy the updated database file to your installation directory.
+
+```bash
+cp resource/radio_sources.sqlite /opt/terminal_radio/resource/radio_sources.sqlite
+```
 
 ### Change Image Display Type
 
@@ -132,16 +145,10 @@ To uninstall the application simply run the following.
 ./scripts/uninstall.sh
 ```
 
-
-
 ## Screenshots
 
-Selection                                                                                 | Playing
-:----------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------:
-![image](https://github.com/user-attachments/assets/bbaebef8-7f20-4d13-b7dd-b63b8d393098) | ![image](https://github.com/user-attachments/assets/c53b53d6-51f2-45f3-a99f-f4cc1f06ffa7)
-Update Selection                                                                          | Update Input
-![image](https://github.com/user-attachments/assets/f22a51fe-4fde-47e0-a3ac-faed6e11f16a) | ![image](https://github.com/user-attachments/assets/8613b424-91b8-476e-afe3-5d154a865ed4)
-
-
-
-
+|                                         Station Selection                                         |                                          Playing                                          |
+| :---------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
+| ![image](https://github.com/user-attachments/assets/bbaebef8-7f20-4d13-b7dd-b63b8d393098) | ![image](https://github.com/user-attachments/assets/c53b53d6-51f2-45f3-a99f-f4cc1f06ffa7) |
+|                                     Update Selection                                      |                                       Update Input                                        |
+| ![image](https://github.com/user-attachments/assets/f22a51fe-4fde-47e0-a3ac-faed6e11f16a) | ![image](https://github.com/user-attachments/assets/8613b424-91b8-476e-afe3-5d154a865ed4) |
