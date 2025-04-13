@@ -5,7 +5,7 @@ VENV='.venv'
 PYTHON=$VENV/bin/python3
 PIP=$VENV/bin/pip3
 
-printf "Installing Python Requirements"
+printf "Installing Python Requirements: "
 python3 -m venv $VENV
 $PIP install -r requirements.txt 1> /dev/null
 printf "Done\n\n"
@@ -14,7 +14,7 @@ printf "Done\n\n"
 
 
 # Create necessary files and directories
-printf "Creating Necessary Files and Folders"
+printf "Creating Necessary Files and Folders: "
 if [ ! -d logs ]; then
     mkdir logs/
 fi
@@ -29,7 +29,7 @@ printf "Done\n\n"
 
 
 # Install ffmpeg (for ffplay)
-printf "Installing Packages"
+printf "Installing Packages: "
 if ! dpkg -l ffmpeg >/dev/null; then
     sudo apt install ffmpeg 1> /dev/null
 fi
@@ -43,7 +43,7 @@ printf "Done\n\n"
 
 # move to installation directory and set up
 # symbolic link to add to $PATH
-printf "Moving to Installation Directory"
+printf "Moving to Installation Directory: "
 sudo cp -ar . /opt/terminal_radio
 
 if [ ! -L /usr/local/bin/terminal_radio ]; then 
