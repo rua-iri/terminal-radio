@@ -1,2 +1,5 @@
 USE_SIXEL: true
 # USE_SIXEL: false
+
+DEBUG: false
+# DEBUG: true

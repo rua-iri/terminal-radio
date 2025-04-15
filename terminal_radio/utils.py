@@ -31,6 +31,12 @@ def select_station(
 
 
 def clear_screen():
+    config = get_config()
+    DEBUG = config.get("DEBUG")
+
+    if DEBUG:
+        return
+
     subprocess.run(["clear"])
 
 
