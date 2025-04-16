@@ -24,6 +24,12 @@ cd terminal-radio
 terminal_radio
 ```
 
+### Download the Zipped Package
+
+Alternatively you can download latest release for a more stable experience from GitHub itself.
+
+[From the link here](https://github.com/rua-iri/terminal-radio/releases/latest)
+
 ## Add New Stations
 
 ```
