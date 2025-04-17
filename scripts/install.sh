@@ -1,5 +1,13 @@
 #!/bin/bash
 
+
+# Install ffmpeg (for ffplay)
+printf "Installing Packages: "
+sudo apt install ffmpeg sqlite3 python3-venv python3-pip
+printf "Done\n\n"
+
+
+
 # Set up Python virtual environment
 VENV='.venv'
 PYTHON=$VENV/bin/python3
@@ -25,19 +33,6 @@ fi
 
 printf "Done\n\n"
 
-
-
-
-# Install ffmpeg (for ffplay)
-printf "Installing Packages: "
-if ! dpkg -l ffmpeg >/dev/null; then
-    sudo apt install ffmpeg 1> /dev/null
-fi
-
-if ! dpkg -l sqlite3 >/dev/null; then
-    sudo apt install sqlite3 1> /dev/null
-fi
-printf "Done\n\n"
 
 
 
