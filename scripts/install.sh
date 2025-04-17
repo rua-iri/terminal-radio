@@ -1,9 +1,9 @@
 #!/bin/bash
-
+set -e
 
 # Install ffmpeg (for ffplay)
 printf "Installing Packages: "
-sudo apt install ffmpeg sqlite3 python3-venv python3-pip
+sudo apt install ffmpeg sqlite3 python3-venv python3-pip libsixel-bin
 printf "Done\n\n"
 
 
