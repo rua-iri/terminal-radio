@@ -3,7 +3,12 @@ set -e
 
 # Install ffmpeg (for ffplay)
 printf "Installing Packages: "
-sudo apt install ffmpeg sqlite3 python3-venv python3-pip libsixel-bin
+if [ -f /etc/debian_version ];
+    sudo apt install ffmpeg sqlite3 python3-venv python3-pip libsixel-bin
+else
+    echo "OS not currently supported"
+    exit 1
+fi
 printf "Done\n\n"
 
 
