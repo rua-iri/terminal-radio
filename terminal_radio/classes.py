@@ -4,6 +4,8 @@ import logging
 from os import get_terminal_size, getpgid, killpg, setsid
 import signal
 import subprocess
+import sys
+import time
 from colorama import Fore, Style
 import climage
 from PIL import Image
@@ -194,3 +196,24 @@ class PrintC:
     def success(self, message):
         print(Fore.GREEN + Style.BRIGHT + message)
         self.__reset()
+
+
+class LoadingIcon:
+    def __init__(self):
+        self.cursor_symbol = '|/-\\'
+
+    def get_current_symbol(self, count: int):
+        current_index = count % len(self.cursor_symbol)
+        return self.cursor_symbol[current_index]
+
+    def animate(self):
+        for i in range(20):
+            current_cursor = self.get_current_symbol(i)
+
+            sys.stdout.write(current_cursor)
+            sys.stdout.flush()
+            time.sleep(0.1)
+            sys.stdout.write("\b")
+
+    def stop():
+        raise NotImplementedError("Method not yet implemented")
