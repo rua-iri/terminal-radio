@@ -6,7 +6,7 @@ printf "Installing Packages: "
 if [ -f /etc/debian_version ]; then
     sudo apt install ffmpeg sqlite3 python3-venv python3-pip libsixel-bin
 elif [ -f /etc/fedora-release ]; then
-    sudo dnf install ffmpeg sqlite3 python3-pip libsixel
+    sudo dnf install ffmpeg sqlite3 python3-pip libsixel libsixel-utils
 elif [-f /etc/arch-release ]; then
     sudo pacman -Syu gcc python3 python-pipenv ffmpeg libsixel
 else
