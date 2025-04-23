@@ -201,19 +201,26 @@ class PrintC:
 class LoadingIcon:
     def __init__(self):
         self.cursor_symbol = '|/-\\'
+        self.stop_animation = False
 
     def get_current_symbol(self, count: int):
         current_index = count % len(self.cursor_symbol)
         return self.cursor_symbol[current_index]
 
     def animate(self):
-        for i in range(20):
-            current_cursor = self.get_current_symbol(i)
+        current_index = 0
+        while not self.stop_animation:
+            current_cursor = self.get_current_symbol(current_index)
 
             sys.stdout.write(current_cursor)
             sys.stdout.flush()
             time.sleep(0.1)
             sys.stdout.write("\b")
 
-    def stop():
-        raise NotImplementedError("Method not yet implemented")
+            current_index += 1
+
+    def stop(self):
+        # raise NotImplementedError("Method not yet implemented")
+        self.stop_animation = True
+        time.sleep(1)
+        self.stop_animation = False

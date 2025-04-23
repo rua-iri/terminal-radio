@@ -1,8 +1,9 @@
 
 import logging
+import threading
 import readchar
 
-from .classes import Player, Station
+from .classes import LoadingIcon, Player, Station
 from .utils import select_station, clear_screen
 from .db_dao import DB_DAO
 
@@ -29,6 +30,8 @@ def monitor_user_input(player: Player, station: Station):
 def play_radio():
     try:
         clear_screen()
+        loading_icon = LoadingIcon()
+        loading_thread = threading.Thread(target=loading_icon.animate)
         player = Player()
         current_station = db_dao.get_last_station()
 
@@ -41,7 +44,12 @@ def play_radio():
 
         db_dao.set_last_station(station_data.get("name"))
 
+        loading_thread.start()
+
         station: Station = Station(**station_data)
+
+        loading_icon.stop()
+        loading_thread.join()
 
         logger.info(f"Station Selected: {station.name}")
         logger.info(f"Station Source: {station.url}")
@@ -64,6 +72,7 @@ def play_radio():
     except Exception as e:
         player.stop()
         logger.error(e)
+        loading_icon.stop()
 
 
 def main():
