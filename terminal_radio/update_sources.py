@@ -14,6 +14,14 @@ db_dao = DB_DAO()
 
 
 def get_user_action(options_list: list) -> str:
+    """Determine the desired action by the user
+
+    Args:
+        options_list (list): A list of all options available to the user
+
+    Returns:
+        str: the action chosen by the user
+    """
     questions: list = [
         inquirer.List(
             "action",
@@ -60,6 +68,8 @@ def create_source(station_choice: dict = {}) -> dict:
 
 
 def add_new_station() -> None:
+    """Add a new station to the database
+    """
     logger.info("Adding new Station")
     new_source: dict = create_source()
 
@@ -69,6 +79,11 @@ def add_new_station() -> None:
 
 
 def remove_station(src_list: list) -> None:
+    """Delete a station from the database (Soft Delete)
+
+    Args:
+        src_list (list): A list of all the stations pulled from the database
+    """
     logger.info("Removing Station")
     station_choice: dict = select_station(src_list=src_list)
 
@@ -77,6 +92,11 @@ def remove_station(src_list: list) -> None:
 
 
 def edit_station(src_list: list) -> None:
+    """Edit an existing station in the database
+
+    Args:
+        src_list (list): A list of all the stations pulled from the database
+    """
     logger.info("Editing Station")
     station_choice: dict = select_station(src_list=src_list)
     station_id: int = db_dao.get_station_id(station_choice.get('name'))
