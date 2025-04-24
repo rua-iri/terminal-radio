@@ -2,6 +2,7 @@
 import logging
 import inquirer
 from inquirer.themes import GreenPassion
+import prompt_toolkit
 
 from .utils import select_station
 from .db_dao import DB_DAO
@@ -36,30 +37,24 @@ def create_source(station_choice: dict = {}) -> dict:
         dict: The answers submitted by the user in a dictionary
     """
 
-    questions = [
-        inquirer.Text(
-            name="name",
-            message="What is your station name?",
-            default=station_choice.get("name"),
+    answers = {
+        "name": prompt_toolkit.prompt(
+            message="What is your station name? : ",
+            default=station_choice.get("name") or '',
         ),
-        inquirer.Text(
-            name="url",
-            message="What is your station's url?",
-            default=station_choice.get("url"),
+        "url": prompt_toolkit.prompt(
+            message="What is your station's url? : ",
+            default=station_choice.get("url") or '',
         ),
-        inquirer.Text(
-            name="img",
-            message="What is your station's logo (the url)?",
-            default=station_choice.get("img"),
+        "img": prompt_toolkit.prompt(
+            message="What is your station's logo (the url)? : ",
+            default=station_choice.get("img") or '',
         ),
-        inquirer.Confirm(
-            "is_yt",
-            message="Is your station a Youtube stream?",
-            default=station_choice.get("is_yt"),
-        ),
-    ]
-
-    answers = inquirer.prompt(questions=questions)
+        "is_yt": prompt_toolkit.shortcuts.yes_no_dialog(
+            title='Youtube Stream',
+            text='Is your source a Youtube Stream?'
+        ).run()
+    }
 
     return answers
 
