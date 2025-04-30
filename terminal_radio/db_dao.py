@@ -101,5 +101,36 @@ class DB_DAO:
                             )
         self.connection.commit()
 
+    def get_stats_top_5(self):
+        select_query_string: str = """
+        SELECT stations.name, 
+        count(*) AS play_count 
+        FROM last_station 
+        INNER JOIN stations 
+        ON last_station.station_id = stations.id 
+        GROUP BY station_id 
+        ORDER BY play_count DESC
+        LIMIT 5;
+        """
+
+        result = self.cursor.execute(select_query_string)
+
+        return result.fetchall()
+
     def close(self):
         self.connection.close()
+
+
+if __name__ == "__main__":
+    db_dao = DB_DAO()
+
+    res = db_dao.get_stats_top_5()
+    print(res)
+    for r in res:
+        print(r.keys())
+        x = {
+            'station_id': r['station_id'],
+            'name': r['name'],
+            'play_count': r['play_count']
+        }
+        print(x)

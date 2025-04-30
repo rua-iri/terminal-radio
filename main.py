@@ -6,7 +6,7 @@ import time
 from os import makedirs
 from os.path import dirname
 
-from terminal_radio import update_sources
+from terminal_radio import statistics, update_sources
 from terminal_radio import radio
 from terminal_radio.utils import show_stations
 
@@ -54,7 +54,8 @@ def main():
         "play": radio.main,
         "update": update_sources.main,
         "logs": show_logs,
-        "show": show_stations
+        "show": show_stations,
+        "stats": statistics.main
     }
 
     args = dict(enumerate(sys.argv))
