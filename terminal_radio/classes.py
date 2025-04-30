@@ -171,8 +171,18 @@ class Player:
         self.process_id = None
 
     def restart(self, url):
+        message = "Refreshing Station..."
+        sys.stdout.write(message)
+        sys.stdout.flush()
+
         self.stop()
         self.play(url=url)
+
+        time.sleep(1)
+
+        clear_message = " " * len(message)
+        clear_message = "\r" + clear_message + "\r"
+        sys.stdout.write(clear_message)
 
     def display_options(self, station_name: str):
         print("\nNow Playing: ", station_name, "\n")
