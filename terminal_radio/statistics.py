@@ -6,7 +6,7 @@ from tabulate import tabulate
 
 def show_table(stats_list: list):
     headers = stats_list[0].keys()
-    table = tabulate(stats_list, headers=headers)
+    table = tabulate(stats_list, headers=headers, tablefmt="fancy_grid")
     print(table)
 
 

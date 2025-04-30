@@ -103,13 +103,13 @@ class DB_DAO:
 
     def get_stats_top_5(self):
         select_query_string: str = """
-        SELECT stations.name,
-        count(*) AS play_count
+        SELECT stations.name as 'Station Name',
+        count(*) AS 'Play Count'
         FROM last_station
         INNER JOIN stations
         ON last_station.station_id = stations.id
         GROUP BY station_id
-        ORDER BY play_count DESC
+        ORDER BY 'Play Count' DESC
         LIMIT 5;
         """
 
