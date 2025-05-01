@@ -2,6 +2,7 @@
 import json
 import subprocess
 import inquirer
+from pydoc import pager as print_less
 
 from inquirer.themes import GreenPassion
 import yaml
@@ -50,4 +51,4 @@ def show_stations():
     db_dao = DB_DAO()
 
     src_list: list = db_dao.select_all_stations()
-    print(json.dumps(src_list, indent=4))
+    print_less(json.dumps(src_list, indent=4))
