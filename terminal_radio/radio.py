@@ -9,8 +9,6 @@ from .db_dao import DB_DAO
 
 logger = logging.getLogger(__name__)
 
-db_dao = DB_DAO()
-
 
 def monitor_user_input(player: Player, station: Station):
     while True:
@@ -30,6 +28,7 @@ def monitor_user_input(player: Player, station: Station):
 def play_radio():
     try:
         clear_screen()
+        db_dao = DB_DAO()
         loading_icon = LoadingIcon()
         loading_thread = threading.Thread(target=loading_icon.animate)
         player = Player()
@@ -59,6 +58,7 @@ def play_radio():
         player.display_options(station.name)
         player.play(url=station.url)
         logger.info("Playing Radio")
+        db_dao.close()
 
         monitor_user_input(player=player, station=station)
 
@@ -66,7 +66,6 @@ def play_radio():
         if "player" in vars():
             player.stop()
 
-        db_dao.close()
         exit()
 
     except Exception as e:
