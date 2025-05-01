@@ -171,7 +171,7 @@ class Player:
         self.process_id = None
 
     def restart(self, url):
-        message = "Refreshing Station..."
+        message = "Refreshing Stream..."
         sys.stdout.write(message)
         sys.stdout.flush()
 
