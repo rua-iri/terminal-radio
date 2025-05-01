@@ -80,7 +80,8 @@ Setup Complete!
 \e[32mterminal_radio update\e[0m - Manage radio sources
 \e[32mterminal_radio logs\e[0m - View the application logs
 \e[32mterminal_radio show\e[0m - View the list of sources
-\e[32mterminal_radio stats\e[0m - View the most listened to stations\n
+\e[32mterminal_radio stats\e[0m - View the most listened to stations
+\e[32mterminal_radio help\e[0m - View the help menu\n
 EOF
 )
 

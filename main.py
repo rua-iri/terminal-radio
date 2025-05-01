@@ -8,6 +8,7 @@ from os.path import dirname
 
 from terminal_radio import statistics, update_sources
 from terminal_radio import radio
+from terminal_radio.classes import PrintC
 from terminal_radio.utils import show_stations
 
 
@@ -47,6 +48,19 @@ def show_logs():
         raise e
 
 
+def show_help():
+    help_statement: str = """
+play - Run the application to listen to radio stations
+update - Update the list of available stations
+logs - View the application's logs to debug issues
+show - Show a JSON formatted list of the currently available stations
+stats - Show the top 5 stations by play count
+help - Display this help menu
+"""
+
+    print(help_statement)
+
+
 def main():
     initialise_logs(LOGGING_FILE)
 
@@ -55,7 +69,8 @@ def main():
         "update": update_sources.main,
         "logs": show_logs,
         "show": show_stations,
-        "stats": statistics.main
+        "stats": statistics.main,
+        "help": show_help
     }
 
     args = dict(enumerate(sys.argv))
@@ -65,7 +80,9 @@ def main():
         cmd_dict[user_cmd]()
 
     else:
-        print(f"Error: command '{user_cmd}' not found")
+        print(f"Error: command '{user_cmd}' not found\n")
+        print("Run the following to view a list of available command\n")
+        PrintC().info("terminal_radio help")
 
 
 if __name__ == "__main__":
