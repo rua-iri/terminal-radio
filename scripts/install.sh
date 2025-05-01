@@ -48,7 +48,14 @@ printf "Done\n\n"
 # move to installation directory and set up
 # symbolic link to add to $PATH
 printf "Moving to Installation Directory: "
-sudo cp -ar . /opt/terminal_radio
+
+# prevent overwriting the database
+if [ -f /opt/terminal_radio/resource/radio_sources.sqlite ]; then 
+    sudo rsync -av --exclude='resource/radio_sources.sqlite' . /opt/terminal_radio
+else
+    sudo rsync -av . /opt/terminal_radio
+fi
+
 
 if [ ! -L /usr/local/bin/terminal_radio ]; then 
     sudo ln -s /opt/terminal_radio/scripts/run.sh /usr/local/bin/terminal_radio
