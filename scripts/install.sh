@@ -8,7 +8,7 @@ if [ -f /etc/debian_version ]; then
 elif [ -f /etc/fedora-release ]; then
     sudo dnf install ffmpeg sqlite3 python3-pip libsixel libsixel-utils
 elif [ -f /etc/arch-release ]; then
-    sudo pacman -Syu gcc python3 python-pipenv ffmpeg libsixel
+    sudo pacman -Syu gcc python3 python-pipenv ffmpeg libsixel rsync
 else
     echo "OS not currently supported"
     exit 1
