@@ -149,7 +149,7 @@ class Station:
 class Player:
 
     def __init__(self) -> None:
-        self.__cmd = "ffplay {} -nodisp -loglevel quiet -infbuf"
+        self.__cmd = "mpv -no-video {}"
         self.process_id = None
 
     def play(self, url):

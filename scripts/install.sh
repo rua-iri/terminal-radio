@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-# Install ffmpeg (for ffplay)
+# Install required packages
 printf "Installing Packages: "
 if [ -f /etc/debian_version ]; then
-    sudo apt install ffmpeg sqlite3 python3-venv python3-pip libsixel-bin
+    sudo apt install mpv sqlite3 python3-venv python3-pip libsixel-bin
 elif [ -f /etc/fedora-release ]; then
-    sudo dnf install ffmpeg sqlite3 python3-pip libsixel libsixel-utils
+    sudo dnf install mpv sqlite3 python3-pip libsixel libsixel-utils
 elif [ -f /etc/arch-release ]; then
-    sudo pacman -Syu gcc python3 python-pipenv ffmpeg libsixel rsync
+    sudo pacman -Syu gcc python3 python-pipenv mpv libsixel rsync
 else
     echo "OS not currently supported"
     exit 1
