@@ -5,18 +5,18 @@ SYM_LINK=/usr/local/bin/terminal_radio
 
 # remove the code from /opt/
 if [ -d $OPT_DIR ]; then
-    sudo rm $OPT_DIR -rf
+    sudo rm $OPT_DIR -rfi
 else
     printf "$OPT_DIR does not exist\n"
 fi
 
 
-sudo rm /usr/share/bash-completion/completions/_terminal_radio
+sudo rm -i /usr/share/bash-completion/completions/_terminal_radio
 
 
 # remove the symbolic link
 if [ -L $SYM_LINK ]; then
-    sudo rm $SYM_LINK
+    sudo rm -i $SYM_LINK
 else
     printf "$SYM_LINK does not exist\n"
 fi
