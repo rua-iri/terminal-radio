@@ -12,7 +12,7 @@
 
 ## Setup & Run
 
-> **_NOTE:_** This program currently runs on a linux machine running a debian based distribution
+> **_NOTE:_** This program currently runs on **Linux only**, and only supports the Ubuntu/Debian, Arch & Fedora distributions
 
 ```bash
 git clone https://github.com/rua-iri/terminal-radio
