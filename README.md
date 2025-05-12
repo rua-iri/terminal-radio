@@ -6,7 +6,7 @@
     </div>
   <br/>
   <div>
-<img src="https://github.com/user-attachments/assets/ca77fffc-ccf9-485d-bc17-9c0d7210f584" alt=terminal-radio logo" width="45%" />
+<img src="https://github.com/user-attachments/assets/682c17ce-ff52-478d-88d5-7404c27f2af8" alt=terminal-radio logo" width="45%" />
     </div>
 </div>
 
