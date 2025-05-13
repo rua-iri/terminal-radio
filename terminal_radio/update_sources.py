@@ -4,6 +4,8 @@ import inquirer
 from inquirer.themes import GreenPassion
 import prompt_toolkit
 
+from terminal_radio.classes import YesNoValidator
+
 from .utils import select_station
 from .db_dao import DB_DAO
 
@@ -58,10 +60,10 @@ def create_source(station_choice: dict = {}) -> dict:
             message="What is your station's logo (the url)? : ",
             default=station_choice.get("img") or '',
         ),
-        "is_yt": prompt_toolkit.shortcuts.yes_no_dialog(
-            title='Youtube Stream',
-            text='Is your source a Youtube Stream?'
-        ).run()
+        "is_yt": prompt_toolkit.prompt(
+            message='Is your source a Youtube Stream? (y/n) : ',
+            validator=YesNoValidator()
+        ).lower() == 'y'
     }
 
     return answers
