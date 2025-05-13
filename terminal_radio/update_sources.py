@@ -140,7 +140,7 @@ def main():
         print("Cancelled by user")
 
     except Exception as e:
-        logger.error(e)
+        logger.error(e, exc_info=True)
 
     finally:
         db_dao.close()

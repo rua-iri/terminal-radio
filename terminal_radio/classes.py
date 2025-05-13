@@ -11,6 +11,7 @@ import climage
 from PIL import Image
 import requests
 from io import BytesIO
+from prompt_toolkit.validation import Validator, ValidationError
 
 from .utils import clear_screen, get_config
 
@@ -109,7 +110,7 @@ class Station:
             subprocess.run(sixel_command)
 
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exc_info=True)
             PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
 
     def __display_default_logo(self):
@@ -133,7 +134,7 @@ class Station:
             return f"\n\n{img_output}\n\n"
 
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exc_info=True)
             PrintC().error(f"\n\nError: Unable to Load Image ({self.img})\n\n")
             return ""
 
@@ -241,3 +242,12 @@ class LoadingIcon:
         self.stop_animation = True
         time.sleep(1)
         self.stop_animation = False
+
+
+class YesNoValidator(Validator):
+
+    def validate(self, document):
+        text = document.text.lower()
+
+        if text not in ('y', 'n'):
+            raise ValidationError(message="Answer should be 'y' or 'n'")

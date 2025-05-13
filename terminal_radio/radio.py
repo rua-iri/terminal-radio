@@ -70,7 +70,7 @@ def play_radio():
 
     except Exception as e:
         player.stop()
-        logger.error(e)
+        logger.error(e, exc_info=True)
         loading_icon.stop()
 
 
