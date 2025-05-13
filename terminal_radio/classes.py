@@ -149,7 +149,14 @@ class Station:
 class Player:
 
     def __init__(self) -> None:
+        config = get_config()
+        self.USE_SIXEL = config.get("USE_SIXEL")
+
         self.__cmd = "mpv -no-video {}"
+
+        if not config.get("DEBUG"):
+            self.__cmd += " --really-quiet"
+
         self.process_id = None
 
     def play(self, url):
