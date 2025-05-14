@@ -123,7 +123,7 @@ With Zsh there is a slight ammount of manual work involved at the minute.
 I'm using [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) to manage plugins, so this is how I achieved it.
 
 ```bash
-cp scripts/autocomplete.zsh ~/.oh-my-zsh/custom/plugins/terminal_radio/_terminal_radio
+cp scripts/autocompletions/autocomplete.zsh ~/.oh-my-zsh/custom/plugins/terminal_radio/_terminal_radio
 
 touch ~/.oh-my-zsh/custom/plugins/terminal_radio/terminal_radio.plugin.zsh
 ```

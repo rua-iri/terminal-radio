@@ -62,7 +62,7 @@ if [ ! -L /usr/local/bin/terminal_radio ]; then
 fi
 
 sudo chown $USER /opt/terminal_radio/
-sudo cp ./scripts/autocomplete.sh /usr/share/bash-completion/completions/_terminal_radio
+sudo cp ./scripts/autocompletions/autocomplete.sh /usr/share/bash-completion/completions/_terminal_radio
 printf "Done\n\n\n\n"
 
 

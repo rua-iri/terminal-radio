@@ -6,7 +6,11 @@ import prompt_toolkit
 
 from .utils import select_station
 from .db_dao import DB_DAO
-from .validators import StationNameValidator, StationUrlValidator, YesNoValidator
+from .validators import (
+    StationNameValidator,
+    StationUrlValidator,
+    YesNoValidator
+)
 
 
 logger = logging.getLogger(__name__)
