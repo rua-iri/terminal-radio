@@ -11,7 +11,6 @@ import climage
 from PIL import Image
 import requests
 from io import BytesIO
-from prompt_toolkit.validation import Validator, ValidationError
 
 from .utils import clear_screen, get_config
 
@@ -242,12 +241,3 @@ class LoadingIcon:
         self.stop_animation = True
         time.sleep(1)
         self.stop_animation = False
-
-
-class YesNoValidator(Validator):
-
-    def validate(self, document):
-        text = document.text.lower()
-
-        if text not in ('y', 'n'):
-            raise ValidationError(message="Answer should be 'y' or 'n'")
