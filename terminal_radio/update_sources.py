@@ -6,6 +6,7 @@ import prompt_toolkit
 
 from .utils import select_station
 from .db_dao import DB_DAO
+from .validators import StationNameValidator, StationUrlValidator, YesNoValidator
 
 
 logger = logging.getLogger(__name__)
@@ -49,19 +50,23 @@ def create_source(station_choice: dict = {}) -> dict:
         "name": prompt_toolkit.prompt(
             message="What is your station name? : ",
             default=station_choice.get("name") or '',
+            validator=StationNameValidator()
         ),
         "url": prompt_toolkit.prompt(
             message="What is your station's url? : ",
             default=station_choice.get("url") or '',
+            validator=StationUrlValidator(),
         ),
         "img": prompt_toolkit.prompt(
             message="What is your station's logo (the url)? : ",
             default=station_choice.get("img") or '',
+            validator=StationUrlValidator(),
         ),
-        "is_yt": prompt_toolkit.shortcuts.yes_no_dialog(
-            title='Youtube Stream',
-            text='Is your source a Youtube Stream?'
-        ).run()
+        "is_yt": prompt_toolkit.prompt(
+            message="Is your source a Youtube Stream? (y/n) : ",
+            default=station_choice.get("img") or '',
+            validator=YesNoValidator(),
+        ).lower() == "y"
     }
 
     return answers
