@@ -34,7 +34,12 @@ class StationUrlValidator(Validator):
             )
 
     def is_valid_url(self, text) -> bool:
-        pattern = "^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
+        pattern = (
+            "^https?:\\/\\/(?:www\\.)?"
+            "[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\"
+            ".[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@"
+            ":%_\\+.~#?&\\/=]*)$"
+        )
 
         regex_result = re.search(pattern, text)
         return bool(regex_result)
