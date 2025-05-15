@@ -152,6 +152,7 @@ class Player:
         config = get_config()
         self.USE_SIXEL = config.get("USE_SIXEL")
 
+        # self.__cmd = "mpv -no-video --demuxer-lavf-o=hls_flags=+live+reload --audio-buffer=10 --cache=yes  --demuxer-max-bytes=123400KiB --demuxer-readahead-secs=20 {}"
         self.__cmd = "mpv -no-video {}"
 
         if not config.get("DEBUG"):
