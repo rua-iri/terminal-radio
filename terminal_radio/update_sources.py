@@ -68,7 +68,7 @@ def create_source(station_choice: dict = {}) -> dict:
         ),
         "is_yt": prompt_toolkit.prompt(
             message="Is your source a Youtube Stream? (y/n) : ",
-            default=station_choice.get("img") or '',
+            default=station_choice.get("is_yt") or '',
             validator=YesNoValidator(),
         ).lower() == "y"
     }
