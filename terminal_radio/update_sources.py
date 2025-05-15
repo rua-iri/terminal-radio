@@ -50,25 +50,30 @@ def create_source(station_choice: dict = {}) -> dict:
         dict: The answers submitted by the user in a dictionary
     """
 
+    name_default: str = station_choice.get("name") or ''
+    url_default: str = station_choice.get("url") or ''
+    img_default: str = station_choice.get("img") or ''
+    is_yt_default: str = "y" if station_choice.get("is_yt") else 'n'
+
     answers = {
         "name": prompt_toolkit.prompt(
             message="What is your station name? : ",
-            default=station_choice.get("name") or '',
+            default=name_default,
             validator=StationNameValidator()
         ),
         "url": prompt_toolkit.prompt(
             message="What is your station's url? : ",
-            default=station_choice.get("url") or '',
+            default=url_default,
             validator=StationUrlValidator(),
         ),
         "img": prompt_toolkit.prompt(
             message="What is your station's logo (the url)? : ",
-            default=station_choice.get("img") or '',
+            default=img_default,
             validator=StationUrlValidator(),
         ),
         "is_yt": prompt_toolkit.prompt(
             message="Is your source a Youtube Stream? (y/n) : ",
-            default=station_choice.get("is_yt") or '',
+            default=is_yt_default,
             validator=YesNoValidator(),
         ).lower() == "y"
     }
