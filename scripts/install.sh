@@ -49,9 +49,17 @@ printf "Done\n\n"
 # symbolic link to add to $PATH
 printf "Moving to Installation Directory: "
 
-# prevent overwriting the database
+
+# prevent overwriting the important files and copying unnecesary files
 if [ -f /opt/terminal_radio/resource/radio_sources.sqlite ]; then 
-    sudo rsync -av --exclude='resource/radio_sources.sqlite' . /opt/terminal_radio
+    EXCLUDE_DIRS=(
+    --exclude='resource/radio_sources.sqlite' 
+    --exclude='logs/' 
+    --exclude='__pycache__/' 
+    --exclude='resource/config.yaml'
+    )
+
+    sudo rsync -av "${EXCLUDE_DIRS[@]}" . /opt/terminal_radio
 else
     sudo rsync -av . /opt/terminal_radio
 fi
@@ -62,7 +70,7 @@ if [ ! -L /usr/local/bin/terminal_radio ]; then
 fi
 
 sudo chown $USER /opt/terminal_radio/
-sudo cp ./scripts/autocomplete.sh /usr/share/bash-completion/completions/_terminal_radio
+sudo cp ./scripts/autocompletions/autocomplete.sh /usr/share/bash-completion/completions/_terminal_radio
 printf "Done\n\n\n\n"
 
 

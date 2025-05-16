@@ -1,11 +1,11 @@
 
 import json
-import subprocess
-import inquirer
 from pydoc import pager as print_less
-
-from inquirer.themes import GreenPassion
+import subprocess
 import yaml
+
+import inquirer
+from inquirer.themes import GreenPassion
 
 
 def select_station(

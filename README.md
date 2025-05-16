@@ -90,10 +90,10 @@ If no error messages are shown, then your terminal supports them and no changes 
 
 In case a station doesn't stop playing after the program has been exited then it may require some intervention.
 
-Run the following to find any processes associated with `ffplay`.
+Run the following to find any processes associated with `mpv`.
 
 ```bash
-ps -aux | grep ffplay
+ps -aux | grep mpv
 ```
 
 Then identify the parent process and run:
@@ -102,7 +102,7 @@ Then identify the parent process and run:
 kill -9 <process_id>
 ```
 
-If successful the `ffplay` process should have been killed and sound will no longer play.
+If successful the `mpv` process should have been killed and sound will no longer play.
 
 ### Unable to fetch YouTube streams
 
@@ -116,14 +116,14 @@ pip3 install "yt-dlp[default]" --upgrade
 
 ## Autocompletion
 
-Autocompletion **should** work automatically with bash.
+Autocompletion **should** work automatically with bash, thanks to the autocompletion script being copied to the correct location during the installation.
 
 With Zsh there is a slight ammount of manual work involved at the minute.
 
 I'm using [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) to manage plugins, so this is how I achieved it.
 
 ```bash
-cp scripts/autocomplete.zsh ~/.oh-my-zsh/custom/plugins/terminal_radio/_terminal_radio
+cp scripts/autocompletions/autocomplete.zsh ~/.oh-my-zsh/custom/plugins/terminal_radio/_terminal_radio
 
 touch ~/.oh-my-zsh/custom/plugins/terminal_radio/terminal_radio.plugin.zsh
 ```
