@@ -9,7 +9,7 @@ class DB_DAO:
         self.connection.row_factory = sqlite3.Row
         self.cursor = self.connection.cursor()
 
-    def select_all_stations(self) -> list[dict]:
+    def get_all_stations(self) -> list[dict]:
         station_list = []
         query_string: str = """SELECT name,
         url, img, is_yt

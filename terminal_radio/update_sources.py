@@ -4,8 +4,6 @@ import inquirer
 from inquirer.themes import GreenPassion
 import prompt_toolkit
 
-from terminal_radio.classes import YesNoValidator
-
 from .utils import select_station
 from .db_dao import DB_DAO
 from .validators import (
@@ -130,7 +128,7 @@ def edit_station(src_list: list) -> None:
 def main():
     try:
         logger.info("Updating Sources Started")
-        src_list: list = db_dao.select_all_stations()
+        src_list: list = db_dao.get_all_stations()
         logger.info("Source List loaded")
 
         options_list: list = [

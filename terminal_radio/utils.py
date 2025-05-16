@@ -50,5 +50,5 @@ def show_stations():
     from .db_dao import DB_DAO
     db_dao = DB_DAO()
 
-    src_list: list = db_dao.select_all_stations()
+    src_list: list = db_dao.get_all_stations()
     print_less(json.dumps(src_list, indent=4))

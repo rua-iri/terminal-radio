@@ -34,7 +34,7 @@ def play_radio():
         player = Player()
         current_station = db_dao.get_last_station()
 
-        src_list: list = db_dao.select_all_stations()
+        src_list: list = db_dao.get_all_stations()
 
         station_data = select_station(
             src_list=src_list,
