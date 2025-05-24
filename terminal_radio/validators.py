@@ -69,7 +69,7 @@ class StationUrlValidator(Validator):
 
         text: str = document.text
 
-        if not self.is_valid_url(text):
+        if not self.is_valid_url(text) and text != "":
             raise ValidationError(
                 message="URL is not a valid URL"
             )
