@@ -7,6 +7,7 @@ import prompt_toolkit
 from .utils import select_station
 from .db_dao import DB_DAO
 from .validators import (
+    StationImageUrlValidator,
     StationNameValidator,
     StationUrlValidator,
     YesNoValidator
@@ -69,7 +70,7 @@ def create_source(station_choice: dict = {}) -> dict:
         "img": prompt_toolkit.prompt(
             message="What is your station's logo (the url)? : ",
             default=img_default,
-            validator=StationUrlValidator(),
+            validator=StationImageUrlValidator(),
         ),
         "is_yt": prompt_toolkit.prompt(
             message="Is your source a Youtube Stream? (y/n) : ",

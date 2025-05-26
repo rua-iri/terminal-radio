@@ -57,7 +57,7 @@ class StationUrlValidator(Validator):
     """
 
     def validate(self, document):
-        """Validate a station's source/image url
+        """Validate a station's source url
 
         Args:
             document (Document): A prompt_toolkit Document
@@ -69,7 +69,7 @@ class StationUrlValidator(Validator):
 
         text: str = document.text
 
-        if not self.is_valid_url(text) and text != "":
+        if not self.is_valid_url(text):
             raise ValidationError(
                 message="URL is not a valid URL"
             )
@@ -92,3 +92,26 @@ class StationUrlValidator(Validator):
 
         regex_result = re.search(pattern, text)
         return bool(regex_result)
+
+
+class StationImageUrlValidator(StationUrlValidator):
+
+    def validate(self, document):
+        """Validate a station's image url
+
+        Args:
+            document (Document): A prompt_toolkit Document
+
+        Raises:
+            ValidationError: Error raised if the user does not
+            enter a valid url that matches the regex or if the
+            url is not empty
+        """
+        text: str = document.text
+
+        if not super().is_valid_url(text) and text != "":
+            raise ValidationError(
+                message="URL is not a valid URL"
+            )
+
+        return super().validate(document)
