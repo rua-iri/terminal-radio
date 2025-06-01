@@ -7,7 +7,6 @@ import subprocess
 import sys
 import time
 from colorama import Fore, Style
-import climage
 from PIL import Image
 import requests
 from io import BytesIO
@@ -121,6 +120,7 @@ class Station:
         img_width: int = int(TERMINAL_COLS)
 
         try:
+            import climage
             img: Image = self.__load_remote_image()
 
             img_output = climage.convert_pil(
