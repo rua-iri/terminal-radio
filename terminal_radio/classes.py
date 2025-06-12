@@ -52,8 +52,8 @@ class Station:
 
         yt_stream_url = video_format.get('url')
 
-        self.logger.info("Station Title: ", info.get('fulltitle'))
-        self.logger.info("Station URL: ", yt_stream_url)
+        self.logger.info(f"Station Title: {info.get('fulltitle')}")
+        self.logger.info(f"Station URL: {yt_stream_url}")
 
         if not yt_stream_url:
             raise Exception("Youtube Stream Not Found")
