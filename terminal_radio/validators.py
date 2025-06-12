@@ -109,9 +109,7 @@ class StationImageUrlValidator(StationUrlValidator):
         """
         text: str = document.text
 
-        if not super().is_valid_url(text) and text != "":
+        if text != "" and not super().is_valid_url(text):
             raise ValidationError(
                 message="URL is not a valid URL"
             )
-
-        return super().validate(document)
