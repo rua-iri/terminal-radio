@@ -4,7 +4,6 @@ Brotli==1.1.0
 certifi==2024.7.4
 charset-normalizer==3.3.2
 climage==0.2.0
-colorama==0.4.6
 editor==1.6.6
 exceptiongroup==1.2.2
 h11==0.16.0
