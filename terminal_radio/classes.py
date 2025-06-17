@@ -6,7 +6,6 @@ import signal
 import subprocess
 import sys
 import time
-from colorama import Fore, Style
 from PIL import Image
 import requests
 from io import BytesIO
@@ -201,20 +200,26 @@ class Player:
 
 
 class PrintC:
+    def __init__(self):
+        self.green = "\033[0;32m"
+        self.blue = "\033[0;34m"
+        self.red = "\033[0;31m"
+        self.bright = "\033[1m"
+        self.reset = "\033[0;0m"
 
     def __reset(self):
-        print(Style.RESET_ALL)
+        print(self.reset)
 
     def error(self, message):
-        print(Fore.RED + Style.BRIGHT + message)
+        print(self.red + self.bright + message)
         self.__reset()
 
     def info(self, message):
-        print(Fore.BLUE + Style.BRIGHT + message)
+        print(self.blue + self.bright + message)
         self.__reset()
 
     def success(self, message):
-        print(Fore.GREEN + Style.BRIGHT + message)
+        print(self.green + self.bright + message)
         self.__reset()
 
 
