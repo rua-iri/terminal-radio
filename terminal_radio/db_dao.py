@@ -119,18 +119,3 @@ class DB_DAO:
 
     def close(self):
         self.connection.close()
-
-
-if __name__ == "__main__":
-    db_dao = DB_DAO()
-
-    res = db_dao.get_stats_top_5()
-    print(res)
-    for r in res:
-        print(r.keys())
-        x = {
-            'station_id': r['station_id'],
-            'name': r['name'],
-            'play_count': r['play_count']
-        }
-        print(x)
