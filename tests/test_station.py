@@ -1,4 +1,3 @@
-import pytest
 
 from terminal_radio.classes import Station
 
