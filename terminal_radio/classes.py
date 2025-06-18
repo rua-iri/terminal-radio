@@ -25,6 +25,7 @@ class Station:
         self.logger = logging.getLogger(__name__)
         config = get_config()
         self.USE_SIXEL = config.get("USE_SIXEL")
+        self.config = get_config()
 
         self.is_yt = is_yt
 
@@ -35,15 +36,18 @@ class Station:
             self.url = url
             self.img = img
 
-    def __fetch_yt_data(self, url: str):
+    def __fetch_yt_data(self, url: str) -> tuple:
         import yt_dlp
 
         self.logger.info("Fetching Youtube Data")
 
         with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
-            info = ydl.extract_info(url, download=False)
+            info: dict | None = ydl.extract_info(url, download=False)
 
         self.logger.info("Youtube Data: ", info)
+
+        if info is None:
+            raise Exception("No Data Returned")
 
         for video_format in info.get("formats"):
             if video_format.get('resolution') == "audio only":
@@ -57,7 +61,7 @@ class Station:
         if not yt_stream_url:
             raise Exception("Youtube Stream Not Found")
 
-        img_url: str = info.get("thumbnail")
+        img_url: str | None = info.get("thumbnail")
 
         return (
             info.get("fulltitle"),
@@ -86,13 +90,17 @@ class Station:
 
         try:
             TERMINAL_WIDTH, TERMINAL_HEIGHT = self.__calc_terminal_size()
-            # print("TERMINAL_HEIGHT: ", TERMINAL_HEIGHT)
-            # print("TERMINAL_WIDTH: ", TERMINAL_WIDTH)
 
-            img: Image = self.__load_remote_image()
+            if self.config.get("DEBUG"):
+                print("TERMINAL_HEIGHT: ", TERMINAL_HEIGHT)
+                print("TERMINAL_WIDTH: ", TERMINAL_WIDTH)
+
+            img: Image.Image = self.__load_remote_image()
             IMAGE_WIDTH, IMAGE_HEIGHT = img.size
-            # print("IMAGE WIDTH: ", IMAGE_WIDTH)
-            # print("IMAGE HEIGHT: ", IMAGE_HEIGHT)
+
+            if self.config.get("DEBUG"):
+                print("IMAGE WIDTH: ", IMAGE_WIDTH)
+                print("IMAGE HEIGHT: ", IMAGE_HEIGHT)
 
             img_filename: str = "/tmp/terminalradio_img.png"
             img.save(img_filename, format="PNG")
@@ -120,7 +128,7 @@ class Station:
 
         try:
             import climage
-            img: Image = self.__load_remote_image()
+            img: Image.Image = self.__load_remote_image()
 
             img_output = climage.convert_pil(
                 img=img,

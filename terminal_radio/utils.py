@@ -11,7 +11,7 @@ from inquirer.themes import GreenPassion
 def select_station(
         src_list: list,
         message: str = "What Station Would You Like",
-        default: str = None
+        default: str | None = None
 ) -> dict:
     name_list = [source.get("name") for source in src_list]
 

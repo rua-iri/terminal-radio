@@ -68,7 +68,7 @@ class DB_DAO:
         self.cursor.execute(query_string, (name, url, img, is_yt, True))
         self.connection.commit()
 
-    def get_last_station(self) -> str:
+    def get_last_station(self) -> str | None:
         query_string: str = """SELECT stations.name
         FROM last_station
         INNER JOIN stations
