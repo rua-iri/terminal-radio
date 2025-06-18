@@ -55,6 +55,7 @@ if [ -f /opt/terminal_radio/resource/radio_sources.sqlite ]; then
     EXCLUDE_DIRS=(
     --exclude='resource/radio_sources.sqlite' 
     --exclude='logs/' 
+    --exclude='tests/' 
     --exclude='__pycache__/' 
     --exclude='resource/config.yaml'
     )
