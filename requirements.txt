@@ -1,6 +1,5 @@
 anyio==4.4.0
 blessed==1.20.0
-Brotli==1.1.0
 certifi==2024.7.4
 charset-normalizer==3.3.2
 climage==0.2.0
@@ -13,12 +12,10 @@ idna==3.7
 iniconfig==2.1.0
 inquirer==3.4.0
 kdtree==0.16
-mutagen==1.47.0
 packaging==25.0
 pillow==10.4.0
 pluggy==1.6.0
 prompt_toolkit==3.0.51
-pycryptodomex==3.20.0
 Pygments==2.19.1
 pytest==8.4.1
 PyYAML==6.0.2
@@ -32,6 +29,5 @@ tomli==2.2.1
 typing_extensions==4.12.2
 urllib3==2.2.3
 wcwidth==0.2.13
-websockets==13.0.1
 xmod==1.8.1
 yt-dlp==2025.3.31
