@@ -143,6 +143,12 @@ Then just update Zsh again and you should have autocompletion for the applicatio
 source ~/.zshrc
 ```
 
+## Testing
+
+```
+pytest
+```
+
 ## Uninstall
 
 To uninstall the application simply run the following.
