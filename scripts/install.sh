@@ -4,18 +4,16 @@ set -e
 # Install required packages
 printf "Installing Packages: "
 if [ -f /etc/debian_version ]; then
-    sudo apt install mpv sqlite3 python3-venv python3-pip libsixel-bin
+  sudo apt install mpv sqlite3 python3-venv python3-pip libsixel-bin
 elif [ -f /etc/fedora-release ]; then
-    sudo dnf install mpv sqlite3 python3-pip libsixel libsixel-utils
+  sudo dnf install mpv sqlite3 python3-pip libsixel libsixel-utils
 elif [ -f /etc/arch-release ]; then
-    sudo pacman -Syu gcc python3 python-pipenv mpv libsixel rsync
+  sudo pacman -Syu gcc python3 python-pipenv mpv libsixel rsync
 else
-    echo "OS not currently supported"
-    exit 1
+  echo "OS not currently supported"
+  exit 1
 fi
 printf "Done\n\n"
-
-
 
 # Set up Python virtual environment
 VENV='.venv'
@@ -24,59 +22,50 @@ PIP=$VENV/bin/pip3
 
 printf "Installing Python Requirements: "
 python3 -m venv $VENV
-$PIP install -r requirements.txt 1> /dev/null
+$PIP install -r requirements.txt 1>/dev/null
 printf "Done\n\n"
-
-
-
 
 # Create necessary files and directories
 printf "Creating Necessary Files and Folders: "
 if [ ! -d logs ]; then
-    mkdir logs/
+  mkdir logs/
 fi
 
 if [ ! -f resource/radio_sources.sqlite ]; then
-    sqlite3 resource/radio_sources.sqlite < resource/schema.sql
+  sqlite3 resource/radio_sources.sqlite <resource/schema.sql
 fi
 
 printf "Done\n\n"
-
-
-
 
 # move to installation directory and set up
 # symbolic link to add to $PATH
 printf "Moving to Installation Directory: "
 
-
 # prevent overwriting the important files and copying unnecesary files
-if [ -f /opt/terminal_radio/resource/radio_sources.sqlite ]; then 
-    EXCLUDE_DIRS=(
-    --exclude='resource/radio_sources.sqlite' 
-    --exclude='logs/' 
-    --exclude='tests/' 
-    --exclude='__pycache__/' 
+if [ -f /opt/terminal_radio/resource/radio_sources.sqlite ]; then
+  EXCLUDE_DIRS=(
+    --exclude='resource/radio_sources.sqlite'
+    --exclude='logs/'
+    --exclude='tests/'
+    --exclude='__pycache__/'
     --exclude='resource/config.yaml'
-    )
+  )
 
-    sudo rsync -av "${EXCLUDE_DIRS[@]}" . /opt/terminal_radio
+  sudo rsync -qav "${EXCLUDE_DIRS[@]}" . /opt/terminal_radio
 else
-    sudo rsync -av . /opt/terminal_radio
+  sudo rsync -qav . /opt/terminal_radio
 fi
 
-
-if [ ! -L /usr/local/bin/terminal_radio ]; then 
-    sudo ln -s /opt/terminal_radio/scripts/run.sh /usr/local/bin/terminal_radio
+if [ ! -L /usr/local/bin/terminal_radio ]; then
+  sudo ln -s /opt/terminal_radio/scripts/run.sh /usr/local/bin/terminal_radio
 fi
 
 sudo chown $USER /opt/terminal_radio/
 sudo cp ./scripts/autocompletions/autocomplete.sh /usr/share/bash-completion/completions/_terminal_radio
 printf "Done\n\n\n\n"
 
-
-
-final_output=$(cat << "EOF"
+final_output=$(
+  cat <<"EOF"
 \e[32m
  _                      _             _                 _ _       
 | |                    (_)           | |               | (_)      
@@ -102,8 +91,3 @@ EOF
 )
 
 echo -e "$final_output"
-
-
-
-
-
