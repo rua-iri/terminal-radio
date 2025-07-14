@@ -93,7 +93,7 @@ In case a station doesn't stop playing after the program has been exited then it
 Run the following to find any processes associated with `mpv`.
 
 ```bash
-ps -aux | grep mpv
+ps aux | grep mpv
 ```
 
 Then identify the parent process and run:
