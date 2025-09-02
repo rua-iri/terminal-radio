@@ -1,5 +1,9 @@
+# Determines how to output images to the terminal
+# Set to false if your terminal does not support sixel
 USE_SIXEL: true
 # USE_SIXEL: false
 
+# Whether or not to display debug logs
+# false by default, will display a lot of info
 DEBUG: false
 # DEBUG: true
