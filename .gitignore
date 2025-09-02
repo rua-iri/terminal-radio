@@ -166,3 +166,6 @@ cython_debug/
 resource/*
 !resource/schema.sql
 !resource/config.yaml
+
+.artifacts/
+
