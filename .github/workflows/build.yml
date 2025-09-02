@@ -1,0 +1,44 @@
+
+name: Build Project
+
+on: workflow_dispatch
+
+env:
+    outputZipfile: terminal_radio.zip
+
+
+jobs:
+    build-project:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Step 1 - Checkout Repository
+            uses: actions/checkout@v4
+
+          - name: Step 2 - Install Build Dependencies
+            run: |
+                apt update
+                apt install -y sqlite3
+
+          - name: Step 3 - Install Python Dependencies
+            run: |
+                python3 -m venv .venv
+                .venv/bin/pip3 install -r requirements.txt
+                pip3 list
+
+          - name: Step 4 - Create Directories
+            run: mkdir logs/
+
+          - name: Step 5 - Create Database
+            run: sqlite3 resource/radio_sources.sqlite <resource/schema.sql
+
+          - name: Step 6 - Zip Project
+            run: zip -r ${{env.outputZipfile}} .
+        
+          - name: Step 7 - Create Artifact
+            uses: actions/upload-artifact@v4.6.2
+            with:
+                name: zipFolder
+                path: ${{env.outputZipfile}}
+        
+    
