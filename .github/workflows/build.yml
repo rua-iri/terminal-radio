@@ -4,8 +4,7 @@ name: Build Project
 on: workflow_dispatch
 
 env:
-    outputZipfile: terminal_radio.zip
-
+    outputZipfile: terminal_radio.tar.xz
 
 jobs:
     build-project:
@@ -24,7 +23,6 @@ jobs:
             run: |
                 python3 -m venv .venv
                 .venv/bin/pip3 install -r requirements.txt
-                pip3 list
 
           - name: Step 4 - Create Directories
             run: mkdir logs/
@@ -33,7 +31,7 @@ jobs:
             run: sqlite3 resource/radio_sources.sqlite <resource/schema.sql
 
           - name: Step 6 - Zip Project
-            run: zip -r ${{env.outputZipfile}} .
+            run: tar -czf ${{env.outputZipfile}} .
         
           - name: Step 7 - Create Artifact
             uses: actions/upload-artifact@v4.6.2
