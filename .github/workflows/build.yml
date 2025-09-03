@@ -31,12 +31,10 @@ jobs:
             run: sqlite3 resource/radio_sources.sqlite <resource/schema.sql
 
           - name: Step 6 - Zip Project
-            run: tar -czf ${{env.outputZipfile}} .
-        
+            run: tar --exclude tests/ -czf ${{env.outputZipfile}} .
+
           - name: Step 7 - Create Artifact
             uses: actions/upload-artifact@v4.6.2
             with:
-                name: zipFolder
+                name: archiveFolder
                 path: ${{env.outputZipfile}}
-        
-    
