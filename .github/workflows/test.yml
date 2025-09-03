@@ -1,0 +1,29 @@
+
+
+name: PyTest
+
+
+on: workflow_dispatch
+
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Step 1 - Checkout Repository
+              uses: actions/checkout@v4
+            
+            - name: Step 1 - Download Build Artifact
+              uses: actions/download-artifact@v5.0.0
+              with:
+                name: archiveFolder
+
+
+            - name: Step 2 - Install requirements
+              run: pip3 install -r requirements.txt
+            
+            - name: Step 2 - Run Tests
+              run: pytest
+
+
+

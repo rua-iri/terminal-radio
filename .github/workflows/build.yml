@@ -28,7 +28,7 @@ jobs:
             run: mkdir logs/
 
           - name: Step 5 - Create Database
-            run: sqlite3 resource/radio_sources.sqlite <resource/schema.sql
+            run: sqlite3 resource/radio_sources.sqlite < resource/schema.sql
 
           - name: Step 6 - Zip Project
             run: tar --exclude tests/ -czf ${{env.outputZipfile}} .
