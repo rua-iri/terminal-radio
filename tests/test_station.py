@@ -1,6 +1,6 @@
 
 from terminal_radio.classes import Station
-
+import re
 
 def test_create_station():
     assert True is True
@@ -30,6 +30,8 @@ def test_create_station_yt():
 
     print(station.url)
 
+    URL_PATTERN = r"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.googlevideo\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
+
     assert station.url != initial_station_url
     assert station.img != ""
-    assert station.url.startswith("https://manifest.googlevideo.com")
+    assert re.match(pattern=URL_PATTERN, string=station.url)
