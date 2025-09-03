@@ -4,7 +4,7 @@ name: Build Project
 on: workflow_dispatch
 
 env:
-    outputZipfile: terminal_radio.tar.xz
+    outputZipfile: /tmp/terminal_radio.tar.xz
 
 jobs:
     build-project:
