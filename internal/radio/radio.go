@@ -13,7 +13,8 @@ func Main() {
 
 	for x := true; x != false; {
 		play_radio()
-		time.Sleep(2 * time.Second)
+		time.Sleep(10 * time.Millisecond)
+		return
 	}
 
 }

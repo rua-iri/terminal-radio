@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/rua-iri/terminal-radio/internal/database"
 	"github.com/rua-iri/terminal-radio/internal/radio"
 )
 
@@ -43,11 +44,14 @@ func main() {
 
 	userFunc, isFuncInMAP := cmdMap[userCmd]
 
-	if isFuncInMAP {
-		userFunc()
-	} else {
-		fmt.Println("Error:", userCmd, "not an argument")
+	if !isFuncInMAP {
+		fmt.Println("Error:", userCmd, "not an argument\n")
 		cmdMap["help"]()
+		return
 	}
+
+	userFunc()
+
+	database.Main()
 
 }
