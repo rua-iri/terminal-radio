@@ -3,28 +3,35 @@ package main
 import (
 	"fmt"
 	"os"
+
+	"github.com/rua-iri/terminal-radio/internal/radio"
 )
 
 func initialiseLogs() {
 	fmt.Println("Initialising Logs")
 }
 
+func show_help() {
+	const helpData string = `play - Run the application to listen to radio stations
+update - Update the list of available stations
+logs - View the application's logs to debug issues
+show - Show a JSON formatted list of the currently available stations
+stats - Show the top 5 stations by play count
+help - Display this help menu`
+	fmt.Println(helpData)
+}
+
 func main() {
 	initialiseLogs()
 
-	actions := map[string]func(){
-		"hello":   initialiseLogs,
-		"goodbye": initialiseLogs,
+	cmdMap := map[string]func(){
+		"play": radio.Main,
+		// "update": update_sources.main,
+		// "logs":   show_logs,
+		// "show":   show_stations,
+		// "stats":  statistics.main,
+		"help": show_help,
 	}
-
-	// cmdMap := map[string]func(){
-	// 	"play":   radio.main,
-	// 	"update": update_sources.main,
-	// 	"logs":   show_logs,
-	// 	"show":   show_stations,
-	// 	"stats":  statistics.main,
-	// 	"help":   show_help,
-	// }
 
 	var userCmd string
 
@@ -34,8 +41,13 @@ func main() {
 		userCmd = os.Args[1]
 	}
 
-	fmt.Println(userCmd)
+	userFunc, isFuncInMAP := cmdMap[userCmd]
 
-	actions["hello"]()
+	if isFuncInMAP {
+		userFunc()
+	} else {
+		fmt.Println("Error:", userCmd, "not an argument")
+		cmdMap["help"]()
+	}
 
 }
