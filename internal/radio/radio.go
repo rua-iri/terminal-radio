@@ -2,7 +2,6 @@ package radio
 
 import (
 	"fmt"
-	"time"
 )
 
 func play_radio() {
@@ -10,11 +9,5 @@ func play_radio() {
 }
 
 func Main() {
-
-	for x := true; x != false; {
-		play_radio()
-		time.Sleep(10 * time.Millisecond)
-		return
-	}
 
 }

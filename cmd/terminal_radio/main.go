@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/rua-iri/terminal-radio/internal/database"
 	"github.com/rua-iri/terminal-radio/internal/radio"
 )
 
@@ -51,9 +50,5 @@ func main() {
 	}
 
 	userFunc()
-
-	srcArray := database.GetAllStations()
-
-	fmt.Println(srcArray[1])
 
 }
