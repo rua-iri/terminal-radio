@@ -52,6 +52,8 @@ func main() {
 
 	userFunc()
 
-	database.Main()
+	srcArray := database.GetAllStations()
+
+	fmt.Println(srcArray[1])
 
 }
