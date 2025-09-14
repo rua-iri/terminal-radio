@@ -79,9 +79,9 @@ func play_radio() {
 
 	for userInput != "q" {
 		fmt.Scan(&userInput)
-		fmt.Println(userInput)
 	}
 
+	fmt.Println("Quitting...")
 	cmd.Process.Kill()
 
 }
