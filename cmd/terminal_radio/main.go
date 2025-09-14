@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/rua-iri/terminal-radio/internal/extra"
 	"github.com/rua-iri/terminal-radio/internal/radio"
 )
 
@@ -29,8 +30,8 @@ func main() {
 		// "update": update_sources.main,
 		// "logs":   show_logs,
 		// "show":   show_stations,
-		// "stats":  statistics.main,
-		"help": show_help,
+		"stats": extra.GetStatistics,
+		"help":  show_help,
 	}
 
 	var userCmd string
