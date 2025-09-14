@@ -95,12 +95,19 @@ func (m model) View() string {
 	return "\n" + m.list.View()
 }
 
-func MainMenu(items []list.Item) string {
+func MainMenu(itemsList []string) string {
 
 	const defaultWidth = 20
 
-	l := list.New(items, itemDelegate{}, defaultWidth, listHeight)
-	l.Title = "What do you want for dinner?"
+	var itemsArray []list.Item
+
+	// Append array of strings to itemsArray
+	for _, itemString := range itemsList {
+		itemsArray = append(itemsArray, item(itemString))
+	}
+
+	l := list.New(itemsArray, itemDelegate{}, defaultWidth, listHeight)
+	l.Title = "Which station would you like?"
 	l.SetShowStatusBar(false)
 	l.SetFilteringEnabled(false)
 	l.Styles.Title = titleStyle

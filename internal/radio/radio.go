@@ -2,29 +2,47 @@ package radio
 
 import (
 	"fmt"
+	"os/exec"
 	"reflect"
 
-	"github.com/charmbracelet/bubbles/list"
+	"github.com/rua-iri/terminal-radio/internal/database"
 )
 
 func play_radio() {
 	fmt.Println("Playing Radio...")
-	items := []list.Item{
-		item("Ramen"),
-		item("Tomato Soup"),
-		item("Hamburgers"),
-		item("Cheeseburgers"),
-		item("Currywurst"),
-		item("Okonomiyaki"),
-		item("Pasta"),
-		item("Fillet Mignon"),
-		item("Caviar"),
-		item("Just Wine"),
-	}
-	var answer string = MainMenu(items)
 
-	fmt.Println("'", answer, "'")
-	fmt.Println(reflect.TypeOf(answer))
+	allStations := database.GetAllStations()
+
+	var stationsList []string = []string{}
+
+	for _, station := range allStations {
+		stationsList = append(stationsList, station["name"].(string))
+	}
+
+	var selectedStationName string = MainMenu(stationsList)
+
+	if selectedStationName == "" {
+		return
+	}
+
+	fmt.Println("'", selectedStationName, "'")
+	fmt.Println(reflect.TypeOf(selectedStationName))
+
+	var selectedStation map[string]interface{}
+
+	for _, station := range allStations {
+		if station["name"] == selectedStationName {
+			selectedStation = station
+			break
+		}
+	}
+
+	fmt.Println(selectedStation)
+	fmt.Println(selectedStation["url"].(string))
+
+	cmd := exec.Command("mpv", selectedStation["url"].(string))
+	fmt.Println(cmd.Output())
+
 }
 
 func Main() {

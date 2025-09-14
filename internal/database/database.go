@@ -79,8 +79,8 @@ func GetAllStations() []map[string]any {
 				rowMap[col] = values[i]
 			}
 
-			results = append(results, rowMap)
 		}
+		results = append(results, rowMap)
 
 	}
 

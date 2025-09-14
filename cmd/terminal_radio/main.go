@@ -44,7 +44,8 @@ func main() {
 	userFunc, isFuncInMAP := cmdMap[userCmd]
 
 	if !isFuncInMAP {
-		fmt.Println("Error:", userCmd, "not an argument\n")
+		fmt.Println("Error:", userCmd, "not an argument")
+		fmt.Println()
 		cmdMap["help"]()
 		return
 	}
