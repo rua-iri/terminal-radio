@@ -2,11 +2,38 @@ package radio
 
 import (
 	"fmt"
+	"image"
+	_ "image/jpeg"
+	_ "image/png"
+	"log"
+	"net/http"
+	"os"
 	"os/exec"
 	"reflect"
 
+	"github.com/mattn/go-sixel"
 	"github.com/rua-iri/terminal-radio/internal/database"
 )
+
+func displayImageSixel(imageUrl string) {
+	res, err := http.Get(imageUrl)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer res.Body.Close()
+
+	img, _, err := image.Decode(res.Body)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := sixel.NewEncoder(os.Stdout).Encode(img); err != nil {
+		log.Fatal(err)
+	}
+
+}
 
 func play_radio() {
 	fmt.Println("Playing Radio...")
@@ -40,25 +67,23 @@ func play_radio() {
 	fmt.Println(selectedStation)
 	fmt.Println(selectedStation["url"].(string))
 
-	exec.Command("wget", "-O", "/tmp/terminalradio_img.png", selectedStation["img"].(string)).Start()
-	cmd := exec.Command("img2sixel", "/tmp/terminalradio_img.png")
-	cmd.Run()
-	fmt.Println(cmd.Stdout)
-	fmt.Println(exec.Command("ls", "-l").Output())
+	displayImageSixel(selectedStation["img"].(string))
 
-	// cmd := exec.Command("mpv", selectedStation["url"].(string))
-	// cmd.Start()
-	// fmt.Println("Now Playing", selectedStation["name"])
-	// fmt.Println("Enter 'q' to exit")
+	cmd := exec.Command("mpv", selectedStation["url"].(string))
+	cmd.Start()
 
-	// var userInput string
+	fmt.Println()
+	fmt.Printf("\nNow Playing: %s\n\n", selectedStationName)
+	fmt.Println("Enter 'q' to exit")
 
-	// for userInput != "q" {
-	// 	fmt.Scan(&userInput)
-	// 	fmt.Println(userInput)
-	// }
+	var userInput string
 
-	// cmd.Process.Kill()
+	for userInput != "q" {
+		fmt.Scan(&userInput)
+		fmt.Println(userInput)
+	}
+
+	cmd.Process.Kill()
 
 }
 
