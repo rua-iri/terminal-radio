@@ -9,7 +9,7 @@ import (
 )
 
 func initialiseLogs() {
-	fmt.Println("Initialising Logs")
+	// fmt.Println("Initialising Logs")
 }
 
 func show_help() {

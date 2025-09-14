@@ -109,7 +109,5 @@ func GetStatsTop5() []map[string]any {
 
 	results := formatMapList(rows, cols)
 
-	fmt.Println(results)
-
 	return results
 }

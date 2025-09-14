@@ -1,15 +1,11 @@
 package extra
 
 import (
-	"fmt"
-
 	"github.com/rua-iri/terminal-radio/internal/database"
 )
 
 func formatTable(top5StationsArray []map[string]any) {
-	fmt.Println("Formatting Table")
 
-	ShowTable()
 }
 
 func GetStatistics() {
@@ -19,8 +15,6 @@ func GetStatistics() {
 
 	top5StationsArray := database.GetStatsTop5()
 
-	fmt.Println(len(top5StationsArray))
-
 	stationsKeys := make([]string, len(top5StationsArray[0]))
 	var i int = 0
 	for k := range top5StationsArray[0] {
@@ -28,7 +22,6 @@ func GetStatistics() {
 		i++
 	}
 
-	fmt.Println(stationsKeys)
+	ShowTable(stationsKeys, top5StationsArray)
 
-	formatTable(top5StationsArray)
 }
