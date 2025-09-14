@@ -40,8 +40,25 @@ func play_radio() {
 	fmt.Println(selectedStation)
 	fmt.Println(selectedStation["url"].(string))
 
-	cmd := exec.Command("mpv", selectedStation["url"].(string))
-	fmt.Println(cmd.Output())
+	exec.Command("wget", "-O", "/tmp/terminalradio_img.png", selectedStation["img"].(string)).Start()
+	cmd := exec.Command("img2sixel", "/tmp/terminalradio_img.png")
+	cmd.Run()
+	fmt.Println(cmd.Stdout)
+	fmt.Println(exec.Command("ls", "-l").Output())
+
+	// cmd := exec.Command("mpv", selectedStation["url"].(string))
+	// cmd.Start()
+	// fmt.Println("Now Playing", selectedStation["name"])
+	// fmt.Println("Enter 'q' to exit")
+
+	// var userInput string
+
+	// for userInput != "q" {
+	// 	fmt.Scan(&userInput)
+	// 	fmt.Println(userInput)
+	// }
+
+	// cmd.Process.Kill()
 
 }
 
