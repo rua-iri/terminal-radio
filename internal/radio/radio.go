@@ -13,6 +13,7 @@ import (
 
 	"github.com/mattn/go-sixel"
 	"github.com/rua-iri/terminal-radio/internal/database"
+	"github.com/rua-iri/terminal-radio/internal/utils"
 )
 
 func displayImageSixel(imageUrl string) {
@@ -64,9 +65,7 @@ func play_radio() {
 		}
 	}
 
-	fmt.Println(selectedStation)
-	fmt.Println(selectedStation["url"].(string))
-
+	utils.ClearTerminal()
 	displayImageSixel(selectedStation["img"].(string))
 
 	cmd := exec.Command("mpv", selectedStation["url"].(string))
