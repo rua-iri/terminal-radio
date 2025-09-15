@@ -87,5 +87,8 @@ func play_radio() {
 }
 
 func Main() {
-	play_radio()
+	for {
+		play_radio()
+
+	}
 }
