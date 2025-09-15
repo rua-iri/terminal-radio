@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -110,4 +111,84 @@ func GetStatsTop5() []map[string]any {
 	results := formatMapList(rows, cols)
 
 	return results
+}
+
+func GetStationID(stationName string) int {
+	const sqlStatement string = `
+	SELECT id FROM stations WHERE name = ?;
+	`
+	db, err := sql.Open(databaseFlavour, databaseName)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	result, err := db.Query(sqlStatement, stationName)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var id int
+	result.Next()
+	result.Scan(&id)
+
+	return id
+}
+
+func GetLastStation() string {
+	const sqlStatement string = `
+	SELECT stations.name
+        FROM last_station
+        INNER JOIN stations
+        ON last_station.station_id = stations.id
+        ORDER BY last_station.id DESC
+        LIMIT 1;
+	`
+	db, err := sql.Open(databaseFlavour, databaseName)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	result, err := db.Query(sqlStatement)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var name string
+	result.Next()
+	result.Scan(&name)
+
+	return name
+}
+
+func SetLastStation(name string) {
+	var currentStationID int = GetStationID(name)
+
+	currentTimestamp := time.Now().Unix()
+
+	const sqlStatement = `
+	INSERT INTO last_station
+	    (station_id, timestamp)
+	    VALUES
+	    (?, ?);
+	`
+
+	db, err := sql.Open(databaseFlavour, databaseName)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	_, err = db.Exec(sqlStatement, currentStationID, currentTimestamp)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }
