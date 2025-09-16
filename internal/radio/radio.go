@@ -11,12 +11,26 @@ import (
 	"os/exec"
 	"reflect"
 
+	"github.com/charmbracelet/x/term"
 	"github.com/mattn/go-sixel"
+	"github.com/nfnt/resize"
 	"github.com/rua-iri/terminal-radio/internal/database"
 	"github.com/rua-iri/terminal-radio/internal/utils"
 )
 
 func displayImageSixel(imageUrl string) {
+
+	const charHeight int = 20
+	const charWidth int = 10
+	termCols, termRows, err := term.GetSize(os.Stdout.Fd())
+	termRows -= 5 // remove 5 because of the text output below image
+	var widthPx int = termCols * charWidth
+	var heightPx int = termRows * charHeight
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	res, err := http.Get(imageUrl)
 
 	if err != nil {
@@ -30,7 +44,9 @@ func displayImageSixel(imageUrl string) {
 		log.Fatal(err)
 	}
 
-	if err := sixel.NewEncoder(os.Stdout).Encode(img); err != nil {
+	resizedImg := resize.Thumbnail(uint(widthPx), uint(heightPx), img, resize.Lanczos2)
+
+	if err := sixel.NewEncoder(os.Stdout).Encode(resizedImg); err != nil {
 		log.Fatal(err)
 	}
 
@@ -87,8 +103,5 @@ func play_radio() {
 }
 
 func Main() {
-	for {
-		play_radio()
-
-	}
+	play_radio()
 }
