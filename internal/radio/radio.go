@@ -82,9 +82,16 @@ func play_radio() {
 	}
 
 	utils.ClearTerminal()
-	displayImageSixel(selectedStation["img"].(string))
+	var cmd *exec.Cmd
 
-	cmd := exec.Command("mpv", selectedStation["url"].(string))
+	if selectedStation["is_yt"] != int64(1) {
+		displayImageSixel(selectedStation["img"].(string))
+		cmd = exec.Command("mpv", selectedStation["url"].(string))
+	} else {
+		cmd = exec.Command("mpv", selectedStation["url"].(string), "--vo=sixel")
+		cmd.Stdout = os.Stdout
+	}
+
 	cmd.Start()
 
 	fmt.Println()
