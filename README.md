@@ -14,6 +14,58 @@
 
 > **_NOTE:_** This program currently runs on **Linux only**, and only supports the Ubuntu/Debian, Arch & Fedora distributions
 
+
+### Dependencies
+
+There are some dependencies that should be installed depending on your distribution.
+
+#### Debian / Ubuntu 
+
+```bash
+apt install mpv
+```
+
+#### Fedora
+
+```bash
+dnf install mpv
+```
+
+#### Arch
+
+```bash
+pacman -Syu mpv rsync
+```
+
+
+#### yt-dlp
+
+MPV can also be used to play streams from Youtube, but it requires the yt-dlp package to be installed 
+
+```bash
+pip3 install yt-dlp
+```
+
+
+### Download the Zipped Package
+
+You can download latest release for a more stable experience from GitHub itself.
+
+[From the link here](https://github.com/rua-iri/terminal-radio/releases/latest)
+
+Then run the installation script.
+
+```bash
+./scripts/install.sh
+
+terminal_radio
+```
+
+
+
+
+### Install Development Mode
+
 ```bash
 git clone https://github.com/rua-iri/terminal-radio
 
@@ -24,11 +76,7 @@ cd terminal-radio
 terminal_radio
 ```
 
-### Download the Zipped Package
 
-Alternatively you can download latest release for a more stable experience from GitHub itself.
-
-[From the link here](https://github.com/rua-iri/terminal-radio/releases/latest)
 
 ## Add New Stations
 

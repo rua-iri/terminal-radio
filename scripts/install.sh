@@ -1,29 +1,7 @@
 #!/bin/bash
 set -e
 
-# Install required packages
-printf "Installing Packages: "
-if [ -f /etc/debian_version ]; then
-  sudo apt install mpv sqlite3 python3-venv python3-pip libsixel-bin
-elif [ -f /etc/fedora-release ]; then
-  sudo dnf install mpv sqlite3 python3-pip libsixel libsixel-utils
-elif [ -f /etc/arch-release ]; then
-  sudo pacman -Syu gcc python3 python-pipenv mpv libsixel rsync
-else
-  echo "OS not currently supported"
-  exit 1
-fi
-printf "Done\n\n"
 
-# Set up Python virtual environment
-VENV='.venv'
-PYTHON=$VENV/bin/python3
-PIP=$VENV/bin/pip3
-
-printf "Installing Python Requirements: "
-python3 -m venv $VENV
-$PIP install -r requirements.txt 1>/dev/null
-printf "Done\n\n"
 
 # Create necessary files and directories
 printf "Creating Necessary Files and Folders: "
@@ -46,8 +24,6 @@ if [ -f /opt/terminal_radio/resource/radio_sources.sqlite ]; then
   EXCLUDE_DIRS=(
     --exclude='resource/radio_sources.sqlite'
     --exclude='logs/'
-    --exclude='tests/'
-    --exclude='__pycache__/'
     --exclude='resource/config.yaml'
   )
 
@@ -57,7 +33,7 @@ else
 fi
 
 if [ ! -L /usr/local/bin/terminal_radio ]; then
-  sudo ln -s /opt/terminal_radio/scripts/run.sh /usr/local/bin/terminal_radio
+  sudo ln -s /opt/terminal_radio/terminal_radio /usr/local/bin/terminal_radio
 fi
 
 sudo chown $USER /opt/terminal_radio/
