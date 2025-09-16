@@ -55,12 +55,17 @@ func play_radio() {
 	allStations := database.GetAllStations()
 
 	var stationsList []string = []string{}
+	var lastStationName string = database.GetLastStation()
+	var lastStationIndex int
 
-	for _, station := range allStations {
+	for index, station := range allStations {
+		if lastStationName == station["name"] {
+			lastStationIndex = index
+		}
 		stationsList = append(stationsList, station["name"].(string))
 	}
 
-	var selectedStationName string = MainMenu(stationsList)
+	var selectedStationName string = MainMenu(stationsList, lastStationIndex)
 
 	if selectedStationName == "" {
 		return

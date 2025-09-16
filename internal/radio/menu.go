@@ -95,7 +95,7 @@ func (m model) View() string {
 	return "\n" + m.list.View()
 }
 
-func MainMenu(itemsList []string) string {
+func MainMenu(itemsList []string, lastStationIndex int) string {
 
 	const defaultWidth = 20
 
@@ -113,6 +113,7 @@ func MainMenu(itemsList []string) string {
 	l.Styles.Title = titleStyle
 	l.Styles.PaginationStyle = paginationStyle
 	l.Styles.HelpStyle = helpStyle
+	l.Select(lastStationIndex)
 
 	m := model{list: l}
 
