@@ -4,10 +4,6 @@ import (
 	"github.com/rua-iri/terminal-radio/internal/database"
 )
 
-func formatTable(top5StationsArray []map[string]any) {
-
-}
-
 func GetStatistics() {
 	// 1. Get top 5 stations
 	// 2. format table
