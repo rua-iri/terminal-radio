@@ -2,7 +2,6 @@ package database
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"time"
 
@@ -68,8 +67,6 @@ func GetAllStations() []map[string]any {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println(cols)
 
 	results := formatMapList(rows, cols)
 

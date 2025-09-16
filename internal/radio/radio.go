@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	"reflect"
 
 	"github.com/charmbracelet/x/term"
 	"github.com/mattn/go-sixel"
@@ -53,8 +52,6 @@ func displayImageSixel(imageUrl string) {
 }
 
 func play_radio() {
-	fmt.Println("Playing Radio...")
-
 	allStations := database.GetAllStations()
 
 	var stationsList []string = []string{}
@@ -68,9 +65,6 @@ func play_radio() {
 	if selectedStationName == "" {
 		return
 	}
-
-	fmt.Println("'", selectedStationName, "'")
-	fmt.Println(reflect.TypeOf(selectedStationName))
 
 	var selectedStation map[string]interface{}
 
@@ -88,7 +82,7 @@ func play_radio() {
 		displayImageSixel(selectedStation["img"].(string))
 		cmd = exec.Command("mpv", selectedStation["url"].(string))
 	} else {
-		cmd = exec.Command("mpv", selectedStation["url"].(string), "--vo=sixel")
+		cmd = exec.Command("mpv", selectedStation["url"].(string), "--vo=sixel", "--really-quiet")
 		cmd.Stdout = os.Stdout
 	}
 
@@ -110,5 +104,6 @@ func play_radio() {
 }
 
 func Main() {
+	utils.ClearTerminal()
 	play_radio()
 }
