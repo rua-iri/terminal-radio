@@ -4,7 +4,9 @@ name: Build Project
 on: workflow_dispatch
 
 env:
-    outputZipfile: /tmp/terminal_radio.tar.xz
+    outputTarfile: /tmp/terminal_radio.tar.xz
+    goDownloadLink: https://go.dev/dl/go1.25.1.linux-amd64.tar.gz
+    goDownloadFilename: /tmp/go1.25.1.linux-amd64.tar.gz
 
 jobs:
     build-project:
@@ -18,23 +20,25 @@ jobs:
             run: |
                 apt update
                 apt install -y sqlite3
+                wget ${{env.goDownloadLink}} -O ${{env.goDownloadFilename}}
+                tar -xzf ${{env.goDownloadFilename}} -C /usr/local
 
-          - name: Step 3 - Install Python Dependencies
-            run: |
-                python3 -m venv .venv
-                .venv/bin/pip3 install -r requirements.txt
-
-          - name: Step 4 - Create Directories
+          - name: Step 3 - Create Directories
             run: mkdir logs/
 
-          - name: Step 5 - Create Database
+          - name: Step 4 - Create Database
             run: sqlite3 resource/radio_sources.sqlite < resource/schema.sql
 
-          - name: Step 6 - Zip Project
-            run: tar --exclude tests/ -czf ${{env.outputZipfile}} .
+          - name: Step 5 - Build Project
+            run: |
+              export PATH=$PATH:/usr/local/go/bin
+              go build -o terminal_radio ./cmd/terminal_radio/main.go
+
+          - name: Step 6 - Compress Project
+            run: tar --exclude tests/ -czf ${{env.outputTarfile}} .
 
           - name: Step 7 - Create Artifact
             uses: actions/upload-artifact@v4.6.2
             with:
                 name: archiveFolder
-                path: ${{env.outputZipfile}}
+                path: ${{env.outputTarfile}}
