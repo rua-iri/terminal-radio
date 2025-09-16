@@ -32,7 +32,7 @@ func main() {
 		"play": radio.Main,
 		// "update": update_sources.main,
 		// "logs":   show_logs,
-		// "show":   show_stations,
+		"show":  extra.ShowStations,
 		"stats": extra.GetStatistics,
 		"help":  show_help,
 	}
