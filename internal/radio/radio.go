@@ -51,7 +51,7 @@ func displayImageSixel(imageUrl string) {
 
 }
 
-func play_radio() {
+func playRadio() {
 	allStations := database.GetAllStations()
 
 	var stationsList []string = []string{}
@@ -112,5 +112,5 @@ func play_radio() {
 
 func Main() {
 	utils.ClearTerminal()
-	play_radio()
+	playRadio()
 }
