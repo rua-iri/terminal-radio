@@ -1,6 +1,7 @@
 package radio
 
 import (
+	"encoding/json"
 	"fmt"
 	"image"
 	_ "image/jpeg"
@@ -16,6 +17,19 @@ import (
 	"github.com/rua-iri/terminal-radio/internal/database"
 	"github.com/rua-iri/terminal-radio/internal/utils"
 )
+
+func getYTThumbnail(streamURL string) string {
+	jsondata, err := exec.Command("yt-dlp", streamURL, "-j").Output() // .thumbnail
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var result map[string]interface{}
+	json.Unmarshal(jsondata, &result)
+
+	return result["thumbnail"].(string)
+}
 
 func displayImageSixel(imageUrl string) {
 
@@ -85,13 +99,13 @@ func playRadio() {
 	utils.ClearTerminal()
 	var cmd *exec.Cmd
 
-	if selectedStation["is_yt"] != int64(1) {
-		displayImageSixel(selectedStation["img"].(string))
-		cmd = exec.Command("mpv", selectedStation["url"].(string))
-	} else {
-		cmd = exec.Command("mpv", selectedStation["url"].(string), "--vo=sixel", "--really-quiet")
-		cmd.Stdout = os.Stdout
+	if selectedStation["is_yt"] == int64(1) {
+		// cmd = exec.Command("mpv", selectedStation["url"].(string), "--vo=sixel", "--really-quiet")
+		selectedStation["img"] = getYTThumbnail(selectedStation["url"].(string))
 	}
+
+	displayImageSixel(selectedStation["img"].(string))
+	cmd = exec.Command("mpv", selectedStation["url"].(string), "--no-video")
 
 	cmd.Start()
 
