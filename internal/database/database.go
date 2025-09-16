@@ -11,6 +11,20 @@ import (
 const databaseFlavour string = "sqlite3"
 const databaseName string = "./resource/radio_sources.sqlite"
 
+var DB *sql.DB
+
+func Init_DB() {
+	var err error
+	DB, err = sql.Open(databaseFlavour, databaseName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	DB.SetMaxOpenConns(1)
+	DB.SetMaxIdleConns(1)
+
+}
+
 func formatMapList(rows *sql.Rows, columns []string) []map[string]any {
 	results := []map[string]any{}
 
@@ -44,11 +58,6 @@ func formatMapList(rows *sql.Rows, columns []string) []map[string]any {
 }
 
 func GetAllStations() []map[string]any {
-	db, err := sql.Open(databaseFlavour, databaseName)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
 	const sqlStatement string = `
 	SELECT name,
         url, img, is_yt
@@ -56,7 +65,7 @@ func GetAllStations() []map[string]any {
         WHERE is_active=1;
 	`
 
-	rows, err := db.Query(sqlStatement)
+	rows, err := DB.Query(sqlStatement)
 
 	if err != nil {
 		log.Fatal(err)
@@ -69,15 +78,13 @@ func GetAllStations() []map[string]any {
 	}
 
 	results := formatMapList(rows, cols)
+	rows.Close()
 
 	return results
 
 }
 
 func GetStatsTop5() []map[string]any {
-
-	db, err := sql.Open(databaseFlavour, databaseName)
-
 	const sqlStatement string = `
 	SELECT stations.name as 'Station Name',
         count(last_station.id) AS "Play Count"
@@ -89,12 +96,7 @@ func GetStatsTop5() []map[string]any {
         LIMIT 5;
 	`
 
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-
-	rows, err := db.Query(sqlStatement)
+	rows, err := DB.Query(sqlStatement)
 
 	if err != nil {
 		log.Fatal(err)
@@ -106,6 +108,7 @@ func GetStatsTop5() []map[string]any {
 	}
 
 	results := formatMapList(rows, cols)
+	rows.Close()
 
 	return results
 }
@@ -114,14 +117,8 @@ func GetStationID(stationName string) int {
 	const sqlStatement string = `
 	SELECT id FROM stations WHERE name = ?;
 	`
-	db, err := sql.Open(databaseFlavour, databaseName)
 
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-
-	result, err := db.Query(sqlStatement, stationName)
+	result, err := DB.Query(sqlStatement, stationName)
 
 	if err != nil {
 		log.Fatal(err)
@@ -130,6 +127,7 @@ func GetStationID(stationName string) int {
 	var id int
 	result.Next()
 	result.Scan(&id)
+	result.Close()
 
 	return id
 }
@@ -143,14 +141,8 @@ func GetLastStation() string {
         ORDER BY last_station.id DESC
         LIMIT 1;
 	`
-	db, err := sql.Open(databaseFlavour, databaseName)
 
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-
-	result, err := db.Query(sqlStatement)
+	result, err := DB.Query(sqlStatement)
 
 	if err != nil {
 		log.Fatal(err)
@@ -159,6 +151,7 @@ func GetLastStation() string {
 	var name string
 	result.Next()
 	result.Scan(&name)
+	result.Close()
 
 	return name
 }
@@ -175,14 +168,8 @@ func SetLastStation(name string) {
 	    (?, ?);
 	`
 
-	db, err := sql.Open(databaseFlavour, databaseName)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-
-	_, err = db.Exec(sqlStatement, currentStationID, currentTimestamp)
+	var err error
+	_, err = DB.Exec(sqlStatement, currentStationID, currentTimestamp)
 
 	if err != nil {
 		log.Fatal(err)

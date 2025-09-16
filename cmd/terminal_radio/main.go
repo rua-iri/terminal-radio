@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/rua-iri/terminal-radio/internal/database"
 	"github.com/rua-iri/terminal-radio/internal/extra"
 	"github.com/rua-iri/terminal-radio/internal/radio"
 )
@@ -24,6 +25,8 @@ help - Display this help menu`
 
 func main() {
 	initialiseLogs()
+	database.Init_DB()
+	defer database.DB.Close()
 
 	cmdMap := map[string]func(){
 		"play": radio.Main,

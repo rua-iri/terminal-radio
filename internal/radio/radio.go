@@ -80,6 +80,8 @@ func play_radio() {
 		}
 	}
 
+	database.SetLastStation(selectedStationName)
+
 	utils.ClearTerminal()
 	var cmd *exec.Cmd
 
