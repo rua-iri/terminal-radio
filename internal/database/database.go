@@ -176,3 +176,16 @@ func SetLastStation(name string) {
 	}
 
 }
+
+func CreateStation(name string, url string, img string, isYT int64) {
+
+}
+
+func UpdateStation(name string, url string, img string, isYT int64) {
+
+}
+
+func DeleteStation(name string) {
+	var currentStationID int = GetStationID(name)
+
+}
