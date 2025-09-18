@@ -72,6 +72,8 @@ func playRadio() {
 	var lastStationName string = database.GetLastStation()
 	var lastStationIndex int
 
+	// Create a list of all station names
+	// and get the starting index based on the last station
 	for index, station := range allStations {
 		if lastStationName == station["name"] {
 			lastStationIndex = index
@@ -79,7 +81,7 @@ func playRadio() {
 		stationsList = append(stationsList, station["name"].(string))
 	}
 
-	var selectedStationName string = MainMenu(stationsList, lastStationIndex)
+	var selectedStationName string = utils.MainMenu(stationsList, lastStationIndex)
 
 	if selectedStationName == "" {
 		return

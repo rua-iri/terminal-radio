@@ -178,14 +178,49 @@ func SetLastStation(name string) {
 }
 
 func CreateStation(name string, url string, img string, isYT int64) {
+	const sqlStatement string = `
+	INSERT INTO
+        stations (name, url, img, is_yt, is_active)
+        VALUES (?, ?, ?, ?, ?)
+	`
+
+	var err error
+	_, err = DB.Exec(sqlStatement, name, url, img, isYT, true)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
 
-func UpdateStation(name string, url string, img string, isYT int64) {
+func UpdateStation(id int, name string, url string, img string, isYT int64) {
+	const sqlStatement string = `
+	UPDATE stations
+        SET name=?, url=?, img=?, is_yt=?
+        WHERE id=?
+	`
+	var err error
+	_, err = DB.Exec(sqlStatement, name, url, img, isYT, id)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
 
 func DeleteStation(name string) {
 	var currentStationID int = GetStationID(name)
+	const sqlStatement string = `
+	UPDATE stations
+        SET is_active=0
+        WHERE id=?
+	`
+
+	var err error
+	_, err = DB.Exec(sqlStatement, currentStationID)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
