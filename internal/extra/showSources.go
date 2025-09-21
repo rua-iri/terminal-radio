@@ -12,9 +12,6 @@ func ShowStations() {
 
 	allStations := database.GetAllStations()
 
-	// fmt.Println(allStations)
-	// fmt.Println(reflect.TypeOf(allStations))
-
 	jsonData, err := json.MarshalIndent(allStations, "", "  ")
 
 	if err != nil {
