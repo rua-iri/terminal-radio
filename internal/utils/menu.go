@@ -18,7 +18,7 @@ var (
 	itemStyle         = lipgloss.NewStyle().PaddingLeft(4)
 	selectedItemStyle = lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("170"))
 	paginationStyle   = list.DefaultStyles().PaginationStyle.PaddingLeft(4)
-	helpStyle         = list.DefaultStyles().HelpStyle.PaddingLeft(4).PaddingBottom(1)
+	menuHelpStyle     = list.DefaultStyles().HelpStyle.PaddingLeft(4).PaddingBottom(1)
 	quitTextStyle     = lipgloss.NewStyle().Margin(1, 0, 2, 4)
 )
 
@@ -49,17 +49,17 @@ func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list
 	fmt.Fprint(w, fn(str))
 }
 
-type model struct {
+type menuModel struct {
 	list     list.Model
 	choice   string
 	quitting bool
 }
 
-func (m model) Init() tea.Cmd {
+func (m menuModel) Init() tea.Cmd {
 	return nil
 }
 
-func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m menuModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.list.SetWidth(msg.Width)
@@ -85,7 +85,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, cmd
 }
 
-func (m model) View() string {
+func (m menuModel) View() string {
 	return "\n" + m.list.View()
 }
 
@@ -106,10 +106,10 @@ func MainMenu(itemsList []string, lastStationIndex int) string {
 	l.SetFilteringEnabled(false)
 	l.Styles.Title = titleStyle
 	l.Styles.PaginationStyle = paginationStyle
-	l.Styles.HelpStyle = helpStyle
+	l.Styles.HelpStyle = menuHelpStyle
 	l.Select(lastStationIndex)
 
-	m := model{list: l}
+	m := menuModel{list: l}
 
 	finalModel, err := tea.NewProgram(m).Run()
 
@@ -118,7 +118,7 @@ func MainMenu(itemsList []string, lastStationIndex int) string {
 		os.Exit(1)
 	}
 
-	var userChoice string = finalModel.(model).choice
+	var userChoice string = finalModel.(menuModel).choice
 
 	return userChoice
 

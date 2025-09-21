@@ -11,6 +11,9 @@ var stationsList []string = []string{}
 
 func createStation() {
 	fmt.Println("Creating new station")
+	newStation := MainTextInput()
+
+	fmt.Println(newStation)
 }
 
 func updateStation() {
