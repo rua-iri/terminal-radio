@@ -15,13 +15,20 @@ func initialiseLogs() {
 }
 
 func show_help() {
-	const helpData string = `play	- Run the application to listen to radio stations
-update	- Update the list of available stations
-logs	- View the application's logs to debug issues
-show	- Show a JSON formatted list of the currently available stations
-stats	- Show the top 5 stations by play count
-help	- Display this help menu`
-	fmt.Println(helpData)
+
+	helpCommands := []string{
+		"%splay%s	- Run the application to listen to radio stations",
+		"%supdate%s	- Update the list of available stations",
+		"%slogs%s	- View the application's logs to debug issues",
+		"%sshow%s	- Show a JSON formatted list of the currently available stations",
+		"%sstats%s	- Show the top 5 stations by play count",
+		"%shelp%s	- Display this help menu",
+	}
+
+	for index := range helpCommands {
+		fmt.Printf(helpCommands[index]+"\n", utils.TERMINAL_COLOUR_GREEN, utils.TERMINAL_COLOUR_RESET)
+	}
+
 }
 
 func main() {
