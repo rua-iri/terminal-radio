@@ -76,6 +76,10 @@ func UpdateSources() {
 
 	updateChoice := MainMenu(updatekeys, 0)
 
+	if updateChoice == "" {
+		return
+	}
+
 	// Call the function based on the user's choice
 	updateOptions[updateChoice]()
 }
