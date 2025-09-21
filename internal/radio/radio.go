@@ -84,7 +84,7 @@ func playRadio() {
 	var selectedStationName string = utils.MainMenu(stationsList, lastStationIndex)
 
 	if selectedStationName == "" {
-		return
+		os.Exit(0)
 	}
 
 	var selectedStation map[string]interface{}
@@ -127,6 +127,9 @@ func playRadio() {
 }
 
 func Main() {
-	utils.ClearTerminal()
-	playRadio()
+	// run in a loop until exited by the user
+	for {
+		utils.ClearTerminal()
+		playRadio()
+	}
 }
