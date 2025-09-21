@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"log"
 	"sort"
 	"strings"
 
@@ -15,6 +16,10 @@ func createStation() {
 	var newStationData map[string]string = MainTextInput()
 
 	isYT := strings.Contains("yes", newStationData["isYT"])
+
+	if newStationData["url"] == "" || newStationData["name"] == "" || newStationData["isYT"] == "" {
+		log.Fatal("Required Station Data Missing")
+	}
 
 	database.CreateStation(
 		newStationData["name"],
