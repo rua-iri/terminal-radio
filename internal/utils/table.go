@@ -1,4 +1,4 @@
-package extra
+package utils
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ import (
 
 var baseStyle = lipgloss.NewStyle().
 	BorderStyle(lipgloss.NormalBorder()).
-	BorderForeground(lipgloss.Color("240"))
+	BorderForeground(lipgloss.Color(MENU_COLOUR_PRIMARY))
 
 type model struct {
 	table table.Model
@@ -60,12 +60,12 @@ func ShowTable(columnHeaders []string, top5StationsArray []map[string]any) {
 	s := table.DefaultStyles()
 	s.Header = s.Header.
 		BorderStyle(lipgloss.NormalBorder()).
-		BorderForeground(lipgloss.Color("240")).
+		BorderForeground(lipgloss.Color("MENU_COLOUR_PRIMARY")).
 		BorderBottom(true).
 		Bold(false)
 	s.Selected = s.Selected.
-		Foreground(lipgloss.Color("229")).
-		Background(lipgloss.Color("57")).
+		Foreground(lipgloss.Color(MENU_COLOUR_PRIMARY)).
+		Background(lipgloss.Color(MENU_COLOUR_SECONDARY)).
 		Bold(false)
 	t.SetStyles(s)
 

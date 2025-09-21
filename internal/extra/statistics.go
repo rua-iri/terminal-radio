@@ -2,6 +2,7 @@ package extra
 
 import (
 	"github.com/rua-iri/terminal-radio/internal/database"
+	"github.com/rua-iri/terminal-radio/internal/utils"
 )
 
 func GetStatistics() {
@@ -18,6 +19,6 @@ func GetStatistics() {
 		i++
 	}
 
-	ShowTable(stationsKeys, top5StationsArray)
+	utils.ShowTable(stationsKeys, top5StationsArray)
 
 }
