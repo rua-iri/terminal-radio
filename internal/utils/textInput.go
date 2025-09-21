@@ -5,6 +5,7 @@ package utils
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -41,8 +42,8 @@ func initialModel() textModel {
 	for i := range m.inputs {
 		t = textinput.New()
 		t.Cursor.Style = cursorStyle
-		// t.CharLimit = 32
-		t.Width = 125
+		t.CharLimit = 150
+		t.Width = 150
 
 		switch i {
 		case 0:
@@ -52,13 +53,12 @@ func initialModel() textModel {
 			t.TextStyle = focusedStyle
 		case 1:
 			t.Placeholder = "Station URL"
-			t.CharLimit = 64
 		case 2:
 			t.Placeholder = "Station Image"
 			t.EchoMode = textinput.EchoPassword
 			t.EchoCharacter = '•'
 		case 3:
-			t.Placeholder = "Is Station YT"
+			t.Placeholder = "Is Station YT (yes/no)"
 			t.CharLimit = 3
 		}
 
@@ -174,17 +174,23 @@ func (m textModel) View() string {
 	return b.String()
 }
 
-func (m textModel) Values() []string {
-	values := make([]string, len(m.inputs))
+func (m textModel) Values() map[string]string {
 
-	for i := range m.inputs {
-		values[i] = m.inputs[i].Value()
+	if len(m.inputs) != 4 {
+		log.Fatal("Not enough inputs")
 	}
 
-	return values
+	valuesMap := map[string]string{
+		"name": m.inputs[0].Value(),
+		"url":  m.inputs[1].Value(),
+		"img":  m.inputs[2].Value(),
+		"isYT": m.inputs[3].Value(),
+	}
+
+	return valuesMap
 }
 
-func MainTextInput() []string {
+func MainTextInput() map[string]string {
 	p := tea.NewProgram(initialModel())
 
 	finalModel, err := p.Run()

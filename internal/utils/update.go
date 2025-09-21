@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"sort"
+	"strings"
 
 	"github.com/rua-iri/terminal-radio/internal/database"
 )
@@ -11,9 +12,18 @@ var stationsList []string = []string{}
 
 func createStation() {
 	fmt.Println("Creating new station")
-	newStation := MainTextInput()
+	var newStationData map[string]string = MainTextInput()
 
-	fmt.Println(newStation)
+	isYT := strings.Contains("yes", newStationData["isYT"])
+
+	database.CreateStation(
+		newStationData["name"],
+		newStationData["url"],
+		newStationData["img"],
+		isYT,
+	)
+
+	fmt.Println("Station Added:", newStationData["name"])
 }
 
 func updateStation() {

@@ -177,7 +177,7 @@ func SetLastStation(name string) {
 
 }
 
-func CreateStation(name string, url string, img string, isYT int64) {
+func CreateStation(name string, url string, img string, isYT bool) {
 	const sqlStatement string = `
 	INSERT INTO
         stations (name, url, img, is_yt, is_active)

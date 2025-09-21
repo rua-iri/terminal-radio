@@ -118,8 +118,6 @@ func MainMenu(itemsList []string, lastStationIndex int) string {
 		os.Exit(1)
 	}
 
-	var userChoice string = finalModel.(menuModel).choice
-
-	return userChoice
+	return finalModel.(menuModel).choice
 
 }
