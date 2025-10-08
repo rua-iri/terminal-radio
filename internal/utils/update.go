@@ -17,11 +17,15 @@ func ValidateStationInput(stationData map[string]string) {
 	}
 }
 
+func yesNoHumanToBool(yesNoValue string) bool {
+	return strings.Contains("yes", strings.ToLower(yesNoValue))
+}
+
 func createStation() {
 	fmt.Println("Creating new station")
 	var newStationData map[string]string = MainTextForm("", "", "", "")
 
-	isYT := strings.Contains("yes", strings.ToLower(newStationData["isYT"]))
+	isYT := yesNoHumanToBool(newStationData["isYT"])
 
 	ValidateStationInput(newStationData)
 
@@ -37,6 +41,7 @@ func createStation() {
 
 func updateStation() {
 	stationChoiceName := MainMenu(stationsList, 0)
+	stationID := database.GetStationID(stationChoiceName)
 
 	fmt.Println("Updating: ", stationChoiceName)
 
@@ -44,11 +49,11 @@ func updateStation() {
 		database.GetStationDetails(stationChoiceName),
 	)
 
-	isYT := strings.Contains("yes", strings.ToLower(newStationData["isYT"]))
+	isYT := yesNoHumanToBool(newStationData["isYT"])
 
 	ValidateStationInput(newStationData)
 
-	fmt.Println("isYT: ", isYT)
+	database.UpdateStation(stationID, newStationData["name"], newStationData["url"], newStationData["img"], isYT)
 
 }
 

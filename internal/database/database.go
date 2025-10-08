@@ -211,7 +211,7 @@ func CreateStation(name string, url string, img string, isYT bool) {
 
 }
 
-func UpdateStation(id int, name string, url string, img string, isYT int64) {
+func UpdateStation(id int, name string, url string, img string, isYT bool) {
 	const sqlStatement string = `
 	UPDATE stations
         SET name=?, url=?, img=?, is_yt=?
