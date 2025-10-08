@@ -39,10 +39,10 @@ func main() {
 	cmdMap := map[string]func(){
 		"play":   radio.Main,
 		"update": utils.UpdateSources,
-		// "logs":   show_logs,
-		"show":  extra.ShowStations,
-		"stats": extra.GetStatistics,
-		"help":  show_help,
+		"logs":   extra.ShowLogs,
+		"show":   extra.ShowStations,
+		"stats":  extra.GetStatistics,
+		"help":   show_help,
 	}
 
 	var userCmd string
