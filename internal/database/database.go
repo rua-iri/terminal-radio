@@ -132,6 +132,24 @@ func GetStationID(stationName string) int {
 	return id
 }
 
+func GetStationDetails(stationName string) (string, string, string, string) {
+	const sqlStatement string = `
+	SELECT name, url, img, is_yt FROM stations WHERE stations.name = ? AND stations.is_active = 1;
+	`
+	row := DB.QueryRow(sqlStatement, stationName)
+
+	var name, url, img, is_yt string
+	row.Scan(&name, &url, &img, &is_yt)
+
+	if is_yt == "0" {
+		is_yt = "no"
+	} else {
+		is_yt = "yes"
+	}
+
+	return name, url, img, is_yt
+}
+
 func GetLastStation() string {
 	const sqlStatement string = `
 	SELECT stations.name

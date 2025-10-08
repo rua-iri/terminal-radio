@@ -33,7 +33,7 @@ type textModel struct {
 	cursorMode cursor.Mode
 }
 
-func initialModel() textModel {
+func initialModel(stationName string, stationURL string, stationImg string, isYT string) textModel {
 	m := textModel{
 		inputs: make([]textinput.Model, 4),
 	}
@@ -51,15 +51,17 @@ func initialModel() textModel {
 			t.Focus()
 			t.PromptStyle = focusedStyle
 			t.TextStyle = focusedStyle
+			t.SetValue(stationName)
 		case 1:
 			t.Placeholder = "Station URL"
+			t.SetValue(stationURL)
 		case 2:
 			t.Placeholder = "Station Image"
-			t.EchoMode = textinput.EchoPassword
-			t.EchoCharacter = '•'
+			t.SetValue(stationImg)
 		case 3:
 			t.Placeholder = "Is Station YT (yes/no)"
 			t.CharLimit = 3
+			t.SetValue(isYT)
 		}
 
 		m.inputs[i] = t
@@ -190,8 +192,8 @@ func (m textModel) Values() map[string]string {
 	return valuesMap
 }
 
-func MainTextInput() map[string]string {
-	p := tea.NewProgram(initialModel())
+func MainTextForm(stationName string, stationURL string, stationImg string, isYT string) map[string]string {
+	p := tea.NewProgram(initialModel(stationName, stationURL, stationImg, isYT))
 
 	finalModel, err := p.Run()
 

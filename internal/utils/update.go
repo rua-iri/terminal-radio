@@ -11,15 +11,19 @@ import (
 
 var stationsList []string = []string{}
 
-func createStation() {
-	fmt.Println("Creating new station")
-	var newStationData map[string]string = MainTextInput()
-
-	isYT := strings.Contains("yes", newStationData["isYT"])
-
-	if newStationData["url"] == "" || newStationData["name"] == "" || newStationData["isYT"] == "" {
+func ValidateStationInput(stationData map[string]string) {
+	if stationData["url"] == "" || stationData["name"] == "" || stationData["isYT"] == "" {
 		log.Fatal("Required Station Data Missing")
 	}
+}
+
+func createStation() {
+	fmt.Println("Creating new station")
+	var newStationData map[string]string = MainTextForm("", "", "", "")
+
+	isYT := strings.Contains("yes", strings.ToLower(newStationData["isYT"]))
+
+	ValidateStationInput(newStationData)
 
 	database.CreateStation(
 		newStationData["name"],
@@ -32,23 +36,27 @@ func createStation() {
 }
 
 func updateStation() {
-	stationChoice := MainMenu(stationsList, 0)
+	stationChoiceName := MainMenu(stationsList, 0)
 
-	var stationName, stationURL, stationImg string
-	fmt.Scan("Station Name", &stationName)
-	fmt.Scan("Station URL", &stationURL)
-	fmt.Scan("Station Img", &stationImg)
+	fmt.Println("Updating: ", stationChoiceName)
 
-	fmt.Println("Updating: ", stationChoice)
+	var newStationData map[string]string = MainTextForm(
+		database.GetStationDetails(stationChoiceName),
+	)
 
-	fmt.Println(stationName)
-	fmt.Println(stationURL)
-	fmt.Println(stationImg)
+	isYT := strings.Contains("yes", strings.ToLower(newStationData["isYT"]))
+
+	ValidateStationInput(newStationData)
+
+	fmt.Println("isYT: ", isYT)
+
 }
 
 func deleteStation() {
-	stationChoice := MainMenu(stationsList, 0)
-	database.DeleteStation(stationChoice)
+	stationChoiceName := MainMenu(stationsList, 0)
+	database.DeleteStation(stationChoiceName)
+
+	fmt.Println("Station Deleted:", stationChoiceName)
 }
 
 func UpdateSources() {
