@@ -46,6 +46,12 @@ MPV can also be used to play streams from Youtube, but it requires the yt-dlp pa
 pip3 install yt-dlp
 ```
 
+or 
+
+```bash
+pipx install yt-dlp
+```
+
 
 ### Download the Zipped Package
 
