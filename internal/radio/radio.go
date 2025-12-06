@@ -31,6 +31,19 @@ func getYTThumbnail(streamURL string) string {
 	return result["thumbnail"].(string)
 }
 
+func getYTStreamName(streamURL string) string {
+	jsondata, err := exec.Command("yt-dlp", streamURL, "-j").Output() // .thumbnail
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var result map[string]interface{}
+	json.Unmarshal(jsondata, &result)
+
+	return result["fulltitle"].(string)
+}
+
 func displayImageSixel(imageUrl string) {
 
 	const charHeight int = 20
@@ -102,8 +115,11 @@ func playRadio() {
 	var cmd *exec.Cmd
 
 	if selectedStation["is_yt"] == int64(1) {
-		// cmd = exec.Command("mpv", selectedStation["url"].(string), "--vo=sixel", "--really-quiet")
+		// cmd = exec.Command("mpv", selectedaStation["url"].(string), "--vo=sixel", "--really-quiet")
 		selectedStation["img"] = getYTThumbnail(selectedStation["url"].(string))
+		selectedStation["name"] = getYTStreamName(selectedStation["url"].(string))
+		fmt.Println(getYTStreamName(selectedStation["url"].(string)))
+		fmt.Println(selectedStation["name"])
 	}
 
 	displayImageSixel(selectedStation["img"].(string))
@@ -112,7 +128,7 @@ func playRadio() {
 	cmd.Start()
 
 	fmt.Println()
-	fmt.Printf("\nNow Playing: %s\n\n", selectedStationName)
+	fmt.Printf("\nNow Playing: %s\n\n", selectedStation["name"])
 	fmt.Println("Enter 'q' to exit")
 
 	var userInput string
