@@ -79,16 +79,6 @@ func displayImageSixel(imageUrl string) {
 
 }
 
-func initialiseTTY() *tty.TTY {
-	tty, err := tty.Open()
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer tty.Close()
-
-	return tty
-}
-
 func playRadio() {
 	allStations := database.GetAllStations()
 
