@@ -13,6 +13,7 @@ import (
 
 	"github.com/charmbracelet/x/term"
 	"github.com/mattn/go-sixel"
+	"github.com/mattn/go-tty"
 	"github.com/nfnt/resize"
 	"github.com/rua-iri/terminal-radio/internal/database"
 	"github.com/rua-iri/terminal-radio/internal/utils"
@@ -78,6 +79,16 @@ func displayImageSixel(imageUrl string) {
 
 }
 
+func initialiseTTY() *tty.TTY {
+	tty, err := tty.Open()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer tty.Close()
+
+	return tty
+}
+
 func playRadio() {
 	allStations := database.GetAllStations()
 
@@ -122,23 +133,37 @@ func playRadio() {
 		fmt.Println(selectedStation["name"])
 	}
 
-	displayImageSixel(selectedStation["img"].(string))
 	cmd = exec.Command("mpv", selectedStation["url"].(string), "--no-video")
-
 	cmd.Start()
 
+	displayImageSixel(selectedStation["img"].(string))
 	fmt.Println()
 	fmt.Printf("\nNow Playing: %s\n\n", selectedStation["name"])
-	fmt.Println("Enter 'q' to exit")
+	fmt.Println("Press 'q' to exit")
+	fmt.Println("Press 'r' to exit")
 
-	var userInput string
+	tty, err := tty.Open()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer tty.Close()
 
-	for userInput != "q" {
-		fmt.Scan(&userInput)
+	// iterate until user has quit the stream
+	for {
+		r, err := tty.ReadRune()
+		var userInput string = string(r)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		if userInput == "q" {
+			cmd.Process.Kill()
+			break
+		}
 	}
 
 	fmt.Println("Quitting...")
-	cmd.Process.Kill()
 
 }
 
