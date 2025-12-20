@@ -129,8 +129,6 @@ func playRadio() {
 		// cmd = exec.Command("mpv", selectedaStation["url"].(string), "--vo=sixel", "--really-quiet")
 		selectedStation["img"] = getYTThumbnail(selectedStation["url"].(string))
 		selectedStation["name"] = getYTStreamName(selectedStation["url"].(string))
-		fmt.Println(getYTStreamName(selectedStation["url"].(string)))
-		fmt.Println(selectedStation["name"])
 	}
 
 	cmd = exec.Command("mpv", selectedStation["url"].(string), "--no-video")
@@ -140,7 +138,7 @@ func playRadio() {
 	fmt.Println()
 	fmt.Printf("\nNow Playing: %s\n\n", selectedStation["name"])
 	fmt.Println("Press 'q' to exit")
-	fmt.Println("Press 'r' to exit")
+	fmt.Println("Press 'r' to refresh")
 
 	tty, err := tty.Open()
 	if err != nil {
