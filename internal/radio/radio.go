@@ -160,6 +160,10 @@ func playRadio() {
 		if userInput == "q" {
 			cmd.Process.Kill()
 			break
+		} else if userInput == "r" {
+			cmd.Process.Kill()
+			cmd = exec.Command("mpv", selectedStation["url"].(string), "--no-video")
+			cmd.Start()
 		}
 	}
 
