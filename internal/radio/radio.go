@@ -19,7 +19,10 @@ import (
 	"github.com/rua-iri/terminal-radio/internal/utils"
 )
 
-func getYTThumbnail(streamURL string) string {
+func getYTData(streamURL string) map[string]string {
+
+	var ytData map[string]string
+
 	jsondata, err := exec.Command("yt-dlp", streamURL, "-j").Output() // .thumbnail
 
 	if err != nil {
@@ -29,20 +32,10 @@ func getYTThumbnail(streamURL string) string {
 	var result map[string]interface{}
 	json.Unmarshal(jsondata, &result)
 
-	return result["thumbnail"].(string)
-}
+	ytData["img"] = result["thumbnail"].(string)
+	ytData["name"] = result["fulltitle"].(string)
 
-func getYTStreamName(streamURL string) string {
-	jsondata, err := exec.Command("yt-dlp", streamURL, "-j").Output() // .thumbnail
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var result map[string]interface{}
-	json.Unmarshal(jsondata, &result)
-
-	return result["fulltitle"].(string)
+	return ytData
 }
 
 func displayImageSixel(imageUrl string) {
@@ -117,8 +110,10 @@ func playRadio() {
 
 	if selectedStation["is_yt"] == int64(1) {
 		// cmd = exec.Command("mpv", selectedaStation["url"].(string), "--vo=sixel", "--really-quiet")
-		selectedStation["img"] = getYTThumbnail(selectedStation["url"].(string))
-		selectedStation["name"] = getYTStreamName(selectedStation["url"].(string))
+		ytData := getYTData(selectedStation["url"].(string))
+		selectedStation["img"] = ytData["img"]
+		selectedStation["name"] = ytData["name"]
+
 	}
 
 	cmd = exec.Command("mpv", selectedStation["url"].(string), "--no-video")
