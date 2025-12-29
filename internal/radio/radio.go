@@ -32,8 +32,10 @@ func getYTData(streamURL string) map[string]string {
 	var result map[string]interface{}
 	json.Unmarshal(jsondata, &result)
 
-	ytData["img"] = result["thumbnail"].(string)
-	ytData["name"] = result["fulltitle"].(string)
+	ytData = map[string]string{
+		"img":  result["thumbnail"].(string),
+		"name": result["fulltitle"].(string),
+	}
 
 	return ytData
 }
