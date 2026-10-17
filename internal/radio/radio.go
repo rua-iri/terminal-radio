@@ -115,7 +115,6 @@ func playRadio() {
 		ytData := getYTData(selectedStation["url"].(string))
 		selectedStation["img"] = ytData["img"]
 		selectedStation["name"] = ytData["name"]
-
 	}
 
 	cmd = exec.Command("mpv", selectedStation["url"].(string), "--no-video")

@@ -3,19 +3,34 @@ package database
 import (
 	"database/sql"
 	"log"
+	"os"
+	"path/filepath"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 const databaseFlavour string = "sqlite3"
-const databaseName string = "./resource/radio_sources.sqlite"
+const relativeDatabasePath string = "resource/radio_sources.sqlite"
 
 var DB *sql.DB
 
+func getDatabasePath() string {
+	execPath, err := os.Executable()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	execPath, err = filepath.EvalSymlinks(execPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return filepath.Join(filepath.Dir(execPath), relativeDatabasePath)
+}
+
 func Init_DB() {
 	var err error
-	DB, err = sql.Open(databaseFlavour, databaseName)
+	DB, err = sql.Open(databaseFlavour, getDatabasePath())
 	if err != nil {
 		log.Fatal(err)
 	}
