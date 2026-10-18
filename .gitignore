@@ -39,3 +39,6 @@ resource/*
 *.log
 
 .artifacts/
+
+
+terminal_radio
