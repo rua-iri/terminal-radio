@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/rua-iri/terminal-radio/internal/database"
-	"github.com/rua-iri/terminal-radio/internal/extra"
 	"github.com/rua-iri/terminal-radio/internal/radio"
 	"github.com/rua-iri/terminal-radio/internal/utils"
 )
@@ -39,9 +38,9 @@ func main() {
 	cmdMap := map[string]func(){
 		"play":   radio.Main,
 		"update": utils.UpdateSources,
-		"logs":   extra.ShowLogs,
-		"show":   extra.ShowStations,
-		"stats":  extra.GetStatistics,
+		"logs":   showLogs,
+		"show":   showStations,
+		"stats":  getStatistics,
 		"help":   show_help,
 	}
 

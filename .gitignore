@@ -41,4 +41,5 @@ resource/*
 .artifacts/
 
 
-terminal_radio
+
+/terminal_radio
