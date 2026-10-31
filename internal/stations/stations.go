@@ -1,4 +1,4 @@
-package utils
+package stations
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/rua-iri/terminal-radio/internal/database"
+	"github.com/rua-iri/terminal-radio/internal/ui"
 )
 
 func ValidateStationInput(stationData map[string]string) {
@@ -28,7 +29,7 @@ func boolToYesNo(b bool) string {
 
 func createStation() {
 	fmt.Println("Creating new station")
-	var newStationData map[string]string = MainTextForm("", "", "", "")
+	var newStationData map[string]string = ui.MainTextForm("", "", "", "")
 
 	isYT := yesNoHumanToBool(newStationData["isYT"])
 
@@ -45,13 +46,13 @@ func createStation() {
 }
 
 func updateStation(stationsList []string) {
-	stationChoiceName := MainMenu(stationsList, 0)
+	stationChoiceName := ui.MainMenu(stationsList, 0)
 	stationID := database.GetStationID(stationChoiceName)
 
 	fmt.Println("Updating: ", stationChoiceName)
 
 	existing := database.GetStationDetails(stationChoiceName)
-	var newStationData map[string]string = MainTextForm(
+	var newStationData map[string]string = ui.MainTextForm(
 		existing.Name,
 		existing.URL,
 		existing.Img,
@@ -66,7 +67,7 @@ func updateStation(stationsList []string) {
 }
 
 func deleteStation(stationsList []string) {
-	stationChoiceName := MainMenu(stationsList, 0)
+	stationChoiceName := ui.MainMenu(stationsList, 0)
 	database.DeleteStation(stationChoiceName)
 
 	fmt.Println("Station Deleted:", stationChoiceName)
@@ -98,7 +99,7 @@ func UpdateSources() {
 	// mixed up without this
 	sort.Strings(updatekeys)
 
-	updateChoice := MainMenu(updatekeys, 0)
+	updateChoice := ui.MainMenu(updatekeys, 0)
 
 	if updateChoice == "" {
 		return

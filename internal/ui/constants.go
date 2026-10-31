@@ -1,4 +1,4 @@
-package utils
+package ui
 
 const MENU_COLOUR_PRIMARY string = "#009400"
 const MENU_COLOUR_SECONDARY string = "#64ff64"

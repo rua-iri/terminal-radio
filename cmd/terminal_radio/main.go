@@ -6,7 +6,8 @@ import (
 
 	"github.com/rua-iri/terminal-radio/internal/database"
 	"github.com/rua-iri/terminal-radio/internal/radio"
-	"github.com/rua-iri/terminal-radio/internal/utils"
+	"github.com/rua-iri/terminal-radio/internal/stations"
+	"github.com/rua-iri/terminal-radio/internal/ui"
 )
 
 func initialiseLogs() {
@@ -25,7 +26,7 @@ func show_help() {
 	}
 
 	for index := range helpCommands {
-		fmt.Printf(helpCommands[index]+"\n", utils.TERMINAL_COLOUR_GREEN, utils.TERMINAL_COLOUR_RESET)
+		fmt.Printf(helpCommands[index]+"\n", ui.TERMINAL_COLOUR_GREEN, ui.TERMINAL_COLOUR_RESET)
 	}
 
 }
@@ -37,7 +38,7 @@ func main() {
 
 	cmdMap := map[string]func(){
 		"play":   radio.Main,
-		"update": utils.UpdateSources,
+		"update": stations.UpdateSources,
 		"logs":   showLogs,
 		"show":   showStations,
 		"stats":  getStatistics,

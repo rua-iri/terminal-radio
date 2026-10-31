@@ -6,12 +6,12 @@ import (
 	"log"
 
 	"github.com/rua-iri/terminal-radio/internal/database"
-	"github.com/rua-iri/terminal-radio/internal/utils"
+	"github.com/rua-iri/terminal-radio/internal/ui"
 )
 
 func getStatistics() {
 	top5Stations := database.GetStatsTop5()
-	utils.ShowTable(top5Stations)
+	ui.ShowTable(top5Stations)
 }
 
 func showStations() {

@@ -16,7 +16,7 @@ import (
 	"github.com/mattn/go-tty"
 	"github.com/nfnt/resize"
 	"github.com/rua-iri/terminal-radio/internal/database"
-	"github.com/rua-iri/terminal-radio/internal/utils"
+	"github.com/rua-iri/terminal-radio/internal/ui"
 )
 
 func getYTData(streamURL string) map[string]string {
@@ -90,7 +90,7 @@ func playRadio() {
 		stationsList = append(stationsList, station.Name)
 	}
 
-	var selectedStationName string = utils.MainMenu(stationsList, lastStationIndex)
+	var selectedStationName string = ui.MainMenu(stationsList, lastStationIndex)
 
 	if selectedStationName == "" {
 		os.Exit(0)
@@ -107,7 +107,7 @@ func playRadio() {
 
 	database.SetLastStation(selectedStationName)
 
-	utils.ClearTerminal()
+	ui.ClearTerminal()
 	var cmd *exec.Cmd
 
 	if selectedStation.IsYT {
@@ -157,7 +157,7 @@ func playRadio() {
 func Main() {
 	// run in a loop until exited by the user
 	for {
-		utils.ClearTerminal()
+		ui.ClearTerminal()
 		playRadio()
 	}
 }
