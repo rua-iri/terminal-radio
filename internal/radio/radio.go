@@ -84,10 +84,10 @@ func playRadio() {
 	// Create a list of all station names
 	// and get the starting index based on the last station
 	for index, station := range allStations {
-		if lastStationName == station["name"] {
+		if lastStationName == station.Name {
 			lastStationIndex = index
 		}
-		stationsList = append(stationsList, station["name"].(string))
+		stationsList = append(stationsList, station.Name)
 	}
 
 	var selectedStationName string = utils.MainMenu(stationsList, lastStationIndex)
@@ -96,10 +96,10 @@ func playRadio() {
 		os.Exit(0)
 	}
 
-	var selectedStation map[string]interface{}
+	var selectedStation database.Station
 
 	for _, station := range allStations {
-		if station["name"] == selectedStationName {
+		if station.Name == selectedStationName {
 			selectedStation = station
 			break
 		}
@@ -110,19 +110,18 @@ func playRadio() {
 	utils.ClearTerminal()
 	var cmd *exec.Cmd
 
-	if selectedStation["is_yt"] == int64(1) {
-		// cmd = exec.Command("mpv", selectedaStation["url"].(string), "--vo=sixel", "--really-quiet")
-		ytData := getYTData(selectedStation["url"].(string))
-		selectedStation["img"] = ytData["img"]
-		selectedStation["name"] = ytData["name"]
+	if selectedStation.IsYT {
+		ytData := getYTData(selectedStation.URL)
+		selectedStation.Img = ytData["img"]
+		selectedStation.Name = ytData["name"]
 	}
 
-	cmd = exec.Command("mpv", selectedStation["url"].(string), "--no-video")
+	cmd = exec.Command("mpv", selectedStation.URL, "--no-video")
 	cmd.Start()
 
-	displayImageSixel(selectedStation["img"].(string))
+	displayImageSixel(selectedStation.Img)
 	fmt.Println()
-	fmt.Printf("\nNow Playing: %s\n\n", selectedStation["name"])
+	fmt.Printf("\nNow Playing: %s\n\n", selectedStation.Name)
 	fmt.Println("Press 'q' to exit")
 	fmt.Println("Press 'r' to refresh")
 
@@ -146,7 +145,7 @@ func playRadio() {
 			break
 		} else if userInput == "r" {
 			cmd.Process.Kill()
-			cmd = exec.Command("mpv", selectedStation["url"].(string), "--no-video")
+			cmd = exec.Command("mpv", selectedStation.URL, "--no-video")
 			cmd.Start()
 		}
 	}

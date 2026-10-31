@@ -9,8 +9,6 @@ import (
 	"github.com/rua-iri/terminal-radio/internal/database"
 )
 
-var stationsList []string = []string{}
-
 func ValidateStationInput(stationData map[string]string) {
 	if stationData["url"] == "" || stationData["name"] == "" || stationData["isYT"] == "" {
 		log.Fatal("Required Station Data Missing")
@@ -19,6 +17,13 @@ func ValidateStationInput(stationData map[string]string) {
 
 func yesNoHumanToBool(yesNoValue string) bool {
 	return strings.Contains("yes", strings.ToLower(yesNoValue))
+}
+
+func boolToYesNo(b bool) string {
+	if b {
+		return "yes"
+	}
+	return "no"
 }
 
 func createStation() {
@@ -39,14 +44,18 @@ func createStation() {
 	fmt.Println("Station Added:", newStationData["name"])
 }
 
-func updateStation() {
+func updateStation(stationsList []string) {
 	stationChoiceName := MainMenu(stationsList, 0)
 	stationID := database.GetStationID(stationChoiceName)
 
 	fmt.Println("Updating: ", stationChoiceName)
 
+	existing := database.GetStationDetails(stationChoiceName)
 	var newStationData map[string]string = MainTextForm(
-		database.GetStationDetails(stationChoiceName),
+		existing.Name,
+		existing.URL,
+		existing.Img,
+		boolToYesNo(existing.IsYT),
 	)
 
 	isYT := yesNoHumanToBool(newStationData["isYT"])
@@ -54,10 +63,9 @@ func updateStation() {
 	ValidateStationInput(newStationData)
 
 	database.UpdateStation(stationID, newStationData["name"], newStationData["url"], newStationData["img"], isYT)
-
 }
 
-func deleteStation() {
+func deleteStation(stationsList []string) {
 	stationChoiceName := MainMenu(stationsList, 0)
 	database.DeleteStation(stationChoiceName)
 
@@ -65,23 +73,21 @@ func deleteStation() {
 }
 
 func UpdateSources() {
+	allStations := database.GetAllStations()
+
+	var stationsList []string = []string{}
+	for _, station := range allStations {
+		stationsList = append(stationsList, station.Name)
+	}
 
 	updateOptions := map[string]func(){
 		"Add a new source":          createStation,
-		"Remove an existing source": deleteStation,
-		"Edit an existing source":   updateStation,
-	}
-
-	allStations := database.GetAllStations()
-
-	// Create a list of all station names
-	for _, station := range allStations {
-		stationsList = append(stationsList, station["name"].(string))
+		"Remove an existing source": func() { deleteStation(stationsList) },
+		"Edit an existing source":   func() { updateStation(stationsList) },
 	}
 
 	// Create a new array for the menu options
 	updatekeys := make([]string, len(updateOptions))
-
 	var index int = 0
 	for key := range updateOptions {
 		updatekeys[index] = key

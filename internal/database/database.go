@@ -15,6 +15,19 @@ const relativeDatabasePath string = "resource/radio_sources.sqlite"
 
 var DB *sql.DB
 
+type Station struct {
+	Name string `json:"name"`
+	URL  string `json:"url"`
+	Img  string `json:"img"`
+	IsYT bool   `json:"is_yt"`
+}
+
+// StationStat represents a row from the play-count statistics query.
+type StationStat struct {
+	Name      string
+	PlayCount int64
+}
+
 func getDatabasePath() string {
 	execPath, err := os.Executable()
 	if err != nil {
@@ -40,39 +53,7 @@ func Init_DB() {
 
 }
 
-func formatMapList(rows *sql.Rows, columns []string) []map[string]any {
-	results := []map[string]any{}
-
-	for rows.Next() {
-		values := make([]any, len(columns))
-		valuePtrs := make([]any, len(columns))
-
-		for i := range values {
-			valuePtrs[i] = &values[i]
-		}
-
-		if err := rows.Scan(valuePtrs...); err != nil {
-			log.Fatal(err)
-		}
-
-		rowMap := make(map[string]any, len(columns))
-
-		for i, col := range columns {
-			if b, ok := values[i].([]byte); ok {
-				rowMap[col] = string(b)
-			} else {
-				rowMap[col] = values[i]
-			}
-
-		}
-		results = append(results, rowMap)
-
-	}
-
-	return results
-}
-
-func GetAllStations() []map[string]any {
+func GetAllStations() []Station {
 	const sqlStatement string = `
 	SELECT name,
         url, img, is_yt
@@ -81,25 +62,26 @@ func GetAllStations() []map[string]any {
 	`
 
 	rows, err := DB.Query(sqlStatement)
-
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer rows.Close()
 
-	cols, err := rows.Columns()
-
-	if err != nil {
-		log.Fatal(err)
+	var results []Station
+	for rows.Next() {
+		var station Station
+		var isYT int64
+		if err := rows.Scan(&station.Name, &station.URL, &station.Img, &isYT); err != nil {
+			log.Fatal(err)
+		}
+		station.IsYT = isYT == 1
+		results = append(results, station)
 	}
-
-	results := formatMapList(rows, cols)
-	rows.Close()
 
 	return results
-
 }
 
-func GetStatsTop5() []map[string]any {
+func GetStatsTop5() []StationStat {
 	const sqlStatement string = `
 	SELECT stations.name as 'Station Name',
         count(last_station.id) AS "Play Count"
@@ -112,18 +94,19 @@ func GetStatsTop5() []map[string]any {
 	`
 
 	rows, err := DB.Query(sqlStatement)
-
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer rows.Close()
 
-	cols, err := rows.Columns()
-	if err != nil {
-		log.Fatal(err)
+	var results []StationStat
+	for rows.Next() {
+		var stationStatistics StationStat
+		if err := rows.Scan(&stationStatistics.Name, &stationStatistics.PlayCount); err != nil {
+			log.Fatal(err)
+		}
+		results = append(results, stationStatistics)
 	}
-
-	results := formatMapList(rows, cols)
-	rows.Close()
 
 	return results
 }
@@ -147,22 +130,18 @@ func GetStationID(stationName string) int {
 	return id
 }
 
-func GetStationDetails(stationName string) (string, string, string, string) {
+func GetStationDetails(stationName string) Station {
 	const sqlStatement string = `
 	SELECT name, url, img, is_yt FROM stations WHERE stations.name = ? AND stations.is_active = 1;
 	`
 	row := DB.QueryRow(sqlStatement, stationName)
 
-	var name, url, img, is_yt string
-	row.Scan(&name, &url, &img, &is_yt)
+	var station Station
+	var isYT int64
+	row.Scan(&station.Name, &station.URL, &station.Img, &isYT)
+	station.IsYT = isYT == 1
 
-	if is_yt == "0" {
-		is_yt = "no"
-	} else {
-		is_yt = "yes"
-	}
-
-	return name, url, img, is_yt
+	return station
 }
 
 func GetLastStation() string {
